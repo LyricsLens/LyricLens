@@ -1,0 +1,26 @@
+# github actions
+name: "Terraform Automation"
+
+on:
+  workflow_dispatch:
+    push:
+      branches:
+        - main
+    inputs:
+      action:
+        description: "Action to perform"
+        required: true
+        default: "plan"
+        type: choice
+        options:
+          - plan
+          - apply
+          - destroy
+          - test
+
+jobs:
+  terraform_test:
+    name: "test"
+    steps:
+      - name: "print hello"
+        run: echo "hello world"
