@@ -1,11 +1,10 @@
-# Configure the AWS Provider
 provider "aws" {
-  region = "us-east-1"  # Set AWS region to US East 1 (N. Virginia)
+  region = var.aws_region
 }
 
 # ---------- s3 resource ----------
 resource "aws_s3_bucket" "site" {
-  bucket = "lyriclens.cumulocrew"
+  bucket = var.bucket_name
 }
 
 # public website access
@@ -43,19 +42,13 @@ resource "aws_s3_bucket_website_configuration" "site" {
   error_document { key = "404.html" }
 }
 
-# A tiny index so you can verify the site
 resource "aws_s3_object" "index" {
   bucket       = aws_s3_bucket.site.id
   key          = "index.html"
-  content      = "<h1>Hello fart</h1>"
+  content      = "<h1>Welcome to LyricLens!</h1>"
   content_type = "text/html"
 }
 
 terraform {
   required_version = ">= 1.11.0"
-}
-
-output "website_url" {
-  value       = "http://${aws_s3_bucket_website_configuration.site.website_endpoint}"
-  description = "Public S3 Website URL"
 }
