@@ -13,6 +13,9 @@ on:
           - plan
           - apply
           - destroy
+  push:
+    branches:
+      - main
 
 jobs:
   terraform_apply:
