@@ -2,8 +2,6 @@
 
 ## Getting Started
 
----
-
 ### Running Locally
 
 1. **Set up a Python virtual environment (recommended):**
@@ -29,8 +27,6 @@
    - Open `index.html` in your web browser.
 
 ## Using our service
-
----
 
 1. **Input a public spotify playlist URL in the given input field**
 
