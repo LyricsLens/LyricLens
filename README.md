@@ -2,6 +2,34 @@
 
 ## Getting Started
 
+### Manual Terraform Setup
+#### Prereqs:
+1. Terraform:
+   - Required version: >= 1.11.0
+   - Download: https://developer.hashicorp.com/terraform/downloads
+
+2. AWS CLI:
+   - Download: https://aws.amazon.com/cli/
+   - Configure AWS CLI with this command (have your AWS Access Key ID & AWS Secret Access Key ready):
+   ```
+   aws configure
+   ```
+
+#### Setup and tear down:
+Call these to setup your instance:
+```
+terraform init
+terraform plan  -var="bucket_name=<unique-bucket-name>"  -var="aws_region=us-east-1"
+terraform apply -var="bucket_name=<unique-bucket-name>"  -var="aws_region=us-east-1"
+```
+- Once `terraform apply` is called, the website url will be outputted (see output.tf for what else is outputted). 
+- If the bucket already exists (same name) in another account, pass in another name for the `bucket_name` field.
+
+Call this to destroy your instance:
+```
+terraform destroy
+```
+
 ### Running Locally
 
 1. **Set up a Python virtual environment (recommended):**
