@@ -34,6 +34,13 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
+      - name: "Build static site"
+        run: |
+          cd client
+          npm install
+          npm run build
+          cd ..
+
       - name: "Setup Terraform"
         uses: hashicorp/setup-terraform@v2.0.2
         with:
@@ -48,3 +55,7 @@ jobs:
 
       - name: "Terraform Apply"
         run: terraform apply -auto-approve tfplan
+
+      - name: "Upload to S3"
+        run: |
+          aws s3 sync ./client/out s3://lyriclens.cumulocrew --delete
