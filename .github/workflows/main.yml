@@ -18,6 +18,51 @@ on:
       - main
 
 jobs:
+  terraform_destroy_and_apply:
+    name: "Terraform_destroy_and_apply"
+    if: ${{ github.event_name == 'push' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout Repository"
+        uses: actions/checkout@v2
+
+      - name: "Configure AWS Credentials"
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: "Setup Terraform"
+        uses: hashicorp/setup-terraform@v2.0.2
+        with:
+          terraform_version: 1.11.0
+          terraform_wrapped: false
+
+      - name: "Terraform Init"
+        run: terraform init
+
+      - name: "Terraform Destroy"
+        run: terraform destroy -auto-approve
+
+      - name: "Build static site"
+        run: |
+          cd client
+          npm install
+          npm run build
+          cd ..
+
+      - name: "Terraform Plan"
+        run: terraform plan -out=tfplan
+
+      - name: "Terraform Apply"
+        run: terraform apply -auto-approve tfplan
+
+      - name: "Upload to S3"
+        run: |
+          aws s3 sync ./client/out s3://lyriclens.cumulocrew --delete
+
   terraform_apply:
     name: "Terraform_apply"
     if: ${{ github.event.inputs.action == 'apply' }}
