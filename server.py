@@ -2,15 +2,30 @@ import os, base64, requests, json
 from flask import Flask, request, jsonify
 from urllib.parse import urlparse
 from flask_cors import CORS
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 # To be set in environment variables for security later
-CLIENT_ID=""
-CLIENT_SECRET=""
+CLIENT_ID=os.getenv("CLIENT_ID", "")
+CLIENT_SECRET=os.getenv("CLIENT_SECRET", "")
+if not CLIENT_ID or not CLIENT_SECRET:
+    print("Warning: CLIENT_ID or CLIENT_SECRET not set in environment variables.")
 
 app = Flask(__name__)
 CORS(app,
      resources={r"/analyze": {"origins": "*"}}
 )
+
+session = requests.Session()
+retries = Retry(
+    total=5,
+    read=5,
+    connect=5,
+    backoff_factor=0.5,
+    status_forcelist=[429, 500, 502, 503, 504],
+    allowed_methods=["GET", "POST"]
+)
+session.mount("https://", HTTPAdapter(max_retries=retries))
 
 def get_token():
     auth = base64.b64encode(f"{CLIENT_ID}:{CLIENT_SECRET}".encode()).decode()
@@ -32,8 +47,15 @@ def fetch_playlist_tracks(token, playlist_id):
         url = js.get("next")
     return items
 
-@app.route("/analyze", methods=["POST"])
+@app.get("/health")
+def health():
+    return {"ok": True}
+
+@app.post("/analyze")
 def analyze():
+    if not CLIENT_ID or not CLIENT_SECRET:
+        return jsonify({"error":"server not configured"}), 500
+    
     data = request.get_json() or {}
     pid = data.get("playlist_id")
     if not pid:
@@ -64,4 +86,4 @@ def analyze():
         return jsonify({"error":"internal error", "details": str(e)}), 500
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+    app.run(debug=True, port=os.getenv("PORT", 5001))
