@@ -71,7 +71,7 @@ jobs:
       - run: terraform plan -out=tfplan
       - run: terraform apply -auto-approve tfplan
       - run: |
-          BUCKET=$(terraform output -raw website_bucket_name)
+          BUCKET=$(terraform output -raw bucket_name)
           aws s3 sync ./client/out "s3://${BUCKET}" --delete
 
   destroy_manual:
