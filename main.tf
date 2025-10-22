@@ -15,4 +15,11 @@ module "dynamodb" {
 
 terraform {
   required_version = ">= 1.11.0"
+  backend "s3" {
+    bucket         = "cumulonimbus-tf-state"
+    key            = "swen514/prod/terraform.tfstate" # any path you like
+    region         = "us-east-1"
+    dynamodb_table = "tf-locks"
+    encrypt        = true
+  }
 }

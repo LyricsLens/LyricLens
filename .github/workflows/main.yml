@@ -1,5 +1,4 @@
-# github actions
-name: "Terraform Automation"
+name: Terraform Automation
 
 on:
   workflow_dispatch:
@@ -9,125 +8,86 @@ on:
         required: true
         default: "plan"
         type: choice
-        options:
-          - plan
-          - apply
-          - destroy
+        options: [plan, apply, destroy]
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  terraform_destroy_and_apply:
-    name: "Terraform_destroy_and_apply"
+  plan_apply_on_push:
     if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-latest
-
     steps:
-      - name: "Checkout Repository"
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - name: "Configure AWS Credentials"
-        uses: aws-actions/configure-aws-credentials@v2
+      # (Optional but recommended) Use OIDC + role instead of static keys.
+      - uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: "Setup Terraform"
-        uses: hashicorp/setup-terraform@v2.0.2
+      - uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.11.0
           terraform_wrapped: false
 
-      - name: "Terraform Init"
+      - name: Terraform Init
         run: terraform init
 
-      - name: "Terraform Destroy"
-        run: terraform destroy -auto-approve
-
-      - name: "Build static site"
+      - name: Build static site
         run: |
           cd client
-          npm install
+          npm ci
           npm run build
-          cd ..
 
-      - name: "Terraform Plan"
+      - name: Terraform Plan
         run: terraform plan -out=tfplan
 
-      - name: "Terraform Apply"
+      - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
 
-      - name: "Upload to S3"
+      - name: Upload to S3 (use TF output)
         run: |
-          aws s3 sync ./client/out s3://lyriclens.cumulocrew --delete
+          BUCKET=$(terraform output -raw website_bucket_name) # create this output in TF
+          aws s3 sync ./client/out "s3://${BUCKET}" --delete
 
-  terraform_apply:
-    name: "Terraform_apply"
+  apply_manual:
     if: ${{ github.event.inputs.action == 'apply' }}
     runs-on: ubuntu-latest
-
     steps:
-      - name: "Checkout Repository"
-        uses: actions/checkout@v2
-
-      - name: "Configure AWS Credentials"
-        uses: aws-actions/configure-aws-credentials@v2
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-
-      - name: "Build static site"
-        run: |
-          cd client
-          npm install
-          npm run build
-          cd ..
-
-      - name: "Setup Terraform"
-        uses: hashicorp/setup-terraform@v2.0.2
+      - uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.11.0
           terraform_wrapped: false
+      - run: terraform init
+      - run: |
+          cd client && npm ci && npm run build && cd ..
+      - run: terraform plan -out=tfplan
+      - run: terraform apply -auto-approve tfplan
+      - run: |
+          BUCKET=$(terraform output -raw website_bucket_name)
+          aws s3 sync ./client/out "s3://${BUCKET}" --delete
 
-      - name: "Terraform Init"
-        run: terraform init
-
-      - name: "Terraform Plan"
-        run: terraform plan -out=tfplan
-
-      - name: "Terraform Apply"
-        run: terraform apply -auto-approve tfplan
-
-      - name: "Upload to S3"
-        run: |
-          aws s3 sync ./client/out s3://lyriclens.cumulocrew --delete
-  tf_destroy:
-    name: "Terraform_destroy"
+  destroy_manual:
     if: ${{ github.event.inputs.action == 'destroy' }}
     runs-on: ubuntu-latest
-
     steps:
-      - name: "Checkout Repository"
-        uses: actions/checkout@v2
-
-      - name: "Configure AWS Credentials"
-        uses: aws-actions/configure-aws-credentials@v2
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-
-      - name: "Setup Terraform"
-        uses: hashicorp/setup-terraform@v2.0.2
+      - uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.11.0
           terraform_wrapped: false
-
-      - name: "Terraform Init"
-        run: terraform init
-
-      - name: "Terraform Destroy"
+      - run: terraform init
+      - name: Terraform Destroy
         run: terraform destroy -auto-approve
