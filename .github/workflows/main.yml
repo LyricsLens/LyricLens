@@ -48,7 +48,7 @@ jobs:
 
       - name: Upload to S3 (use TF output)
         run: |
-          BUCKET=$(terraform output -raw website_bucket_name) # create this output in TF
+          BUCKET=$(terraform output -raw bucket_name) # create this output in TF
           aws s3 sync ./client/out "s3://${BUCKET}" --delete
 
   apply_manual:
