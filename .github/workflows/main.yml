@@ -29,7 +29,6 @@ jobs:
       - uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.11.0
-          terraform_wrapped: false
 
       - name: Terraform Init
         run: terraform init
@@ -64,7 +63,6 @@ jobs:
       - uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.11.0
-          terraform_wrapped: false
       - run: terraform init
       - run: |
           cd client && npm ci && npm run build && cd ..
@@ -87,7 +85,10 @@ jobs:
       - uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.11.0
-          terraform_wrapped: false
+      - name: Remove all files from S3 Bucket
+        run: |
+          BUCKET=$(terraform output -raw bucket_name)
+          aws s3 rm "s3://${BUCKET}" --recursive
       - run: terraform init
       - name: Terraform Destroy
         run: terraform destroy -auto-approve
