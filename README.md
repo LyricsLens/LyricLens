@@ -6,7 +6,7 @@
 
 Our repository leverages Github Actions to set up our service. To get started, please follow the instructions below.
 
-1. Navigate to repository settings
+1. Navigate to repository [settings](https://github.com/devinvasavong/2251-swen514-2-Cumulonimbus-Crew/settings)
 2. Click on Secrets and variables > Actions
 3. Add your `AWS_ACCESS_KEY_ID` to Repository secrets
 4. Add your `AWS_SECRET_ACCESS_KEY` to Repository secrets
