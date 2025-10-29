@@ -2,9 +2,22 @@
 
 ## Getting Started
 
+### Github Actions Setup
+
+Our repository leverages Github Actions to set up our service. To get started, please follow the instructions below.
+
+1. Navigate to repository settings
+2. Click on Secrets and variables > Actions
+3. Add your `AWS_ACCESS_KEY_ID` to Repository secrets
+4. Add your `AWS_SECRET_ACCESS_KEY` to Repository secrets
+5. All set!
+
 ### Manual Terraform Setup
+
 #### Prereqs:
+
 1. Terraform:
+
    - Required version: >= 1.11.0
    - Download: https://developer.hashicorp.com/terraform/downloads
 
@@ -16,16 +29,20 @@
    ```
 
 #### Setup and tear down:
+
 Call these to setup your instance:
+
 ```
 terraform init
 terraform plan  -var="bucket_name=<unique-bucket-name>"  -var="aws_region=us-east-1"
 terraform apply -var="bucket_name=<unique-bucket-name>"  -var="aws_region=us-east-1"
 ```
-- Once `terraform apply` is called, the website url will be outputted (see output.tf for what else is outputted). 
+
+- Once `terraform apply` is called, the website url will be outputted (see output.tf for what else is outputted).
 - If the bucket already exists (same name) in another account, pass in another name for the `bucket_name` field.
 
 Call this to destroy your instance:
+
 ```
 terraform destroy
 ```
