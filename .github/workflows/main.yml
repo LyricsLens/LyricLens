@@ -87,7 +87,8 @@ jobs:
         with:
           terraform_version: 1.11.0
 
-      - run: terraform init
+      - name: Terraform Init
+        run: terraform init
 
       - name: Remove all files from S3 Bucket
         run: |
