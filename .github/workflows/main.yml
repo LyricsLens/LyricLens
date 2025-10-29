@@ -49,6 +49,17 @@ jobs:
         run: |
           BUCKET=$(terraform output -raw bucket_name) # create this output in TF
           aws s3 sync ./client/out "s3://${BUCKET}" --delete
+      - name: Print website URL
+        id: print_site_url
+        run: |
+          WEBSITE_URL=$(terraform output -raw website_url)
+          echo "::notice title=Website URL::${WEBSITE_URL}"
+          echo "website_url=${WEBSITE_URL}" >> "$GITHUB_OUTPUT"
+          {
+            echo "### Deploy complete"
+            echo ""
+            echo "**Website URL:** ${WEBSITE_URL}"
+          } >> "$GITHUB_STEP_SUMMARY"
 
   apply_manual:
     if: ${{ github.event.inputs.action == 'apply' }}
@@ -71,6 +82,17 @@ jobs:
       - run: |
           BUCKET=$(terraform output -raw bucket_name)
           aws s3 sync ./client/out "s3://${BUCKET}" --delete
+      - name: Print website URL
+        id: print_site_url
+        run: |
+          WEBSITE_URL=$(terraform output -raw website_url)
+          echo "::notice title=Website URL::${WEBSITE_URL}"
+          echo "website_url=${WEBSITE_URL}" >> "$GITHUB_OUTPUT"
+          {
+            echo "### Deploy complete"
+            echo ""
+            echo "**Website URL:** ${WEBSITE_URL}"
+          } >> "$GITHUB_STEP_SUMMARY"
 
   destroy_manual:
     if: ${{ github.event.inputs.action == 'destroy' }}
