@@ -19,7 +19,7 @@ terraform {
     bucket         = "cumulonimbus-tf-state"
     key            = "swen514/prod/terraform.tfstate" # any path you like
     region         = "us-east-1"
-    dynamodb_table = "tf-locks"
+    # dynamodb_table = "tf-locks"
     encrypt        = true
   }
 }
