@@ -74,7 +74,24 @@ jobs:
       - uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.11.0
-      - run: terraform init
+
+      - name: Build backend key for caller account
+        id: acct
+        shell: bash
+        run: |
+          ACCT=$(aws sts get-caller-identity --query Account --output text)
+          echo "Caller account: $ACCT"
+          KEY="accounts/${ACCT}/swen514/prod/terraform.tfstate"
+          echo "key=$KEY" >> "$GITHUB_OUTPUT"
+
+      - name: Terraform Init
+        run: terraform init -reconfigure \
+          -backend-config="bucket=cumulonimbus-tf-state" \
+          -backend-config="region=us-east-1" \
+          -backend-config="dynamodb_table=tf-locks" \
+          -backend-config="encrypt=true" \
+          -backend-config="key=${{ steps.acct.outputs.key }}"
+
       - run: |
           cd client && npm ci && npm run build && cd ..
       - run: terraform plan -out=tfplan
