@@ -1,6 +1,7 @@
 # ---------- s3 resource ----------
 resource "aws_s3_bucket" "site" {
   bucket = var.bucket_name
+  force_destroy = true
 }
 
 # public website access
