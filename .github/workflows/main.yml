@@ -133,11 +133,8 @@ jobs:
         run: rm -rf .terraform .terraform.lock.hcl
 
       - name: Terraform Init (dynamic backend key)
-        run: terraform init -reconfigure \
-          -backend-config="bucket=cumulonimbus-tf-state" \
-          -backend-config="region=us-east-1" \
-          -backend-config="encrypt=true" \
-          -backend-config="key=${{ steps.acct.outputs.key }}"
+        shell: bash
+        run: terraform init -reconfigure -backend-config="bucket=cumulonimbus-tf-state" -backend-config="region=us-east-1" -backend-config="encrypt=true" -backend-config="key=${{ steps.acct.outputs.key }}"
 
       - name: Terraform Destroy
         run: terraform destroy -auto-approve -input=false
