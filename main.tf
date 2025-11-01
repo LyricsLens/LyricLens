@@ -12,7 +12,7 @@ module "dynamodb" {
   hash_key      = "id"
   attributes    = [{ name = "id", type = "S" }]
 }
-module "api_gateway" {
+module "api-gateway" {
   source      = "./modules/api_gateway"
   api_name    = "lyric-lens-rest-api"  
   images_path = "images"
