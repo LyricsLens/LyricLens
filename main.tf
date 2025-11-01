@@ -13,7 +13,7 @@ module "dynamodb" {
   attributes    = [{ name = "id", type = "S" }]
 }
 module "api-gateway" {
-  source      = "./modules/api_gateway"
+  source      = "./modules/api-gateway"
   api_name    = "lyric-lens-rest-api"  
   images_path = "images"
   stage_name  = "dev"
