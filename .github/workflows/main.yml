@@ -96,12 +96,7 @@ jobs:
 
       - name: Terraform Init (per-caller backend)
         shell: bash
-        run: terraform init -reconfigure \
-          -backend-config="bucket=${{ steps.s3.outputs.bucket }}" \
-          -backend-config="region=${{ env.AWS_REGION }}" \
-          -backend-config="dynamodb_table=${{ steps.ddb.outputs.table }}" \
-          -backend-config="encrypt=true" \
-          -backend-config="key=${{ steps.acct.outputs.key }}"
+        run: terraform init -reconfigure -backend-config="bucket=tf-state-${{ steps.acct.outputs.account }}-us-east-1" -backend-config="region=us-east-1" -backend-config="dynamodb_table=tf-locks" -backend-config="encrypt=true" -backend-config="key=${{ steps.acct.outputs.key }}"
 
       - name: Terraform Validate
         shell: bash
