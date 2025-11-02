@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        
+
       - name: Zip Lambda function
         shell: bash
         run: |
@@ -118,6 +118,23 @@ jobs:
         shell: bash
         run: terraform apply -auto-approve -input=false tfplan || terraform apply -auto-approve -input=false
 
+      - name: "Build client application"
+        if: ${{ github.event.inputs.action == 'apply' }}
+        shell: bash
+        run: |
+          cd client
+          npm install
+          npm run build
+
+      - name: "Move built client to S3"
+        if: ${{ github.event.inputs.action == 'apply' }}
+        shell: bash
+        env:
+          BUCKET: lyriclens.cumulocrew
+          REGION: ${{ env.AWS_REGION }}
+        run: |
+          aws s3 sync --delete ./client/out s3://$BUCKET --region $REGION
+
       - name: Pre-destroy cleanup (empty S3 buckets created by TF)
         if: ${{ github.event.inputs.action == 'destroy' }}
         shell: bash
@@ -128,9 +145,15 @@ jobs:
           # If you output bucket names from TF, you can fetch them here.
           # Example (adjust to your outputs): BUCKET=$(terraform output -raw bucket_name || true)
           # If known/stable name, you can hardcode or skip this step.
-          :
 
       - name: Terraform Destroy
         if: ${{ github.event.inputs.action == 'destroy' }}
         shell: bash
         run: terraform destroy -auto-approve -input=false
+
+      - name: "Website URL"
+        if: ${{ github.event.inputs.action == 'apply' }}
+        shell: bash
+        run: |
+          echo "The application should be available at:"
+          terraform output -raw cloudfront_domain_name
