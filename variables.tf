@@ -14,3 +14,9 @@ variable "index_html" {
   type        = string
   default     = "<h1>Welcome to LyricLens!</h1>"
 }
+
+variable "bucket_base" {
+  type        = string
+  description = "base name for s3 bucket"
+  default     = "lyriclens"
+}
