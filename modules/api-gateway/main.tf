@@ -69,12 +69,24 @@ resource "aws_api_gateway_integration" "post_image_integration" {
   uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${var.lambda_arn}/invocations"
 }
 
+
+resource "aws_lambda_permission" "api_gw_invoke" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = var.lambda_arn
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.api.execution_arn}/*/*"
+}
+
 # Deployment
 resource "aws_api_gateway_deployment" "deployment" {
   depends_on = [
     aws_api_gateway_method.get_all,
     aws_api_gateway_method.get_by_id,
-    aws_api_gateway_method.post_image
+    aws_api_gateway_method.post_image,
+    aws_api_gateway_integration.get_all_integration,
+    aws_api_gateway_integration.get_by_id_integration,
+    aws_api_gateway_integration.post_image_integration
   ]
   rest_api_id = aws_api_gateway_rest_api.api.id
 }
