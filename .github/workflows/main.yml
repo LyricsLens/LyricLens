@@ -171,3 +171,10 @@ jobs:
         run: |
           echo "The application should be available at:"
           terraform output -raw website_url
+          {
+            echo "## 🌐 Deployment Successful"
+            echo ""
+            echo "**Website URL:** [${URL}](${URL})"
+            echo ""
+            echo "> Click the link above to view your deployed application."
+          } >> "$GITHUB_STEP_SUMMARY"
