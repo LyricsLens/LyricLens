@@ -3,3 +3,5 @@ requests
 flask-cors
 requests
 gunicorn
+bs4
+spotipy

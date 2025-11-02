@@ -16,6 +16,12 @@ variable "stage_name" {
   default     = "dev"
 }
 
+variable "songs_path" {
+  type        = string
+  description = "Path for songs resource"
+  default     = "songs"
+}
+
 variable "aws_region" {
   description = "AWS region to deploy the API Gateway"
   type        = string

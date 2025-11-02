@@ -2,17 +2,9 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
 import re
 
-#shut up, dont care, womp womp
+#Please don't hack me
 CLIENT_ID = '622c032e55de4204901f03aae8b8cb45'
 CLIENT_SECRET = 'e2e4732c2f8342a3bc3af2883df70266'
-
-# def get_token():
-#     auth = base64.b64encode(f"{CLIENT_ID}:{CLIENT_SECRET}".encode()).decode()
-#     r = requests.post("https://accounts.spotify.com/api/token",
-#                       headers={"Authorization": f"Basic {auth}"},
-#                       data={"grant_type":"client_credentials"}, timeout=10)
-#     r.raise_for_status()
-#     return r.json()["access_token"]
 
 def extract_playlist_id(playlist_url):
     """Extracts the playlist ID from a Spotify playlist URL."""
@@ -31,13 +23,13 @@ def get_playlist_tracks(playlist_url):
     playlist_id = extract_playlist_id(playlist_url)
     results = sp.playlist_items(playlist_id)
 
-    tracks = []
+    tracks: list[tuple[str, str]] = []
     while results:
         for item in results["items"]:
             track = item.get("track")
             if track:
                 name = track["name"]
-                artists = ", ".join([artist["name"] for artist in track["artists"]])
+                artists = track['artists'][0]['name']
                 tracks.append((name, artists))
 
         # Handle pagination
