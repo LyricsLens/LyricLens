@@ -4,7 +4,7 @@ provider "aws" {
 
 module "s3-website" {
   source      = "./modules/s3-website"
-  bucket_name = var.bucket_name
+  bucket_base = var.bucket_base
   index_html  = var.index_html
 }
 module "dynamodb" {

@@ -14,4 +14,5 @@ variable "index_html" {
 variable "bucket_base" {
   type        = string
   description = "base name for s3 bucket"
+  default     = "lyriclens"
 }
