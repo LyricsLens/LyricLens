@@ -12,11 +12,22 @@ module "dynamodb" {
   hash_key      = "id"
   attributes    = [{ name = "id", type = "S" }]
 }
+module "lambda" {
+  source        = "./modules/lambdas"
+  function_name = "lyric-lens-handler"
+  filename      = "${path.module}/modules/lambdas/lambda_function.zip"
+  handler       = "lambda_function.lambda_handler"
+  runtime       = "python3.11"
+  environment = {
+    TABLE_NAME = module.dynamodb.table_name
+  }
+}
 module "api-gateway" {
   source      = "./modules/api-gateway"
   api_name    = "lyric-lens-rest-api"  
   images_path = "images"
   stage_name  = "dev"
+  lambda_arn  = module.lambda.arn
 }
 
 

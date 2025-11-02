@@ -15,3 +15,5 @@ variable "stage_name" {
   description = "Stage name for the API deployment"
   default     = "dev"
 }
+
+variable "lambda_arn" {}

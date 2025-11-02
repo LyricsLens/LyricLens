@@ -42,6 +42,33 @@ resource "aws_api_gateway_method" "post_image" {
   authorization = "NONE"
 }
 
+resource "aws_api_gateway_integration" "get_all_integration" {
+  rest_api_id             = aws_api_gateway_rest_api.api.id
+  resource_id             = aws_api_gateway_resource.images.id
+  http_method             = aws_api_gateway_method.get_all.http_method
+  type                    = "AWS_PROXY"
+  integration_http_method = "POST"
+  uri                     = var.lambda_arn
+}
+
+resource "aws_api_gateway_integration" "get_by_id_integration" {
+  rest_api_id             = aws_api_gateway_rest_api.api.id
+  resource_id             = aws_api_gateway_resource.image_id.id
+  http_method             = aws_api_gateway_method.get_by_id.http_method
+  type                    = "AWS_PROXY"
+  integration_http_method = "POST"
+  uri                     = var.lambda_arn
+}
+
+resource "aws_api_gateway_integration" "post_image_integration" {
+  rest_api_id             = aws_api_gateway_rest_api.api.id
+  resource_id             = aws_api_gateway_resource.images.id
+  http_method             = aws_api_gateway_method.post_image.http_method
+  type                    = "AWS_PROXY"
+  integration_http_method = "POST"
+  uri                     = var.lambda_arn
+}
+
 # Deployment
 resource "aws_api_gateway_deployment" "deployment" {
   depends_on = [
