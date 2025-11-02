@@ -1,8 +1,12 @@
 data "aws_caller_identity" "this" {}
 
+locals {
+  bucket_name = "${var.bucket_base}-${data.aws_caller_identity.this.account_id}"
+}
+
 # ---------- s3 resource ----------
 resource "aws_s3_bucket" "site" {
-  bucket = "lyriclens-website-${data.aws_caller_identity.this.account_id}"
+  bucket = local.bucket_name
   force_destroy = true
 }
 

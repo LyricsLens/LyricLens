@@ -1,14 +1,17 @@
+"use client";
 import { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
+import Logo from "@/public/logos/LyricLensLogo.png"
 
 function LandingPage() {
   const [url, setUrl] = useState('');
-  const [songs, setSongs] = useState([]);
+  type Song = { id: string; title: string; artist: string };
+  const [songs, setSongs] = useState<Song[]>([]);
   const [loading, setLoading] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [x, setX] = useState(50);
   const [y, setY] = useState(50);
-  
+
   useEffect(() => {
     const interval = setInterval(() => {
       const time = Date.now() / 1500;
@@ -20,54 +23,30 @@ function LandingPage() {
 
   function handleClick() {
     setLoading(true);
-    
+
     //bing bong the logic goes here
-    
+
     setTimeout(() => {
       setLoading(false);
     }, 500);
   }
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#f9fafb', padding: '48px 16px' }}>
+    <div className="bg-black min-h-screen py-12 px-4 sm:px-6 lg:px-8">
       <div style={{ maxWidth: '896px', margin: '0 auto' }}>
-        
+
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-          <div style={{ 
-            width: '192px', 
-            height: '96px', 
-            backgroundColor: '#e5e7eb', 
-            borderRadius: '8px',
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#6b7280',
-            fontSize: '14px'
-          }}>
-            Your Logo Here
-          </div>
+          <img src={Logo.src} alt="LyricLens Logo" width={1920} height={1080} style={{ maxWidth: '300px', height: 'auto' }} />
         </div>
 
-        <div style={{ 
-          backgroundColor: 'white', 
-          borderRadius: '8px', 
-          boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
-          padding: '24px',
-          marginBottom: '24px'
-        }}>
-          <div style={{ display: 'flex', gap: '12px' }}>
+        <div className="mb-8 text-center">
+          <div className="flex gap-3">
             <input
               type="text"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               placeholder="Enter Spotify playlist URL..."
-              style={{
-                flex: 1,
-                padding: '8px 16px',
-                border: '1px solid #d1d5db',
-                borderRadius: '8px',
-                outline: 'none'
-              }}
+              className="flex-grow px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
             />
             <button
               onClick={handleClick}
@@ -76,7 +55,7 @@ function LandingPage() {
               onMouseLeave={() => setHovering(false)}
               style={{
                 padding: '8px 24px',
-                background: hovering && !loading && url 
+                background: hovering && !loading && url
                   ? `radial-gradient(circle at ${x}% ${y}%, #d9f99d 0%, #a3e635 35%, #84cc16 60%, #65a30d 100%)`
                   : 'white',
                 color: hovering && !loading && url ? 'white' : '#374151',
@@ -96,12 +75,7 @@ function LandingPage() {
         </div>
 
         {songs.length > 0 && (
-          <div style={{ 
-            backgroundColor: 'white', 
-            borderRadius: '8px',
-            boxShadow: '6px 6px 0px rgba(134, 239, 172, 0.4)',
-            overflow: 'hidden'
-          }}>
+          <div className="bg-white rounded-lg shadow-md overflow-hidden">
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead style={{ backgroundColor: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
                 <tr>
@@ -124,14 +98,7 @@ function LandingPage() {
         )}
 
         {songs.length === 0 && !loading && (
-          <div style={{
-            backgroundColor: 'white',
-            borderRadius: '8px',
-            boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
-            padding: '48px',
-            textAlign: 'center',
-            color: '#6b7280'
-          }}>
+          <div className="text-center text-gray-500 mt-16">
             Please Enter a Spotify playlist URL
           </div>
         )}
