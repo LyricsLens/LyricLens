@@ -116,6 +116,10 @@ jobs:
       - name: Terraform Apply
         if: ${{ github.event.inputs.action == 'apply' }}
         shell: bash
+        env:
+          GENIUS_TOKEN: ${{secrets.GENIUS_TOKEN}}
+          SPOTIFY_CLIENT_ID: ${{secrets.SPOTIFY_CLIENT_ID}}
+          SPOTIFY_CLIENT_SECRET: ${{secrets.SPOTIFY_CLIENT_SECRET}}
         run: terraform apply -auto-approve -input=false tfplan || terraform apply -auto-approve -input=false
 
       - name: "Build client application"

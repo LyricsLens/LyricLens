@@ -6,11 +6,14 @@ from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import json
 import time
+import os
+import logging
 
-#Please don't hack me
-CLIENT_ID = '622c032e55de4204901f03aae8b8cb45'
-CLIENT_SECRET = 'e2e4732c2f8342a3bc3af2883df70266'
-GENIUS_TOKEN = 'Lr9kZzpIy4Tlod-MoELEvjGvNXzeMgCyxO_yRzFqeJtINkj8zJUWuM37K6-WGPIw'
+_logger = logging.getLogger(__name__)
+
+CLIENT_ID = os.getenv('SPOTIFY_CLIENT_ID')
+CLIENT_SECRET = os.getenv('SPOTIFY_CLIENT_SECRET')
+GENIUS_TOKEN = os.getenv('GENIUS_TOKEN')
 
 def extract_playlist_id(playlist_url):
     """Extracts the playlist ID from a Spotify playlist URL."""
@@ -23,6 +26,7 @@ def extract_playlist_id(playlist_url):
 def get_playlist_tracks(playlist_url):
     """Returns a list of (song_name, artist_name) from a public playlist."""
     # Authenticate without user login (public data only)
+
     auth_manager = SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
     sp = spotipy.Spotify(auth_manager=auth_manager)
 
@@ -81,7 +85,7 @@ def fetch_lyrics(song_title, artist_name):
 
         if not lyrics:
             return {}
-        
+        {}
         return {
             'title': song_title,
             'artist': artist_name,
@@ -110,7 +114,9 @@ def fetch_all_lyrics_concurrently(songs):
     return results
 
 def get_playlist_lyrics(playlist_url):
+    _logger.info(('get playlist lyrics', playlist_url))
     songs = get_playlist_tracks(playlist_url)
+    _logger.info(('found tracks', len(songs)))
     lyrics = fetch_all_lyrics_concurrently(songs)
     if lyrics:
         return {'statusCode': 200, "body": json.dumps(lyrics)}
