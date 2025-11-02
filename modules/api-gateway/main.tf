@@ -48,7 +48,7 @@ resource "aws_api_gateway_integration" "get_all_integration" {
   http_method             = aws_api_gateway_method.get_all.http_method
   type                    = "AWS_PROXY"
   integration_http_method = "POST"
-  uri                     = var.lambda_arn
+  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${var.lambda_arn}/invocations"
 }
 
 resource "aws_api_gateway_integration" "get_by_id_integration" {
@@ -57,7 +57,7 @@ resource "aws_api_gateway_integration" "get_by_id_integration" {
   http_method             = aws_api_gateway_method.get_by_id.http_method
   type                    = "AWS_PROXY"
   integration_http_method = "POST"
-  uri                     = var.lambda_arn
+  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${var.lambda_arn}/invocations"
 }
 
 resource "aws_api_gateway_integration" "post_image_integration" {
@@ -66,7 +66,7 @@ resource "aws_api_gateway_integration" "post_image_integration" {
   http_method             = aws_api_gateway_method.post_image.http_method
   type                    = "AWS_PROXY"
   integration_http_method = "POST"
-  uri                     = var.lambda_arn
+  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${var.lambda_arn}/invocations"
 }
 
 # Deployment

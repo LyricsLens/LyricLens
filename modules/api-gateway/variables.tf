@@ -16,4 +16,12 @@ variable "stage_name" {
   default     = "dev"
 }
 
-variable "lambda_arn" {}
+variable "aws_region" {
+  description = "AWS region to deploy the API Gateway"
+  type        = string
+}
+
+variable "lambda_arn" {
+  description = "ARN of the Lambda function to integrate with API Gateway"
+  type        = string
+}

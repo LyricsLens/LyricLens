@@ -28,6 +28,7 @@ module "api-gateway" {
   images_path = "images"
   stage_name  = "dev"
   lambda_arn  = module.lambda.arn
+  aws_region = var.aws_region
 }
 
 
