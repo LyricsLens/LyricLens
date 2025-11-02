@@ -170,4 +170,4 @@ jobs:
         shell: bash
         run: |
           echo "The application should be available at:"
-          terraform output -raw cloudfront_domain_name
+          terraform output -raw website_url
