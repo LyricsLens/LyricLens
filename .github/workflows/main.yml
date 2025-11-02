@@ -169,12 +169,20 @@ jobs:
         if: ${{ github.event.inputs.action == 'apply' }}
         shell: bash
         run: |
+          set -euo pipefail
+          URL="$(terraform output -raw website_url 2>/dev/null || true)"
+          if [ -z "$URL" ]; then
+            echo "website_url output not found. Make sure your root module defines it." >&2
+            exit 1
+          fi
+
           echo "The application should be available at:"
-          terraform output -raw website_url
+          echo "$URL"
+
           {
-            echo "## 🌐 Deployment Successful"
-            echo ""
-            echo "**Website URL:** [${URL}](${URL})"
-            echo ""
+            echo "## Deployment Successful! :)"
+            echo
+            echo "**Website URL:** [$URL]($URL)"
+            echo
             echo "> Click the link above to view your deployed application."
           } >> "$GITHUB_STEP_SUMMARY"
