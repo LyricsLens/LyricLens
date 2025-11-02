@@ -131,8 +131,16 @@ jobs:
         id: site
         shell: bash
         run: |
-          set -euo pipefail
-          BUCKET=$(terraform output -raw website_bucket_name 2>/dev/null || terraform output -raw bucket_name)
+          BUCKET="$(terraform output -raw website_bucket_name 2>/dev/null || true)"
+          if [ -z "$BUCKET" ]; then
+            BUCKET="$(terraform output -raw bucket_name 2>/dev/null || true)"
+          fi
+
+          if [ -z "$BUCKET" ]; then
+            echo "Bucket output not found. Ensure your module exports 'website_bucket_name' or 'bucket_name'." >&2
+            exit 1
+          fi
+
           echo "bucket=$BUCKET" >> "$GITHUB_OUTPUT"
           echo "Will upload to: s3://$BUCKET"
 
