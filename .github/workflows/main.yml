@@ -126,14 +126,20 @@ jobs:
           npm install
           npm run build
 
-      - name: "Move built client to S3"
+      - name: Get website bucket name
+        if: ${{ github.event.inputs.action == 'apply' }}
+        id: site
+        shell: bash
+        run: |
+          set -euo pipefail
+          BUCKET=$(terraform output -raw website_bucket_name 2>/dev/null || terraform output -raw bucket_name)
+          echo "bucket=$BUCKET" >> "$GITHUB_OUTPUT"
+          echo "Will upload to: s3://$BUCKET"
+
+      - name: Move built client to S3
         if: ${{ github.event.inputs.action == 'apply' }}
         shell: bash
-        env:
-          BUCKET: lyriclens.cumulocrew
-          REGION: ${{ env.AWS_REGION }}
-        run: |
-          aws s3 sync --delete ./client/out s3://$BUCKET --region $REGION
+        run: aws s3 sync --delete ./client/out "s3://${{ steps.site.outputs.bucket }}" --region ${{ env.AWS_REGION }}
 
       - name: Pre-destroy cleanup (empty S3 buckets created by TF)
         if: ${{ github.event.inputs.action == 'destroy' }}
