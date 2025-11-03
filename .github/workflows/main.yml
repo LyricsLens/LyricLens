@@ -25,7 +25,7 @@ jobs:
         shell: bash
         run: |
           cd modules/lambdas
-          zip -r lambda_function.zip lambda_function.py dynamodb.py spotify.py package
+          zip -r lambda_function.zip lambda_function.py dynamodb.py spotify.py playlist_results_example.json package
           cd package
           zip -r ../lambda_function.zip .
           cd ..

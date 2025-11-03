@@ -13,7 +13,7 @@ _logger = logging.getLogger(__name__)
 
 CLIENT_ID = '622c032e55de4204901f03aae8b8cb45'
 CLIENT_SECRET = 'e2e4732c2f8342a3bc3af2883df70266'
-GENIUS_TOKEN = 'GbVhQ1zhgnGcWHUFbD182YZW79SnX02T0Ll84xEDLtRjrm3cJ5YN38e-U-RBUPqB'
+GENIUS_TOKEN = 'LvVgUY1EnbzspBCfeCOfH2ZudhwSpt-YYaeiSy7afQI-XUU6X4UvST4mdT1SUo_0'
 
 def extract_playlist_id(playlist_url):
     """Extracts the playlist ID from a Spotify playlist URL."""
@@ -27,7 +27,11 @@ def get_playlist_tracks(playlist_id):
     """Returns a list of (song_name, artist_name) from a public playlist."""
     # Authenticate without user login (public data only)
 
-    auth_manager = SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
+    auth_manager = SpotifyClientCredentials(
+        client_id=CLIENT_ID, 
+        client_secret=CLIENT_SECRET,     
+        cache_handler=spotipy.cache_handler.CacheFileHandler(cache_path="/tmp/.cache-spotify")
+    )   
     sp = spotipy.Spotify(auth_manager=auth_manager)
 
     # playlist_id = extract_playlist_id(playlist_url)
@@ -117,17 +121,19 @@ def get_playlist_lyrics(playlist_id):
     _logger.info(('get playlist lyrics', playlist_id))
     songs = get_playlist_tracks(playlist_id)
     _logger.info(('found tracks', len(songs)))
-    lyrics = fetch_all_lyrics_concurrently(songs)
+    with open('playlist_results_example.json') as file:
+        lyrics = json.loads(file.read())
+    # lyrics = fetch_all_lyrics_concurrently(songs)
     return lyrics
 
 def main():
     # playlist_url = 'https://open.spotify.com/playlist/5Ez74MIoh4pOSLFXhpwKdr'
     playlist_id = '5Ez74MIoh4pOSLFXhpwKdr'
     songs = get_playlist_tracks(playlist_id)
-    lyrics = fetch_lyrics(songs[0][0],songs[0][1])
+    lyrics = get_playlist_lyrics(playlist_id)
 
     print(lyrics)
-    print(songs)
+    # print(songs)
 
 if __name__=='__main__':
     main()
