@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import json
 import time
-import os
+import random
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -102,18 +102,69 @@ def fetch_lyrics(song_title, artist_name):
 # === MULTITHREADING WRAPPER ===
 def fetch_all_lyrics_concurrently(songs):
     results = []
-    with ThreadPoolExecutor(max_workers=5) as executor:
-        future_to_song = {executor.submit(fetch_lyrics, title, artist): (title, artist) for title, artist in songs}
+    # with ThreadPoolExecutor(max_workers=5) as executor:
+    #     future_to_song = {executor.submit(fetch_lyrics, title, artist): (title, artist) for title, artist in songs}
 
-        for future in as_completed(future_to_song):
-            title, artist = future_to_song[future]
-            try:
-                lyrics = future.result()
-                if lyrics:
-                    results.append(lyrics)
-            except Exception as e:
-                print(f"Failed to fetch {title}: {e}")
-            time.sleep(0.3)  # small delay to avoid hammering Genius
+    #     for future in as_completed(future_to_song):
+    #         title, artist = future_to_song[future]
+    #         try:
+    #             lyrics = future.result()
+    #             if lyrics:
+    #                 results.append(lyrics)
+    #         except Exception as e:
+    #             print(f"Failed to fetch {title}: {e}")
+    #         time.sleep(0.3)  # small delay to avoid hammering Genius
+
+    for title, artist in songs:
+        try:
+            # main fetch
+            url = f"https://lyrics.lewdhutao.my.eu.org/v2/youtube/lyrics?title={title}&artist={artist}"
+            res = requests.get(url, timeout=10)
+            res.raise_for_status()
+            data = res.json()
+
+            if 'lyrics' in data["data"] and data["data"]['lyrics']:
+                results.append({'title': title, 'artist': artist, 'lyrics': data["data"]['lyrics']})
+            else:
+                # fallback
+                url_mm = f"https://lyrics.lewdhutao.my.eu.org/v2/musixmatch/lyrics?title={title}&artist={artist}"
+                res_mm = requests.get(url_mm, timeout=10)
+                res_mm.raise_for_status()
+                data_mm = res_mm.json()
+                if 'lyrics' in data_mm["data"] and data_mm["data"]['lyrics']:
+                    results.append({'title': title, 'artist': artist, 'lyrics': data_mm["data"]['lyrics']})
+
+            # throttle requests: sleep between 1–3 seconds
+            time.sleep(random.uniform(1.0, 3.0))
+
+        except Exception as e:
+            _logger.error(f"Failed to fetch {title} by {artist}: {e}")
+            for title, artist in songs:
+                url = f"https://lyrics.lewdhutao.my.eu.org/v2/youtube/lyrics?title={title}&artist={artist}"
+                try:
+                    res = requests.get(url, timeout=10)
+                    res.raise_for_status()
+                    data = res.json()
+                    if 'lyrics' in data and data['lyrics']:
+                        results.append({
+                            'title': title,
+                            'artist': artist,
+                            'lyrics': data['lyrics']
+                        })
+                    else:
+                        # attempt to fetch from musixmatch as fallback
+                        url_mm = f"https://lyrics.lewdhutao.my.eu.org/v2/musixmatch/lyrics?title={title}&artist={artist}"
+                        res_mm = requests.get(url_mm, timeout=10)
+                        res_mm.raise_for_status()
+                        data_mm = res_mm.json()
+                        if 'lyrics' in data_mm and data_mm['lyrics']:
+                            results.append({
+                                'title': title,
+                                'artist': artist,
+                                'lyrics': data_mm['lyrics']
+                            })
+                except Exception as e:
+                    _logger.error(f"Failed to fetch {title} by {artist}: {e}")
 
     return results
 
@@ -121,14 +172,14 @@ def get_playlist_lyrics(playlist_id):
     _logger.info(('get playlist lyrics', playlist_id))
     songs = get_playlist_tracks(playlist_id)
     _logger.info(('found tracks', len(songs)))
-    with open('playlist_results_example.json', 'r', encoding='utf-8') as file:
-        lyrics = json.loads(file.read())['body']
-    # lyrics = fetch_all_lyrics_concurrently(songs)
+    # with open('playlist_results_example.json', 'r', encoding='utf-8') as file:
+    #     lyrics = json.loads(file.read())['body']
+    lyrics = fetch_all_lyrics_concurrently(songs)
     return lyrics
 
 def main():
     # playlist_url = 'https://open.spotify.com/playlist/5Ez74MIoh4pOSLFXhpwKdr'
-    playlist_id = '5Ez74MIoh4pOSLFXhpwKdr'
+    playlist_id = '0ZS0e1UXYRFxZfkBTEGnk4'
     songs = get_playlist_tracks(playlist_id)
     lyrics = get_playlist_lyrics(playlist_id)
 
