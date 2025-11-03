@@ -14,7 +14,6 @@ function LandingPage() {
 	const [y, setY] = useState(50);
 	const [error, setError] = useState<string | null>(null);
 	const API_URL = process.env.NEXT_PUBLIC_API_URL;
-	console.log("api url " + API_URL);
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -42,7 +41,9 @@ function LandingPage() {
 		setLoading(true);
 		// --- bing bong the logic goes here ---
 		
-
+		const res = await fetch(`${API_URL}/songs?playlist_id=${url}`);
+		console.log(res.json());
+		
 		postImage();
 		setTimeout(() => {
 			setLoading(false);
