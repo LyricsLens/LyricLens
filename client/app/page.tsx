@@ -33,17 +33,17 @@ function LandingPage() {
 	async function handleAnalyze() {
 		setError(null);
 
-		if (!validateSpotifyUrl(url)) {
-			setError("Please enter a valid Spotify playlist. We support playlist URLs only.");
-			return;
-		}
+		// if (!validateSpotifyUrl(url)) {
+		// 	setError("Please enter a valid Spotify playlist. We support playlist URLs only.");
+		// 	return;
+		// }
 
 		setLoading(true);
 		// --- bing bong the logic goes here ---
 		
 		const res = await fetch(`${API_URL}/songs?playlist_id=${url}`);
 		console.log(res.json());
-		
+
 		postImage();
 		setTimeout(() => {
 			setLoading(false);
