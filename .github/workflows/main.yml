@@ -121,14 +121,21 @@ jobs:
           SPOTIFY_CLIENT_ID: ${{secrets.SPOTIFY_CLIENT_ID}}
           SPOTIFY_CLIENT_SECRET: ${{secrets.SPOTIFY_CLIENT_SECRET}}
         run: terraform apply -auto-approve -input=false tfplan || terraform apply -auto-approve -input=false
+      
+      - name: Get API URL & Website Bucket
+        if: ${{ github.event.inputs.action == 'apply' }}
+        id: outputs
+        run: |
+          echo "api_url=$(terraform output -raw api_invoke_url)" >> "$GITHUB_OUTPUT"
+          echo "bucket_name=$(terraform output -raw website_bucket_name)" >> "$GITHUB_OUTPUT"
 
       - name: "Build client application"
         if: ${{ github.event.inputs.action == 'apply' }}
         shell: bash
         run: |
           cd client
-          npm install
-          npm run build
+          NEXT_PUBLIC_API_URL="${{ steps.outputs.outputs.api_url }}" npm install
+          NEXT_PUBLIC_API_URL="${{ steps.outputs.outputs.api_url }}" npm run build
 
       - name: Get website bucket name
         if: ${{ github.event.inputs.action == 'apply' }}

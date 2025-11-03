@@ -5,6 +5,7 @@ import Logo from "@/public/logos/LyricLensLogo.png";
 
 function LandingPage() {
 	const [url, setUrl] = useState("");
+	const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
 	type Song = { id: string; title: string; artist: string };
 	const [songs, setSongs] = useState<Song[]>([]);
 	const [loading, setLoading] = useState(false);
@@ -38,9 +39,26 @@ function LandingPage() {
 
 		setLoading(true);
 		// --- bing bong the logic goes here ---
+		postImage();
 		setTimeout(() => {
 			setLoading(false);
 		}, 600);
+	}
+
+	async function postImage() {
+		try {
+			const response = await fetch(`${apiBaseUrl}/images`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ id: '1', url: "sample URL"})
+			});
+			const data = await response.json();
+			console.log(data);
+		} catch (err) {
+			console.error(err);
+		} finally {
+			setLoading(false); // always reset loading
+		}
 	}
 
 	function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
