@@ -121,10 +121,10 @@ def get_playlist_lyrics(playlist_id):
     _logger.info(('get playlist lyrics', playlist_id))
     songs = get_playlist_tracks(playlist_id)
     _logger.info(('found tracks', len(songs)))
-    with open('playlist_results_example.json', 'r', encoding='utf-8') as file:
-        lyrics = json.loads(file.read())['body']
+    # with open('playlist_results_example.json', 'r', encoding='utf-8') as file:
+    #     lyrics = json.loads(file.read())['body']
     # lyrics = fetch_all_lyrics_concurrently(songs)
-    return lyrics
+    return songs
 
 def main():
     # playlist_url = 'https://open.spotify.com/playlist/5Ez74MIoh4pOSLFXhpwKdr'
