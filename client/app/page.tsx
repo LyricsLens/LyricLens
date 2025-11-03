@@ -13,9 +13,9 @@ function LandingPage() {
 	const [x, setX] = useState(50);
 	const [y, setY] = useState(50);
 	const [error, setError] = useState<string | null>(null);
-	const API_URL = process.env.REACT_APP_API_URL;
+	const API_URL = process.env.NEXT_PUBLIC_API_URL;
 	console.log("api url " + API_URL);
-	
+
 	useEffect(() => {
 		const interval = setInterval(() => {
 			const time = Date.now() / 1500;
