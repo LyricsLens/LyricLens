@@ -136,7 +136,7 @@ jobs:
         shell: bash
         run: |
           cd client
-          echo "REACT_APP_API_URL=${{ steps.api.outputs.api_url }}" > .env.production
+          echo "REACT_APP_API_URL=${{ steps.outputs.outputs.api_url }}" > .env.production
           cat .env.production  # optional: debug check
           npm install
           npm run build
