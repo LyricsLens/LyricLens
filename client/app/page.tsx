@@ -13,7 +13,9 @@ function LandingPage() {
 	const [x, setX] = useState(50);
 	const [y, setY] = useState(50);
 	const [error, setError] = useState<string | null>(null);
-
+	const API_URL = process.env.REACT_APP_API_URL;
+	console.log("api url " + API_URL);
+	
 	useEffect(() => {
 		const interval = setInterval(() => {
 			const time = Date.now() / 1500;
@@ -39,6 +41,8 @@ function LandingPage() {
 
 		setLoading(true);
 		// --- bing bong the logic goes here ---
+		
+
 		postImage();
 		setTimeout(() => {
 			setLoading(false);

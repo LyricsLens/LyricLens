@@ -136,8 +136,9 @@ jobs:
         shell: bash
         run: |
           cd client
-          NEXT_PUBLIC_API_URL="${{ steps.outputs.outputs.api_url }}" npm install
-          NEXT_PUBLIC_API_URL="${{ steps.outputs.outputs.api_url }}" npm run build
+          echo "REACT_APP_API_URL=${{steps.outputs.outputs.api_url}}" > .env.production
+          npm install
+          npm run build
 
       - name: Get website bucket name
         if: ${{ github.event.inputs.action == 'apply' }}
