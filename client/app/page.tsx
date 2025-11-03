@@ -4,6 +4,7 @@ import { Search } from "lucide-react";
 import Logo from "@/public/logos/LyricLensLogo.png";
 
 function LandingPage() {
+	let tempID = 1;
 	const [url, setUrl] = useState("");
 	const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
 	type Song = { id: string; title: string; artist: string };
@@ -50,14 +51,15 @@ function LandingPage() {
 			const response = await fetch(`${apiBaseUrl}/images`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ id: '1', url: "sample URL"})
+			body: JSON.stringify({ id: tempID, url: "sample URL"})
 			});
 			const data = await response.json();
 			console.log(data);
 		} catch (err) {
 			console.error(err);
 		} finally {
-			setLoading(false); // always reset loading
+			setLoading(false);
+			tempID +=1;
 		}
 	}
 
