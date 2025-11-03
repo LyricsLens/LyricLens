@@ -101,6 +101,32 @@ resource "aws_lambda_permission" "api_gw_invoke" {
   source_arn    = "${aws_api_gateway_rest_api.api.execution_arn}/*/*"
 }
 
+
+resource "aws_iam_role" "api_gw_cloudwatch" {
+  name = "APIGatewayCloudWatchLogsRole"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Principal = {
+          Service = "apigateway.amazonaws.com"
+        },
+        Action = "sts:AssumeRole"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "api_gw_logs_policy" {
+  role       = aws_iam_role.api_gw_cloudwatch.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
+}
+
+resource "aws_api_gateway_account" "account" {
+  cloudwatch_role_arn = aws_iam_role.api_gw_cloudwatch.arn
+}
 # Deployment
 resource "aws_api_gateway_deployment" "deployment" {
   depends_on = [
