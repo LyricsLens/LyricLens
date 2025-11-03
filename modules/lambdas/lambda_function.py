@@ -1,37 +1,37 @@
 import json
-import dynamodb
-from spotify import get_playlist_lyrics
+import boto3
+import os
 
-IMAGES = '/images'
-SONGS = '/songs'
-
+dynamodb = boto3.resource("dynamodb")
+table = dynamodb.Table(os.environ['TABLE_NAME'])
 
 def lambda_handler(event, context):
     http_method = event['httpMethod']
     path = event['resource']
 
     # GET /images - return all URLs
-    if http_method == "GET" and path == IMAGES:
-       return dynamodb.get_all_images()
+    if http_method == "GET" and path == "/images":
+        response = table.scan()
+        return {
+            "statusCode": 200,
+            "body": json.dumps(response.get('Items', []))
+        }
 
     # GET /images/{id} - return URL by id
-    elif http_method == "GET" and path == IMAGES + "/{id}":
+    elif http_method == "GET" and path == "/images/{id}":
         image_id = event['pathParameters']['id']
-        return dynamodb.get_images(image_id)
+        response = table.get_item(Key={"id": image_id})
+        if 'Item' in response:
+            return {"statusCode": 200, "body": json.dumps(response['Item'])}
+        return {"statusCode": 404, "body": json.dumps({"message": "Not found"})}
 
     # POST /images - add a new URL
-    elif http_method == "POST" and path == IMAGES:
+    elif http_method == "POST" and path == "/images":
         body = json.loads(event['body'])
-        return dynamodb.post_image(body)        
-    
-    # POST /songs - get songs with their lyrics
-    elif http_method == 'GET' and path == SONGS:
-        query_params = event.get('queryStringParameters', {})
-        playlist_url = query_params.get('playlist_url', False)
-        if not playlist_url:
-            return {"statusCode": 400, "body": json.dumps({"message": "No Query params supplied. Need playlist_url"})}
-        
-        return get_playlist_lyrics(playlist_url)
+        if 'id' not in body or 'url' not in body:
+            return {"statusCode": 400, "body": json.dumps({"message": "id and url required"})}
+        table.put_item(Item={"id": body['id'], "url": body['url']})
+        return {"statusCode": 201, "body": json.dumps({"message": "Image URL added"})}
 
     else:
         return {"statusCode": 400, "body": json.dumps({"message": "Unsupported operation"})}

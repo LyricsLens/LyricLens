@@ -84,16 +84,6 @@ resource "aws_api_gateway_integration" "post_image_integration" {
   uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${var.lambda_arn}/invocations"
 }
 
-resource "aws_api_gateway_integration" "get_lyrics_integration" {
-  rest_api_id             = aws_api_gateway_rest_api.api.id
-  resource_id             = aws_api_gateway_resource.songs.id
-  http_method             = aws_api_gateway_method.get_songs_with_lyrics.http_method
-  type                    = "AWS_PROXY"
-  integration_http_method = "GET"
-  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${var.lambda_arn}/invocations"
-}
-
-
 resource "aws_lambda_permission" "api_gw_invoke" {
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
