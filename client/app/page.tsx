@@ -4,6 +4,7 @@ import { Search } from "lucide-react";
 import Logo from "@/public/logos/LyricLensLogo.png";
 
 function LandingPage() {
+	let tempID = 1;
 	const [url, setUrl] = useState("");
 	type Song = { id: string; title: string; artist: string };
 	const [songs, setSongs] = useState<Song[]>([]);
@@ -38,9 +39,28 @@ function LandingPage() {
 
 		setLoading(true);
 		// --- bing bong the logic goes here ---
+		postImage();
 		setTimeout(() => {
 			setLoading(false);
 		}, 600);
+	}
+
+	async function postImage() {
+		console.log("Posting image..")
+		try {
+			const res = await fetch(`/api/images`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ id: tempID, url: "sample URL" }),
+			})
+			const data = await res.json();
+			console.log(data);
+		} catch (err) {
+			console.error(err);
+		} finally {
+			setLoading(false);
+			tempID += 1;
+		}
 	}
 
 	function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
