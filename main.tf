@@ -21,6 +21,7 @@ module "lambda" {
   environment = {
     TABLE_NAME = module.dynamodb.table_name
   }
+  dynamodb_table_arn = module.dynamodb.table_arn
 }
 module "api-gateway" {
   source      = "./modules/api-gateway"
