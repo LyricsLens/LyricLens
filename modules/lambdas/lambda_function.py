@@ -33,6 +33,5 @@ def lambda_handler(event, context):
         
         return get_playlist_lyrics(playlist_url)
 
-
     else:
         return {"statusCode": 400, "body": json.dumps({"message": "Unsupported operation"})}
