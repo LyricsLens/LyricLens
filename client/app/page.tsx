@@ -6,7 +6,6 @@ import Logo from "@/public/logos/LyricLensLogo.png";
 function LandingPage() {
 	let tempID = 1;
 	const [url, setUrl] = useState("");
-	const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
 	type Song = { id: string; title: string; artist: string };
 	const [songs, setSongs] = useState<Song[]>([]);
 	const [loading, setLoading] = useState(false);
@@ -54,11 +53,6 @@ function LandingPage() {
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ id: tempID, url: "sample URL" }),
 			})
-			// const response = await fetch(`${apiBaseUrl}/images`, {
-			// 	method: 'POST',
-			// 	headers: { 'Content-Type': 'application/json' },
-			// 	body: JSON.stringify({ id: tempID, url: "sample URL" })
-			// });
 			const data = await res.json();
 			console.log(data);
 		} catch (err) {
