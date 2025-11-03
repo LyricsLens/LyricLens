@@ -121,8 +121,8 @@ def get_playlist_lyrics(playlist_id):
     _logger.info(('get playlist lyrics', playlist_id))
     songs = get_playlist_tracks(playlist_id)
     _logger.info(('found tracks', len(songs)))
-    with open('playlist_results_example.json') as file:
-        lyrics = json.loads(file.read())
+    with open('playlist_results_example.json', 'r', encoding='utf-8') as file:
+        lyrics = json.loads(file.read())['body']
     # lyrics = fetch_all_lyrics_concurrently(songs)
     return lyrics
 
@@ -132,7 +132,7 @@ def main():
     songs = get_playlist_tracks(playlist_id)
     lyrics = get_playlist_lyrics(playlist_id)
 
-    print(lyrics)
+    print(json.dumps(lyrics))
     # print(songs)
 
 if __name__=='__main__':
