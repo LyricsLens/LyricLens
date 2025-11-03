@@ -52,7 +52,7 @@ def lambda_handler(event, context):
     # POST /songs - get songs with their lyrics
     elif http_method == 'GET' and path == SONGS:
         query_params = event.get('queryStringParameters', {})
-        playlist_url = query_params.get('playlist_url', False)
+        playlist_url = query_params.get('playlist_id', False)
         lyrics = get_playlist_lyrics(playlist_url)
         if not playlist_url:
             return format(400, {"message": "No Query params supplied. Need playlist_url"})
