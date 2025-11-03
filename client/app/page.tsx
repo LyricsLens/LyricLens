@@ -6,7 +6,7 @@ import Logo from "@/public/logos/LyricLensLogo.png";
 function LandingPage() {
 	let tempID = 1;
 	const [url, setUrl] = useState("");
-	type Song = { id: string; title: string; artist: string };
+	type Song = { title: string; artist: string; lyrics: string };
 	const [songs, setSongs] = useState<Song[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [hovering, setHovering] = useState(false);
@@ -40,9 +40,10 @@ function LandingPage() {
 
 		setLoading(true);
 		// --- bing bong the logic goes here ---
-		
+
 		const res = await fetch(`${API_URL}/songs?playlist_id=${url}`);
-		console.log(res.json());
+		const data = await res.json();
+		setSongs(data.songs)
 
 		// postImage();
 		//TODO this will need to be longer and we will probably need a better signal since playlist time is not constant
@@ -214,7 +215,7 @@ function LandingPage() {
 									<tbody>
 										{songs.map((song, i) => (
 											<tr
-												key={song.id}
+												key={i}
 												className="border-b border-white/5 hover:bg-white/[.03] transition"
 											>
 												<td className="px-6 py-4 text-sm text-gray-400">
