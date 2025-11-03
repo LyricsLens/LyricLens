@@ -89,7 +89,7 @@ resource "aws_api_gateway_integration" "get_lyrics_integration" {
   resource_id             = aws_api_gateway_resource.songs.id
   http_method             = aws_api_gateway_method.get_songs_with_lyrics.http_method
   type                    = "AWS_PROXY"
-  integration_http_method = "GET"
+  integration_http_method = "POST"
   uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${var.lambda_arn}/invocations"
 }
 
