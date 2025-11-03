@@ -119,9 +119,6 @@ def get_playlist_lyrics(playlist_url):
     _logger.info(('found tracks', len(songs)))
     lyrics = fetch_all_lyrics_concurrently(songs)
     return lyrics
-    if lyrics:
-        return {'statusCode': 200, "body": json.dumps(lyrics)}
-    return {'statusCode': 400, "body": json.dumps({"message": "Issue getting songs from playlist. Make sure the playlist is public and there are songs."})}
 
 # def main():
 #     playlist_url = 'https://open.spotify.com/playlist/1xp9QWsPelyEs1qLNBvMBe?si=96bae7b9fe654e07'
