@@ -47,19 +47,25 @@ function LandingPage() {
 	}
 
 	async function postImage() {
+		console.log("Posting image..")
 		try {
-			const response = await fetch(`${apiBaseUrl}/images`, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ id: tempID, url: "sample URL"})
-			});
-			const data = await response.json();
+			const res = await fetch(`/api/images`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ id: tempID, url: "sample URL" }),
+			})
+			// const response = await fetch(`${apiBaseUrl}/images`, {
+			// 	method: 'POST',
+			// 	headers: { 'Content-Type': 'application/json' },
+			// 	body: JSON.stringify({ id: tempID, url: "sample URL" })
+			// });
+			const data = await res.json();
 			console.log(data);
 		} catch (err) {
 			console.error(err);
 		} finally {
 			setLoading(false);
-			tempID +=1;
+			tempID += 1;
 		}
 	}
 
