@@ -44,7 +44,8 @@ function LandingPage() {
 		const res = await fetch(`${API_URL}/songs?playlist_id=${url}`);
 		console.log(res.json());
 
-		postImage();
+		// postImage();
+		//TODO this will need to be longer and we will probably need a better signal since playlist time is not constant
 		setTimeout(() => {
 			setLoading(false);
 		}, 600);
