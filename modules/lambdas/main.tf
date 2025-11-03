@@ -57,8 +57,3 @@ resource "aws_lambda_function" "this" {
     variables = var.environment
   }
 }
-
-# Output the Lambda ARN
-output "arn" {
-  value = aws_lambda_function.this.arn
-}
