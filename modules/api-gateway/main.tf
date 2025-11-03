@@ -83,11 +83,9 @@ resource "aws_api_gateway_deployment" "deployment" {
     aws_api_gateway_method.get_all,
     aws_api_gateway_method.get_by_id,
     aws_api_gateway_method.post_image,
-    aws_api_gateway_method.get_songs_with_lyrics,
     aws_api_gateway_integration.get_all_integration,
     aws_api_gateway_integration.get_by_id_integration,
     aws_api_gateway_integration.post_image_integration,
-    aws_api_gateway_integration.get_lyrics_integration,
   ]
   rest_api_id = aws_api_gateway_rest_api.api.id
 }
