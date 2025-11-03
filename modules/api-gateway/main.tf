@@ -52,7 +52,7 @@ resource "aws_api_gateway_resource" "songs" {
 resource "aws_api_gateway_method" "get_songs_with_lyrics" {
   rest_api_id   = aws_api_gateway_rest_api.api.id
   resource_id   = aws_api_gateway_resource.songs.id
-  http_method   = "POST"
+  http_method   = "GET"
   authorization = "NONE"
 }
 
@@ -78,6 +78,15 @@ resource "aws_api_gateway_integration" "post_image_integration" {
   rest_api_id             = aws_api_gateway_rest_api.api.id
   resource_id             = aws_api_gateway_resource.images.id
   http_method             = aws_api_gateway_method.post_image.http_method
+  type                    = "AWS_PROXY"
+  integration_http_method = "POST"
+  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${var.lambda_arn}/invocations"
+}
+
+resource "aws_api_gateway_integration" "get_lyrics_integration" {
+  rest_api_id             = aws_api_gateway_rest_api.api.id
+  resource_id             = aws_api_gateway_resource.songs.id
+  http_method             = aws_api_gateway_method.get_songs_with_lyrics.http_method
   type                    = "AWS_PROXY"
   integration_http_method = "POST"
   uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${var.lambda_arn}/invocations"
