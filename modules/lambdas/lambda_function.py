@@ -1,10 +1,16 @@
 import json
-import os  # Add missing import
+import os
+import traceback  # Add for better error logging
 import dynamodb
 from spotify import get_playlist_lyrics
 
 IMAGES = '/images'
 SONGS = '/songs'
+
+# Add logging
+import logging
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 ALLOWED_ORIGINS = set(
     (os.environ.get("ALLOWED_ORIGINS") or "http://localhost:3000")
@@ -23,7 +29,7 @@ def _cors_headers(origin: str | None):
         "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type,Authorization",
         "Access-Control-Allow-Credentials": credentials,
-        "Vary": "Origin",  # lets caches vary per origin
+        "Vary": "Origin",
     }
 
 def format(code: int, body=None, origin: str | None = None):
@@ -36,53 +42,85 @@ def _resp(code: int, origin: str | None, body=None):
     return out
 
 def lambda_handler(event, context):
-    headers_in = event.get("headers") or {}
-    origin = headers_in.get("origin") or headers_in.get("Origin")
-    http_method = event.get("httpMethod")
-    path = event.get("resource") or event.get("path")
-    
-    # Remove this block if API Gateway handles OPTIONS with MOCK integration
-    # Uncomment only if you're using Lambda proxy for OPTIONS
-    """
-    if http_method == "OPTIONS":
-        return format(200, origin=origin)  # Pass origin parameter
-    """
-
-    # GET /images - return all URLs
-    if http_method == "GET" and path == IMAGES:
-        return format(200, dynamodb.get_all_images(), origin=origin)
-
-    # GET /images/{id} - return URL by id
-    elif http_method == "GET" and path == IMAGES + "/{id}":
-        image_id = event['pathParameters']['id']
-        images = dynamodb.get_images(image_id)
-        if not images:
-            return format(404, {"message": "Not found"}, origin=origin)
-        return format(200, images, origin=origin)
-
-    # POST /images - add a new URL
-    elif http_method == "POST" and path == IMAGES:
-        body = json.loads(event['body'])
-        result = dynamodb.post_image(body)        
-        if result:
-            return format(201, {"message": "Image URL added"}, origin=origin)
-        return format(400, {"message": "id and url required"}, origin=origin)
-    
-    # GET /songs - get songs with their lyrics (fixed: should be GET not POST)
-    elif http_method == 'GET' and path == SONGS:
-        query_params = event.get('queryStringParameters', {})
-        playlist_url = query_params.get('playlist_id', False)
+    try:
+        # Log the incoming event for debugging
+        logger.info(f"Received event: {json.dumps(event)}")
         
-        if not playlist_url:
-            return format(400, {"message": "No Query params supplied. Need playlist_url"}, origin=origin)
+        headers_in = event.get("headers") or {}
+        origin = headers_in.get("origin") or headers_in.get("Origin")
+        http_method = event.get("httpMethod")
+        path = event.get("resource") or event.get("path")
         
-        lyrics = get_playlist_lyrics(playlist_url)
-        if lyrics:
-            return format(200, lyrics, origin=origin)
-        return format(400, {"message": "Issue getting songs from playlist. Make sure the playlist is public and there are songs."}, origin=origin)
+        logger.info(f"Method: {http_method}, Path: {path}, Origin: {origin}")
         
-    else:
-        return format(400, {"message": "Unsupported operation"}, origin=origin)
+        # API Gateway handles OPTIONS with MOCK integration, so this shouldn't be reached
+        # But if it is, handle it gracefully
+        if http_method == "OPTIONS":
+            logger.info("Handling OPTIONS request in Lambda")
+            return format(200, origin=origin)
+
+        # GET /images - return all URLs
+        if http_method == "GET" and path == IMAGES:
+            logger.info("Getting all images")
+            images = dynamodb.get_all_images()
+            return format(200, images, origin=origin)
+
+        # GET /images/{id} - return URL by id
+        elif http_method == "GET" and path == IMAGES + "/{id}":
+            image_id = event['pathParameters']['id']
+            logger.info(f"Getting image with id: {image_id}")
+            images = dynamodb.get_images(image_id)
+            if not images:
+                return format(404, {"message": "Not found"}, origin=origin)
+            return format(200, images, origin=origin)
+
+        # POST /images - add a new URL
+        elif http_method == "POST" and path == IMAGES:
+            body = json.loads(event['body'])
+            logger.info(f"Posting new image: {body}")
+            result = dynamodb.post_image(body)        
+            if result:
+                return format(201, {"message": "Image URL added"}, origin=origin)
+            return format(400, {"message": "id and url required"}, origin=origin)
+        
+        # GET /songs - get songs with their lyrics
+        elif http_method == 'GET' and path == SONGS:
+            query_params = event.get('queryStringParameters') or {}
+            playlist_url = query_params.get('playlist_id')
+            
+            logger.info(f"Getting songs for playlist: {playlist_url}")
+            
+            if not playlist_url:
+                return format(400, {"message": "No Query params supplied. Need playlist_id"}, origin=origin)
+            
+            try:
+                lyrics = get_playlist_lyrics(playlist_url)
+                logger.info(f"Retrieved lyrics: {lyrics is not None}")
+                
+                if lyrics:
+                    return format(200, lyrics, origin=origin)
+                else:
+                    return format(400, {"message": "Issue getting songs from playlist. Make sure the playlist is public and there are songs."}, origin=origin)
+            except Exception as e:
+                logger.error(f"Error getting playlist lyrics: {str(e)}")
+                logger.error(traceback.format_exc())
+                return format(500, {"message": f"Error retrieving playlist: {str(e)}"}, origin=origin)
+        
+        else:
+            logger.warning(f"Unsupported operation: {http_method} {path}")
+            return format(400, {"message": f"Unsupported operation: {http_method} {path}"}, origin=origin)
+            
+    except Exception as e:
+        # Catch any unhandled exceptions
+        logger.error(f"Unhandled exception: {str(e)}")
+        logger.error(traceback.format_exc())
+        
+        # Return a properly formatted error response
+        return {
+            "statusCode": 500,
+            "headers": _cors_headers(origin if 'origin' in locals() else None),
+            "body": json.dumps({"message": "Internal server error", "error": str(e)})
+        }
 
 def main():
     # For local testing
@@ -90,14 +128,14 @@ def main():
         "httpMethod": "GET",
         "resource": "/songs",
         "queryStringParameters": {
-            "playlist_id": "https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M"
+            "playlist_id": "0ZS0e1UXYRFxZfkBTEGnk4"
         },
         "headers": {
             "origin": "http://localhost:3000"
         }
     }
     response = lambda_handler(test_event, None)
-    print(response)
+    print(json.dumps(response, indent=2))
 
 if __name__ == "__main__":
     main()
