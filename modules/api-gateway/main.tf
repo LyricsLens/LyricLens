@@ -176,7 +176,7 @@ locals {
   cors_allow_meths = "'GET,POST,OPTIONS'"
 }
 
-resource "aws_api_gateway_gateway_response" "default_4xx" {
+rresource "aws_api_gateway_gateway_response" "default_4xx" {
   rest_api_id   = aws_api_gateway_rest_api.api.id
   response_type = "DEFAULT_4XX"
   response_parameters = {
@@ -212,14 +212,15 @@ resource "aws_lambda_permission" "api_gw_invoke" {
 # ---------- Deployment & Stage ----------
 resource "aws_api_gateway_deployment" "deployment" {
   rest_api_id = aws_api_gateway_rest_api.api.id
-
+  triggers    = { redeploy = timestamp() }
   depends_on = [
     aws_api_gateway_integration.get_all_integration,
     aws_api_gateway_integration.get_by_id_integration,
     aws_api_gateway_integration.post_image_integration,
     aws_api_gateway_integration.get_lyrics_integration,
-    aws_api_gateway_integration.images_options,
     aws_api_gateway_integration.songs_options,
+    aws_api_gateway_method_response.songs_options_200,
+    aws_api_gateway_integration_response.songs_options_200,
     aws_api_gateway_gateway_response.default_4xx,
     aws_api_gateway_gateway_response.default_5xx,
   ]
