@@ -213,6 +213,9 @@ resource "aws_lambda_permission" "api_gw_invoke" {
 resource "aws_api_gateway_deployment" "deployment" {
   rest_api_id = aws_api_gateway_rest_api.api.id
   triggers    = { redeploy = timestamp() }
+  lifecycle {
+    create_before_destroy = true
+  }
   depends_on = [
     aws_api_gateway_integration.get_all_integration,
     aws_api_gateway_integration.get_by_id_integration,
@@ -230,4 +233,7 @@ resource "aws_api_gateway_stage" "dev" {
   stage_name    = var.stage_name
   rest_api_id   = aws_api_gateway_rest_api.api.id
   deployment_id = aws_api_gateway_deployment.deployment.id
+  depends_on = [
+    aws_api_gateway_deployment.deployment
+  ]
 }
