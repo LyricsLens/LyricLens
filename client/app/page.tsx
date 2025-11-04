@@ -13,7 +13,7 @@ function LandingPage() {
 	const [x, setX] = useState(50);
 	const [y, setY] = useState(50);
 	const [error, setError] = useState<string | null>(null);
-	const API_URL = "https://r1r2suamba.execute-api.us-east-1.amazonaws.com/dev";
+	const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 	useEffect(() => {
 		const interval = setInterval(() => {
