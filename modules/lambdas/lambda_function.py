@@ -8,7 +8,7 @@ SONGS = '/songs'
 CORS_HEADERS = {
     "Access-Control-Allow-Origin": "*",  # or set to your S3 URL for security
     "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type"
+    "Access-Control-Allow-Headers": "Content-Type"  
 }
 
 def format(code: int, body = None):
@@ -52,7 +52,8 @@ def lambda_handler(event, context):
     # POST /songs - get songs with their lyrics
     elif http_method == 'GET' and path == SONGS:
         query_params = event.get('queryStringParameters', {})
-        playlist_url = query_params.get('playlist_id', False)
+        # playlist_url = query_params.get('playlist_id', False)
+        playlist_url = '5Ez74MIoh4pOSLFXhpwKdr'
         lyrics = get_playlist_lyrics(playlist_url)
         if not playlist_url:
             return format(400, {"message": "No Query params supplied. Need playlist_url"})

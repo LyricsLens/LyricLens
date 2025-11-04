@@ -30,7 +30,7 @@ def get_playlist_tracks(playlist_id):
     auth_manager = SpotifyClientCredentials(
         client_id=CLIENT_ID, 
         client_secret=CLIENT_SECRET,     
-        cache_handler=spotipy.cache_handler.CacheFileHandler(cache_path="/tmp/.cache-spotify")
+        # cache_handler=spotipy.cache_handler.CacheFileHandler(cache_path="/tmp/.cache-spotify")
     )   
     sp = spotipy.Spotify(auth_manager=auth_manager)
 
@@ -74,7 +74,7 @@ def fetch_lyrics(song_title, artist_name):
         song_path = hits[0]["result"]["path"]
         song_url = f"https://genius.com{song_path}"
 
-        page = requests.get(song_url, timeout=10)
+        page = requests.get(song_url, timeout=10, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
         soup = BeautifulSoup(page.text, "html.parser")
         lyrics_div = soup.find_all("div", {"data-lyrics-container": "true"})[0]
         if not lyrics_div:
@@ -123,8 +123,8 @@ def get_playlist_lyrics(playlist_id):
     _logger.info(('found tracks', len(songs)))
     # with open('playlist_results_example.json', 'r', encoding='utf-8') as file:
     #     lyrics = json.loads(file.read())['body']
-    # lyrics = fetch_all_lyrics_concurrently(songs)
-    return songs
+    lyrics = fetch_all_lyrics_concurrently(songs)
+    return lyrics
 
 def main():
     # playlist_url = 'https://open.spotify.com/playlist/5Ez74MIoh4pOSLFXhpwKdr'
