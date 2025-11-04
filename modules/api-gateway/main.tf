@@ -149,6 +149,7 @@ resource "aws_api_gateway_stage" "dev" {
   deployment_id = aws_api_gateway_deployment.deployment.id
 }
 
+# Allowed origins — pass var.allowed_origins from root
 locals {
   cors_origin      = join(",", var.allowed_origins)         # e.g. http://localhost:3000,http://lyriclens-...s3-website...
   cors_allow_hdrs  = "Content-Type,Authorization"
@@ -157,7 +158,7 @@ locals {
 
 # CORS on API Gateway-generated 4XX
 resource "aws_api_gateway_gateway_response" "default_4xx" {
-  rest_api_id    = aws_api_gateway_rest_api.this.id
+  rest_api_id    = aws_api_gateway_rest_api.api.id
   response_type  = "DEFAULT_4XX"
   response_parameters = {
     "gatewayresponse.header.Access-Control-Allow-Origin"      = "'${local.cors_origin}'"
@@ -170,7 +171,7 @@ resource "aws_api_gateway_gateway_response" "default_4xx" {
 
 # CORS on API Gateway-generated 5XX
 resource "aws_api_gateway_gateway_response" "default_5xx" {
-  rest_api_id    = aws_api_gateway_rest_api.this.id
+  rest_api_id    = aws_api_gateway_rest_api.api.id
   response_type  = "DEFAULT_5XX"
   response_parameters = {
     "gatewayresponse.header.Access-Control-Allow-Origin"      = "'${local.cors_origin}'"
