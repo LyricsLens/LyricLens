@@ -21,21 +21,39 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Zip Lambda function
-        shell: bash
-        run: |
-          cd modules/lambdas
-          pip install --target ./package -r requirements.txt
-          zip -r lambda_function.zip lambda_function.py dynamodb.py spotify.py playlist_results_example.json package
-          cd package
-          zip -r ../lambda_function.zip .
-          cd ..
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
+
+      - name: Zip Lambda function
+        shell: bash
+        run: |
+          cd modules/lambdas
+
+          # Clean start
+          rm -rf package lambda_function.zip
+          mkdir package
+
+          # Install dependencies FIRST
+          pip install --target ./package -r requirements.txt
+
+          # Copy Python files TO package
+          cp *.py package/
+          cp *.json package/ 2>/dev/null || true
+
+          # Zip FROM INSIDE package
+          cd package
+          zip -r ../lambda_function.zip .
+          cd ..
+
+          # Update Lambda
+          aws lambda update-function-code \
+            --function-name lyric-lens-handler \
+            --zip-file fileb://lambda_function.zip \
+            --region us-east-1
 
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v3
