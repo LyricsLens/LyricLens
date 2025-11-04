@@ -150,19 +150,33 @@ resource "aws_api_gateway_stage" "dev" {
 }
 
 locals {
-  cors_headers = {
-    "method.response.header.Access-Control-Allow-Origin"      = true
-    "method.response.header.Access-Control-Allow-Headers"     = true
-    "method.response.header.Access-Control-Allow-Methods"     = true
-    "method.response.header.Access-Control-Allow-Credentials" = true
-    "method.response.header.Vary"                             = true
-  }
+  cors_origin      = join(",", var.allowed_origins)         # e.g. http://localhost:3000,http://lyriclens-...s3-website...
+  cors_allow_hdrs  = "Content-Type,Authorization"
+  cors_allow_meths = "GET,POST,OPTIONS"
+}
 
-  cors_integration_headers = {
-    "method.response.header.Access-Control-Allow-Origin"      = "'${join(",", var.allowed_origins)}'"
-    "method.response.header.Access-Control-Allow-Headers"     = "'Content-Type,Authorization'"
-    "method.response.header.Access-Control-Allow-Methods"     = "'GET,POST,OPTIONS'"
-    "method.response.header.Access-Control-Allow-Credentials" = "'true'"
-    "method.response.header.Vary"                             = "'Origin'"
+# CORS on API Gateway-generated 4XX
+resource "aws_api_gateway_gateway_response" "default_4xx" {
+  rest_api_id    = aws_api_gateway_rest_api.this.id
+  response_type  = "DEFAULT_4XX"
+  response_parameters = {
+    "gatewayresponse.header.Access-Control-Allow-Origin"      = "'${local.cors_origin}'"
+    "gatewayresponse.header.Access-Control-Allow-Headers"     = "'${local.cors_allow_hdrs}'"
+    "gatewayresponse.header.Access-Control-Allow-Methods"     = "'${local.cors_allow_meths}'"
+    "gatewayresponse.header.Access-Control-Allow-Credentials" = "'true'"
+    "gatewayresponse.header.Vary"                             = "'Origin'"
+  }
+}
+
+# CORS on API Gateway-generated 5XX
+resource "aws_api_gateway_gateway_response" "default_5xx" {
+  rest_api_id    = aws_api_gateway_rest_api.this.id
+  response_type  = "DEFAULT_5XX"
+  response_parameters = {
+    "gatewayresponse.header.Access-Control-Allow-Origin"      = "'${local.cors_origin}'"
+    "gatewayresponse.header.Access-Control-Allow-Headers"     = "'${local.cors_allow_hdrs}'"
+    "gatewayresponse.header.Access-Control-Allow-Methods"     = "'${local.cors_allow_meths}'"
+    "gatewayresponse.header.Access-Control-Allow-Credentials" = "'true'"
+    "gatewayresponse.header.Vary"                             = "'Origin'"
   }
 }
