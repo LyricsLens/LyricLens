@@ -7,6 +7,12 @@ module "s3-website" {
   bucket_base = var.bucket_base
   index_html  = var.index_html
 }
+resource "aws_s3_account_public_access_block" "this" {
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
 module "dynamodb" {
   source        = "./modules/dynamodb"
   hash_key      = "id"
