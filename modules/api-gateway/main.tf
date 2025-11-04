@@ -117,6 +117,21 @@ resource "aws_api_gateway_method_response" "songs_options_200" {
   }
 }
 
+# IMPORTANT: use ONE origin or '*' (not a comma list). If '*', credentials must be false.
+resource "aws_api_gateway_integration_response" "songs_options_200" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  resource_id = aws_api_gateway_resource.songs.id
+  http_method = aws_api_gateway_method.songs_options.http_method
+  status_code = "200"
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin"      = "'*'"
+    "method.response.header.Access-Control-Allow-Headers"     = "'Content-Type,Authorization'"
+    "method.response.header.Access-Control-Allow-Methods"     = "'GET,POST,OPTIONS'"
+    "method.response.header.Access-Control-Allow-Credentials" = "'false'"
+    "method.response.header.Vary"                             = "'Origin'"
+  }
+}
+
 # ---------- Lambda proxy integrations ----------
 resource "aws_api_gateway_integration" "get_all_integration" {
   rest_api_id             = aws_api_gateway_rest_api.api.id
@@ -165,10 +180,10 @@ resource "aws_api_gateway_gateway_response" "default_4xx" {
   rest_api_id   = aws_api_gateway_rest_api.api.id
   response_type = "DEFAULT_4XX"
   response_parameters = {
-    "gatewayresponse.header.Access-Control-Allow-Origin"      = local.cors_origin
-    "gatewayresponse.header.Access-Control-Allow-Headers"     = local.cors_allow_hdrs
-    "gatewayresponse.header.Access-Control-Allow-Methods"     = local.cors_allow_meths
-    "gatewayresponse.header.Access-Control-Allow-Credentials" = "'true'"
+    "gatewayresponse.header.Access-Control-Allow-Origin"      = "'*'"
+    "gatewayresponse.header.Access-Control-Allow-Headers"     = "'Content-Type,Authorization'"
+    "gatewayresponse.header.Access-Control-Allow-Methods"     = "'GET,POST,OPTIONS'"
+    "gatewayresponse.header.Access-Control-Allow-Credentials" = "'false'"
     "gatewayresponse.header.Vary"                             = "'Origin'"
   }
 }
@@ -177,10 +192,10 @@ resource "aws_api_gateway_gateway_response" "default_5xx" {
   rest_api_id   = aws_api_gateway_rest_api.api.id
   response_type = "DEFAULT_5XX"
   response_parameters = {
-    "gatewayresponse.header.Access-Control-Allow-Origin"      = local.cors_origin
-    "gatewayresponse.header.Access-Control-Allow-Headers"     = local.cors_allow_hdrs
-    "gatewayresponse.header.Access-Control-Allow-Methods"     = local.cors_allow_meths
-    "gatewayresponse.header.Access-Control-Allow-Credentials" = "'true'"
+    "gatewayresponse.header.Access-Control-Allow-Origin"      = "'*'"
+    "gatewayresponse.header.Access-Control-Allow-Headers"     = "'Content-Type,Authorization'"
+    "gatewayresponse.header.Access-Control-Allow-Methods"     = "'GET,POST,OPTIONS'"
+    "gatewayresponse.header.Access-Control-Allow-Credentials" = "'false'"
     "gatewayresponse.header.Vary"                             = "'Origin'"
   }
 }
