@@ -2,7 +2,7 @@ import json
 import os
 import traceback  # Add for better error logging
 import dynamodb
-from spotify import get_playlist_lyrics
+from spotify import get_playlist_lyrics_async
 
 IMAGES = '/images'
 SONGS = '/songs'
@@ -94,7 +94,7 @@ def lambda_handler(event, context):
                 return format(400, {"message": "No Query params supplied. Need playlist_id"}, origin=origin)
             
             try:
-                lyrics = get_playlist_lyrics(playlist_url)
+                lyrics = get_playlist_lyrics_async(playlist_url)
                 logger.info(f"Retrieved lyrics: {lyrics is not None}")
                 
                 if lyrics:
