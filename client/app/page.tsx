@@ -31,6 +31,7 @@ function LandingPage() {
 	}
 
 	async function handleAnalyze() {
+		setSongs([]);
 		setError(null);
 
 		// if (!validateSpotifyUrl(url)) {
