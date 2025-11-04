@@ -176,7 +176,7 @@ locals {
   cors_allow_meths = "'GET,POST,OPTIONS'"
 }
 
-rresource "aws_api_gateway_gateway_response" "default_4xx" {
+resource "aws_api_gateway_gateway_response" "default_4xx" {
   rest_api_id   = aws_api_gateway_rest_api.api.id
   response_type = "DEFAULT_4XX"
   response_parameters = {
