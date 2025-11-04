@@ -13,7 +13,7 @@ function LandingPage() {
 	const [x, setX] = useState(50);
 	const [y, setY] = useState(50);
 	const [error, setError] = useState<string | null>(null);
-	const API_URL = process.env.NEXT_PUBLIC_API_URL;
+	const API_URL = "https://uoag8e93g9.execute-api.us-east-1.amazonaws.com/dev";
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -43,7 +43,7 @@ function LandingPage() {
 
 		const res = await fetch(`${API_URL}/songs?playlist_id=${url}`);
 		const data = await res.json();
-		setSongs(data.songs)
+		setSongs(data)
 
 		// postImage();
 		//TODO this will need to be longer and we will probably need a better signal since playlist time is not constant
