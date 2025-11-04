@@ -1,3 +1,4 @@
+# api-gateway/variables.tf
 variable "api_name" {
   type        = string
   description = "Name of the API Gateway REST API"
