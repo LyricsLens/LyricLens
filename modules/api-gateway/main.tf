@@ -49,6 +49,13 @@ resource "aws_api_gateway_resource" "songs" {
   path_part   = var.songs_path
 }
 
+resource "aws_api_gateway_method" "song_options" {
+  rest_api_id   = aws_api_gateway_rest_api.api.id 
+  resource_id   = aws_api_gateway_resource.songs.id
+  http_method   = "OPTIONS"
+  authorization = "NONE"
+}
+
 # GET /songs
 resource "aws_api_gateway_method" "get_songs_with_lyrics" {
   rest_api_id   = aws_api_gateway_rest_api.api.id
@@ -93,6 +100,74 @@ resource "aws_api_gateway_integration" "get_lyrics_integration" {
   uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${var.lambda_arn}/invocations"
 }
 
+resource "aws_api_gateway_integration" "songs_options" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  resource_id = aws_api_gateway_resource.songs.id
+  http_method = aws_api_gateway_method.songs_options.http_method
+  type        = "MOCK"
+  request_templates = { "application/json" = "{\"statusCode\": 200}" }
+}
+
+resource "aws_api_gateway_method" "images_options" {
+  rest_api_id   = aws_api_gateway_rest_api.api.id
+  resource_id   = aws_api_gateway_resource.images.id
+  http_method   = "OPTIONS"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "images_options" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  resource_id = aws_api_gateway_resource.images.id
+  http_method = aws_api_gateway_method.images_options.http_method
+  type        = "MOCK"
+  request_templates = { "application/json" = "{\"statusCode\": 200}" }
+}
+
+
+resource "aws_api_gateway_method_response" "songs_options_200" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  resource_id = aws_api_gateway_resource.songs.id
+  http_method = aws_api_gateway_method.songs_options.http_method
+  status_code = "200"
+  response_models = { "application/json" = "Empty" }
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin"      = true
+    "method.response.header.Access-Control-Allow-Headers"     = true
+    "method.response.header.Access-Control-Allow-Methods"     = true
+    "method.response.header.Access-Control-Allow-Credentials" = true
+    "method.response.header.Vary"                             = true
+  }
+}
+
+resource "aws_api_gateway_method_response" "images_options_200" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  resource_id = aws_api_gateway_resource.images.id
+  http_method = aws_api_gateway_method.images_options.http_method
+  status_code = "200"
+  response_models = { "application/json" = "Empty" }
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin"      = true
+    "method.response.header.Access-Control-Allow-Headers"     = true
+    "method.response.header.Access-Control-Allow-Methods"     = true
+    "method.response.header.Access-Control-Allow-Credentials" = true
+    "method.response.header.Vary"                             = true
+  }
+}
+
+resource "aws_api_gateway_integration_response" "images_options_200" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  resource_id = aws_api_gateway_resource.images.id
+  http_method = aws_api_gateway_method.images_options.http_method
+  status_code = "200"
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin"      = local.cors_origin
+    "method.response.header.Access-Control-Allow-Headers"     = local.cors_allow_hdrs
+    "method.response.header.Access-Control-Allow-Methods"     = local.cors_allow_meths
+    "method.response.header.Access-Control-Allow-Credentials" = "'true'"
+    "method.response.header.Vary"                             = "'Origin'"
+  }
+}
+
 resource "aws_lambda_permission" "api_gw_invoke" {
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
@@ -129,6 +204,8 @@ resource "aws_api_gateway_account" "account" {
 }
 # Deployment
 resource "aws_api_gateway_deployment" "deployment" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  triggers = { redeploy = timestamp() }
   depends_on = [
     aws_api_gateway_method.get_all,
     aws_api_gateway_method.get_by_id,
@@ -138,8 +215,11 @@ resource "aws_api_gateway_deployment" "deployment" {
     aws_api_gateway_integration.get_by_id_integration,
     aws_api_gateway_integration.post_image_integration,
     aws_api_gateway_integration.get_lyrics_integration,
+    aws_api_gateway_integration.songs_options,
+    aws_api_gateway_integration.images_options,
+    aws_api_gateway_gateway_response.default_4xx,
+    aws_api_gateway_gateway_response.default_5xx,
   ]
-  rest_api_id = aws_api_gateway_rest_api.api.id
 }
 
 # Stage
@@ -151,9 +231,9 @@ resource "aws_api_gateway_stage" "dev" {
 
 # Allowed origins — pass var.allowed_origins from root
 locals {
-  cors_origin      = join(",", var.allowed_origins)         # e.g. http://localhost:3000,http://lyriclens-...s3-website...
-  cors_allow_hdrs  = "Content-Type,Authorization"
-  cors_allow_meths = "GET,POST,OPTIONS"
+  cors_origin      = "'${join(",", var.allowed_origins)}'"
+  cors_allow_hdrs  = "'Content-Type,Authorization'"
+  cors_allow_meths = "'GET,POST,OPTIONS'"
 }
 
 # CORS on API Gateway-generated 4XX
@@ -179,5 +259,19 @@ resource "aws_api_gateway_gateway_response" "default_5xx" {
     "gatewayresponse.header.Access-Control-Allow-Methods"     = "'${local.cors_allow_meths}'"
     "gatewayresponse.header.Access-Control-Allow-Credentials" = "'true'"
     "gatewayresponse.header.Vary"                             = "'Origin'"
+  }
+}
+
+resource "aws_api_gateway_integration_response" "songs_options_200" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  resource_id = aws_api_gateway_resource.songs.id
+  http_method = aws_api_gateway_method.songs_options.http_method
+  status_code = "200"
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin"      = local.cors_origin
+    "method.response.header.Access-Control-Allow-Headers"     = local.cors_allow_hdrs
+    "method.response.header.Access-Control-Allow-Methods"     = local.cors_allow_meths
+    "method.response.header.Access-Control-Allow-Credentials" = "'true'"
+    "method.response.header.Vary"                             = "'Origin'"
   }
 }
