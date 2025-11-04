@@ -19,7 +19,11 @@ module "lambda" {
   handler       = "lambda_function.lambda_handler"
   runtime       = "python3.11"
   environment = {
-    TABLE_NAME = module.dynamodb.table_name
+    TABLE_NAME = module.dynamodb.table_name,
+    ALLOWED_ORIGINS = join(",", [
+      "http://localhost:3000",
+      "http://${module.s3-website.website_endpoint}",
+    ])
   }
   dynamodb_table_arn = module.dynamodb.table_arn
 }

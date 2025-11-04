@@ -5,31 +5,35 @@ from spotify import get_playlist_lyrics
 IMAGES = '/images'
 SONGS = '/songs'
 
-ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    
-]
+ALLOWED_ORIGINS = set(
+    (os.environ.get("ALLOWED_ORIGINS") or "http://localhost:3000")
+    .split(",")
+)
 
-CORS_HEADERS = {
-    "Access-Control-Allow-Origin": "*",  # or set to your S3 URL for security
-    "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type"
-}
-
-def format(code: int, body = None):
-    result = {
-        "statusCode": code,
-        "headers": CORS_HEADERS,
+def _cors_headers(origin: str | None):
+    allow_origin = origin if origin in ALLOWED_ORIGINS else (next(iter(ALLOWED_ORIGINS)) if ALLOWED_ORIGINS else "*")
+    return {
+        "Access-Control-Allow-Origin": allow_origin,
+        "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type,Authorization",
+        "Access-Control-Allow-Credentials": "true",
+        "Vary": "Origin",  # lets caches vary per origin
     }
 
-    if body:
-        result['body'] = json.dumps(body)
+def format(code: int, body=None, origin: str | None = None):
+    return _resp(code, origin, body)
 
-    return result
+def _resp(code: int, origin: str | None, body=None):
+    out = {"statusCode": code, "headers": _cors_headers(origin)}
+    if body is not None:
+        out["body"] = json.dumps(body)
+    return out
 
 def lambda_handler(event, context):
-    http_method = event['httpMethod']
-    path = event['resource']
+    headers_in = event.get("headers") or {}
+    origin     = headers_in.get("origin") or headers_in.get("Origin")
+    http_method = event.get("httpMethod")
+    path        = event.get("resource") or event.get("path")
 
     if http_method == "OPTIONS":
         return format(200)
