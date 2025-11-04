@@ -13,7 +13,6 @@ function LandingPage() {
 	const [x, setX] = useState(50);
 	const [y, setY] = useState(50);
 	const [error, setError] = useState<string | null>(null);
-	const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -42,9 +41,20 @@ function LandingPage() {
 		setLoading(true);
 		// --- bing bong the logic goes here ---
 
-		const res = await fetch(`${API_URL}/songs?playlist_id=${url}`);
+		const res = await fetch(`/api/songs`, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ playlist_id: url }),
+		});
+
+		if (!res.ok) {
+			setError("Failed to fetch songs. Please try again.");
+			setLoading(false);
+			return;
+		}
+
 		const data = await res.json();
-		setSongs(data)
+		setSongs(data.songs);
 
 		// postImage();
 		//TODO this will need to be longer and we will probably need a better signal since playlist time is not constant
