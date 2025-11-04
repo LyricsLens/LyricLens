@@ -5,6 +5,11 @@ from spotify import get_playlist_lyrics
 IMAGES = '/images'
 SONGS = '/songs'
 
+ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    
+]
+
 CORS_HEADERS = {
     "Access-Control-Allow-Origin": "*",  # or set to your S3 URL for security
     "Access-Control-Allow-Methods": "GET,POST,OPTIONS",

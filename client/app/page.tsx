@@ -13,7 +13,7 @@ function LandingPage() {
 	const [x, setX] = useState(50);
 	const [y, setY] = useState(50);
 	const [error, setError] = useState<string | null>(null);
-	const API_URL = process.env.NEXT_PUBLIC_API_URL;
+	const API_URL = "https://r1r2suamba.execute-api.us-east-1.amazonaws.com/dev";
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -42,22 +42,7 @@ function LandingPage() {
 		setLoading(true);
 		// --- bing bong the logic goes here ---
 
-		// const res = await fetch(`${API_URL}/songs?playlist_id=${url}`);
-
-		// if (!res.ok) {
-		// 	setError("Failed to fetch songs. Please check the playlist URL and try again.");
-		// 	setLoading(false);
-		// 	return;
-		// }
-
-		// const data = await res.json();
-		// setSongs(data)
-
-		const res = await fetch(`/api/songs`, {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ playlist_id: url, API_URL }),
-		})
+		const res = await fetch(`${API_URL}/songs?playlist_id=${url}`);
 
 		if (!res.ok) {
 			setError("Failed to fetch songs. Please check the playlist URL and try again.");

@@ -148,3 +148,21 @@ resource "aws_api_gateway_stage" "dev" {
   rest_api_id   = aws_api_gateway_rest_api.api.id
   deployment_id = aws_api_gateway_deployment.deployment.id
 }
+
+locals {
+  cors_headers = {
+    "method.response.header.Access-Control-Allow-Origin"      = true
+    "method.response.header.Access-Control-Allow-Headers"     = true
+    "method.response.header.Access-Control-Allow-Methods"     = true
+    "method.response.header.Access-Control-Allow-Credentials" = true
+    "method.response.header.Vary"                             = true
+  }
+
+  cors_integration_headers = {
+    "method.response.header.Access-Control-Allow-Origin"      = "'${join(",", var.allowed_origins)}'"
+    "method.response.header.Access-Control-Allow-Headers"     = "'Content-Type,Authorization'"
+    "method.response.header.Access-Control-Allow-Methods"     = "'GET,POST,OPTIONS'"
+    "method.response.header.Access-Control-Allow-Credentials" = "'true'"
+    "method.response.header.Vary"                             = "'Origin'"
+  }
+}

@@ -30,8 +30,13 @@ module "api-gateway" {
   stage_name  = "dev"
   lambda_arn  = module.lambda.arn
   aws_region = var.aws_region
-}
 
+  songs_path = "songs"
+  allowed_origins  = [
+    "http://localhost:3000",
+    "http://${module.s3-website.website_endpoint}",
+  ]
+}
 
 terraform {
   required_version = ">= 1.11.0"

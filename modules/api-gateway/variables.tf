@@ -31,3 +31,9 @@ variable "lambda_arn" {
   description = "ARN of the Lambda function to integrate with API Gateway"
   type        = string
 }
+
+variable "allowed_origins" {
+  type       = list(string)
+  description = "List of allowed origins for CORS"
+  default     = ["http://localhost:3000"]
+}
