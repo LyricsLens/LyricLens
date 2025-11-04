@@ -42,7 +42,22 @@ function LandingPage() {
 		setLoading(true);
 		// --- bing bong the logic goes here ---
 
-		const res = await fetch(`${API_URL}/songs?playlist_id=${url}`);
+		// const res = await fetch(`${API_URL}/songs?playlist_id=${url}`);
+
+		// if (!res.ok) {
+		// 	setError("Failed to fetch songs. Please check the playlist URL and try again.");
+		// 	setLoading(false);
+		// 	return;
+		// }
+
+		// const data = await res.json();
+		// setSongs(data)
+
+		const res = await fetch(`/api/songs`, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ playlist_id: url }),
+		})
 
 		if (!res.ok) {
 			setError("Failed to fetch songs. Please check the playlist URL and try again.");
@@ -51,7 +66,7 @@ function LandingPage() {
 		}
 
 		const data = await res.json();
-		setSongs(data)
+		setSongs(data);
 
 		// postImage();
 		//TODO this will need to be longer and we will probably need a better signal since playlist time is not constant
