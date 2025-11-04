@@ -112,3 +112,21 @@ def lambda_handler(event, context):
 
 #     else:
 #         return {"statusCode": 400, "headers": CORS_HEADERS, "body": json.dumps({"message": "Unsupported operation"})}
+
+def main():
+    # For local testing
+    test_event = {
+        "httpMethod": "GET",
+        "resource": "/songs",
+        "queryStringParameters": {
+            "playlist_id": "https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M"
+        },
+        "headers": {
+            "origin": "http://localhost:3000"
+        }
+    }
+    response = lambda_handler(test_event, None)
+    print(response)
+
+if __name__ == "__main__":
+    main()

@@ -3,3 +3,4 @@ bs4
 spotipy
 asyncio
 aiohttp
+boto3
