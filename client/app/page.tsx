@@ -56,7 +56,7 @@ function LandingPage() {
 		const res = await fetch(`/api/songs`, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ playlist_id: url }),
+			body: JSON.stringify({ playlist_id: url, API_URL }),
 		})
 
 		if (!res.ok) {
