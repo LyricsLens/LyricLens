@@ -15,7 +15,6 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "LyricLens",
   description: "Turn any Spotify playlist into awesomeness",
-  openGraph: {}
 };
 
 export default function RootLayout({
