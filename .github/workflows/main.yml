@@ -49,11 +49,10 @@ jobs:
           zip -r ../lambda_function.zip .
           cd ..
 
-          # Update Lambda
-          aws lambda update-function-code \
-            --function-name lyric-lens-handler \
-            --zip-file fileb://lambda_function.zip \
-            --region us-east-1
+          echo "Lambda package created successfully"
+          echo "Package size: $(ls -lh lambda_function.zip | awk '{print $5}')"
+          echo "Package contents (first 20 files):"
+          unzip -l lambda_function.zip | head -20
 
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v3
@@ -141,7 +140,12 @@ jobs:
           GENIUS_TOKEN: ${{secrets.GENIUS_TOKEN}}
           SPOTIFY_CLIENT_ID: ${{secrets.SPOTIFY_CLIENT_ID}}
           SPOTIFY_CLIENT_SECRET: ${{secrets.SPOTIFY_CLIENT_SECRET}}
-        run: terraform apply -auto-approve -input=false tfplan || terraform apply -auto-approve -input=false
+        run: |
+          if [ -f tfplan ]; then
+            terraform apply -auto-approve -input=false tfplan
+          else
+            terraform apply -auto-approve -input=false
+          fi
 
       - name: Get API URL & Website Bucket
         if: ${{ github.event.inputs.action == 'apply' }}
