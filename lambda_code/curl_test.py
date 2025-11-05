@@ -7,3 +7,6 @@ if __name__ == '__main__':
 # https://open.spotify.com/playlist/5Ez74MIoh4pOSLFXhpwKdr?si=DWZs4p9RQwK3gA050AX9Ig&pi=u-SO_Jbus3TK2f
     print(res)
     print(res.content)
+
+
+    print

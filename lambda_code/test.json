@@ -1,0 +1,2782 @@
+{
+    "props": {
+        "pageProps": {
+            "analyticsData": {
+                "credits_showed": 1,
+                "has_structure": 0,
+                "lv_shown": 0,
+                "lyrics_abstrack": 11300086,
+                "lyrics_artist_id": 105806,
+                "lyrics_artist_name": "Josephine Foster",
+                "lyrics_name": "Child of God",
+                "lyrics_showed": 1,
+                "original_language": "en",
+                "translation_showed": 0,
+                "verified_lyrics": "curator",
+                "is_pre_release": 0
+            },
+            "auth": {
+                "appId": "mxm-com-v1.0",
+                "hasAuthCookie": false,
+                "hasError": false,
+                "user": null,
+                "userToken": null
+            },
+            "data": {
+                "footer": {
+                    "data": {
+                        "allMxmComFooters": [
+                            {
+                                "title": "Products",
+                                "items": [
+                                    {
+                                        "name": "For music creators",
+                                        "href": "https://t.musixmatch.com/webfootercreatorspro",
+                                        "__typename": "FooterItemRecord"
+                                    },
+                                    {
+                                        "name": "For publishers",
+                                        "href": "https://t.musixmatch.com/webfooterpubs",
+                                        "__typename": "FooterItemRecord"
+                                    },
+                                    {
+                                        "name": "For partners",
+                                        "href": "https://about.musixmatch.com/business/overview",
+                                        "__typename": "FooterItemRecord"
+                                    },
+                                    {
+                                        "name": "For the community",
+                                        "href": "https://about.musixmatch.com/apps",
+                                        "__typename": "FooterItemRecord"
+                                    },
+                                    {
+                                        "name": "For developers",
+                                        "href": "https://t.musixmatch.com/developers",
+                                        "__typename": "FooterItemRecord"
+                                    },
+                                    {
+                                        "name": "Podcasts transcriptions",
+                                        "href": "https://www.musixmatch.com/landing/en/transcription",
+                                        "__typename": "FooterItemRecord"
+                                    },
+                                    {
+                                        "name": "Discover lyrics",
+                                        "href": "/discover",
+                                        "__typename": "FooterItemRecord"
+                                    }
+                                ],
+                                "__typename": "MxmComFooterRecord"
+                            },
+                            {
+                                "title": "Company",
+                                "items": [
+                                    {
+                                        "name": "Overview",
+                                        "href": "https://musixmatch.com/",
+                                        "__typename": "FooterItemRecord"
+                                    },
+                                    {
+                                        "name": "About us",
+                                        "href": "https://about.musixmatch.com",
+                                        "__typename": "FooterItemRecord"
+                                    },
+                                    {
+                                        "name": "People",
+                                        "href": "https://about.musixmatch.com/people",
+                                        "__typename": "FooterItemRecord"
+                                    },
+                                    {
+                                        "name": "Press",
+                                        "href": "https://about.musixmatch.com/press",
+                                        "__typename": "FooterItemRecord"
+                                    },
+                                    {
+                                        "name": "Contacts",
+                                        "href": "https://about.musixmatch.com/contact",
+                                        "__typename": "FooterItemRecord"
+                                    },
+                                    {
+                                        "name": "Blog",
+                                        "href": "https://blog.musixmatch.com/",
+                                        "__typename": "FooterItemRecord"
+                                    }
+                                ],
+                                "__typename": "MxmComFooterRecord"
+                            },
+                            {
+                                "title": "Community",
+                                "items": [
+                                    {
+                                        "name": "Overview",
+                                        "href": "https://community.musixmatch.com/",
+                                        "__typename": "FooterItemRecord"
+                                    },
+                                    {
+                                        "name": "Guidelines",
+                                        "href": "https://community.musixmatch.com/guidelines",
+                                        "__typename": "FooterItemRecord"
+                                    },
+                                    {
+                                        "name": "Become a Curator",
+                                        "href": "https://community.musixmatch.com/become-a-curator",
+                                        "__typename": "FooterItemRecord"
+                                    },
+                                    {
+                                        "name": "Help Center",
+                                        "href": "https://support.musixmatch.com/",
+                                        "__typename": "FooterItemRecord"
+                                    },
+                                    {
+                                        "name": "Ask the Community",
+                                        "href": "https://support.musixmatch.com/article/115-im-a-user-how-do-i-contact-other-members-of-the-musixmatch-community",
+                                        "__typename": "FooterItemRecord"
+                                    },
+                                    {
+                                        "name": "Community Blog",
+                                        "href": "https://community.musixmatch.com/blog",
+                                        "__typename": "FooterItemRecord"
+                                    }
+                                ],
+                                "__typename": "MxmComFooterRecord"
+                            }
+                        ]
+                    }
+                },
+                "albumGet": {
+                    "data": {
+                        "artistId": 105806,
+                        "artistName": "Josephine Foster",
+                        "coverImage": "https://s.mxmcdn.net/images-storage/albums/0/8/9/3/4/2/14243980.jpg",
+                        "coverImage500x500": "https://s.mxmcdn.net/images-storage/albums/0/8/9/3/4/2/14243980_500_500.jpg",
+                        "externalIds": {
+                            "spotify": [
+                                "2ET5xeYvDkj4OqqfB4zro5",
+                                "48YtwQSedoo64TsVzGQv2O",
+                                "5uhQaS9OcvqFP0LDN2hk7x"
+                            ],
+                            "itunes": [
+                                "553474511",
+                                "1216837100"
+                            ],
+                            "amazon_music": [],
+                            "7digital": []
+                        },
+                        "id": 14246996,
+                        "isPreRelease": false,
+                        "name": "Blood Rushing",
+                        "releaseDate": 1347840000000,
+                        "releaseType": "album",
+                        "trackCount": 10,
+                        "trackList": [
+                            {
+                                "albumId": 14246996,
+                                "albumName": "Blood Rushing",
+                                "albumVanityId": "Josephine-Foster/Blood-Rushing",
+                                "artistId": 105806,
+                                "artistName": "Josephine Foster",
+                                "artists": [
+                                    {
+                                        "aliases": [],
+                                        "externalIds": {
+                                            "itunes": [
+                                                "65704045"
+                                            ],
+                                            "spotify": [
+                                                "1fVyf1LbeIEE4DUT4dZhHL"
+                                            ]
+                                        },
+                                        "genres": [
+                                            {
+                                                "id": 10,
+                                                "name": "Singer/Songwriter",
+                                                "vanity_id": "Singer-Songwriter"
+                                            }
+                                        ],
+                                        "id": 105806,
+                                        "image": "https://static.musixmatch.com/images-storage/mxmimages/6/3/3/1/1/2/211336_2.jpg",
+                                        "imageCopyright": "",
+                                        "isVerified": true,
+                                        "name": "Josephine Foster",
+                                        "vanityId": "Josephine-Foster",
+                                        "websiteUrl": "https://www.josephinefoster.info/"
+                                    }
+                                ],
+                                "commonTrackId": 11300093,
+                                "commontrackItunesIds": [
+                                    1216837109,
+                                    553474523
+                                ],
+                                "commontrackSpotifyIds": [
+                                    "1hyhVuExPi0bpAovA1Y7eZ",
+                                    "2yy3TUtFij6LrygtT1Q6q6",
+                                    "4CdWRIcpoylwygUgUDjhK9"
+                                ],
+                                "coverImage": "https://s.mxmcdn.net/images-storage/albums/0/8/9/3/4/2/14243980_350_350.jpg",
+                                "coverImageHD": "https://s.mxmcdn.net/images-storage/albums/0/8/9/3/4/2/14243980_500_500.jpg",
+                                "hasLyrics": false,
+                                "hasPreReleaseRestricted": false,
+                                "hasSync": false,
+                                "hasTrackStructure": false,
+                                "id": 19720669,
+                                "isExplicit": false,
+                                "isInstrumental": false,
+                                "isPreRelease": false,
+                                "lastEditDate": "2012-09-08T07:39:48Z",
+                                "name": "Waterfall",
+                                "releaseDate": "2012-09-17T00:00:00Z",
+                                "spotifyId": "1hyhVuExPi0bpAovA1Y7eZ",
+                                "vanityId": "Josephine-Foster/Waterfall"
+                            },
+                            {
+                                "albumId": 14246996,
+                                "albumName": "Blood Rushing",
+                                "albumVanityId": "Josephine-Foster/Blood-Rushing",
+                                "artistId": 105806,
+                                "artistName": "Josephine Foster",
+                                "artists": [
+                                    {
+                                        "aliases": [],
+                                        "externalIds": {
+                                            "itunes": [
+                                                "65704045"
+                                            ],
+                                            "spotify": [
+                                                "1fVyf1LbeIEE4DUT4dZhHL"
+                                            ]
+                                        },
+                                        "genres": [
+                                            {
+                                                "id": 10,
+                                                "name": "Singer/Songwriter",
+                                                "vanity_id": "Singer-Songwriter"
+                                            }
+                                        ],
+                                        "id": 105806,
+                                        "image": "https://static.musixmatch.com/images-storage/mxmimages/6/3/3/1/1/2/211336_2.jpg",
+                                        "imageCopyright": "",
+                                        "isVerified": true,
+                                        "name": "Josephine Foster",
+                                        "vanityId": "Josephine-Foster",
+                                        "websiteUrl": "https://www.josephinefoster.info/"
+                                    }
+                                ],
+                                "commonTrackId": 11300089,
+                                "commontrackItunesIds": [
+                                    1216837110,
+                                    553474524
+                                ],
+                                "commontrackSpotifyIds": [
+                                    "64WCE4JpMYMjhVwoDq5d6e",
+                                    "66hP4AcdDVyhcEZ50X0gs4",
+                                    "3YWtgBTjvLXwLOpCEQMY3B"
+                                ],
+                                "coverImage": "https://s.mxmcdn.net/images-storage/albums/0/8/9/3/4/2/14243980_350_350.jpg",
+                                "coverImageHD": "https://s.mxmcdn.net/images-storage/albums/0/8/9/3/4/2/14243980_500_500.jpg",
+                                "hasLyrics": false,
+                                "hasPreReleaseRestricted": false,
+                                "hasSync": false,
+                                "hasTrackStructure": false,
+                                "id": 19720670,
+                                "isExplicit": false,
+                                "isInstrumental": false,
+                                "isPreRelease": false,
+                                "lastEditDate": "2012-09-08T07:39:48Z",
+                                "name": "Panorama Wide",
+                                "releaseDate": "2012-09-17T00:00:00Z",
+                                "spotifyId": "64WCE4JpMYMjhVwoDq5d6e",
+                                "vanityId": "Josephine-Foster/Panorama-Wide"
+                            },
+                            {
+                                "albumId": 14246996,
+                                "albumName": "Blood Rushing",
+                                "albumVanityId": "Josephine-Foster/Blood-Rushing",
+                                "artistId": 105806,
+                                "artistName": "Josephine Foster",
+                                "artists": [
+                                    {
+                                        "aliases": [],
+                                        "externalIds": {
+                                            "itunes": [
+                                                "65704045"
+                                            ],
+                                            "spotify": [
+                                                "1fVyf1LbeIEE4DUT4dZhHL"
+                                            ]
+                                        },
+                                        "genres": [
+                                            {
+                                                "id": 10,
+                                                "name": "Singer/Songwriter",
+                                                "vanity_id": "Singer-Songwriter"
+                                            }
+                                        ],
+                                        "id": 105806,
+                                        "image": "https://static.musixmatch.com/images-storage/mxmimages/6/3/3/1/1/2/211336_2.jpg",
+                                        "imageCopyright": "",
+                                        "isVerified": true,
+                                        "name": "Josephine Foster",
+                                        "vanityId": "Josephine-Foster",
+                                        "websiteUrl": "https://www.josephinefoster.info/"
+                                    }
+                                ],
+                                "commonTrackId": 11300090,
+                                "commontrackItunesIds": [
+                                    1216837111,
+                                    553474525
+                                ],
+                                "commontrackSpotifyIds": [
+                                    "0ugl33XUceNGgwUGmhuhZc",
+                                    "3aPa1GexolRqVDlvktwOuT",
+                                    "41bbw9vZ647Y3DGxK0Px8K"
+                                ],
+                                "coverImage": "https://s.mxmcdn.net/images-storage/albums/0/8/9/3/4/2/14243980_350_350.jpg",
+                                "coverImageHD": "https://s.mxmcdn.net/images-storage/albums/0/8/9/3/4/2/14243980_500_500.jpg",
+                                "hasLyrics": false,
+                                "hasPreReleaseRestricted": false,
+                                "hasSync": false,
+                                "hasTrackStructure": false,
+                                "id": 19720671,
+                                "isExplicit": false,
+                                "isInstrumental": false,
+                                "isPreRelease": false,
+                                "lastEditDate": "2025-06-04T00:09:39Z",
+                                "name": "Sacred Is the Star",
+                                "releaseDate": "2012-09-17T00:00:00Z",
+                                "spotifyId": "0ugl33XUceNGgwUGmhuhZc",
+                                "vanityId": "Josephine-Foster/Sacred-is-the-Star"
+                            },
+                            {
+                                "albumId": 14246996,
+                                "albumName": "Blood Rushing",
+                                "albumVanityId": "Josephine-Foster/Blood-Rushing",
+                                "artistId": 105806,
+                                "artistName": "Josephine Foster",
+                                "artists": [
+                                    {
+                                        "aliases": [],
+                                        "externalIds": {
+                                            "itunes": [
+                                                "65704045"
+                                            ],
+                                            "spotify": [
+                                                "1fVyf1LbeIEE4DUT4dZhHL"
+                                            ]
+                                        },
+                                        "genres": [
+                                            {
+                                                "id": 10,
+                                                "name": "Singer/Songwriter",
+                                                "vanity_id": "Singer-Songwriter"
+                                            }
+                                        ],
+                                        "id": 105806,
+                                        "image": "https://static.musixmatch.com/images-storage/mxmimages/6/3/3/1/1/2/211336_2.jpg",
+                                        "imageCopyright": "",
+                                        "isVerified": true,
+                                        "name": "Josephine Foster",
+                                        "vanityId": "Josephine-Foster",
+                                        "websiteUrl": "https://www.josephinefoster.info/"
+                                    }
+                                ],
+                                "commonTrackId": 11300086,
+                                "commontrackItunesIds": [
+                                    1216837112,
+                                    553474526
+                                ],
+                                "commontrackSpotifyIds": [
+                                    "1Pcw7InXymhyDG6vtL1iZE",
+                                    "6sO1dtO4c8CQWi0hBWrTTR",
+                                    "6kMiUQo61ZsFh5yDBWcViR"
+                                ],
+                                "coverImage": "https://s.mxmcdn.net/images-storage/albums/0/8/9/3/4/2/14243980_350_350.jpg",
+                                "coverImageHD": "https://s.mxmcdn.net/images-storage/albums/0/8/9/3/4/2/14243980_500_500.jpg",
+                                "hasLyrics": true,
+                                "hasPreReleaseRestricted": false,
+                                "hasSync": true,
+                                "hasTrackStructure": false,
+                                "id": 19720672,
+                                "isExplicit": false,
+                                "isInstrumental": false,
+                                "isPreRelease": false,
+                                "lastEditDate": "2019-10-02T07:38:31Z",
+                                "name": "Child of God",
+                                "releaseDate": "2012-09-17T00:00:00Z",
+                                "spotifyId": "1Pcw7InXymhyDG6vtL1iZE",
+                                "vanityId": "Josephine-Foster/Child-of-God"
+                            },
+                            {
+                                "albumId": 14246996,
+                                "albumName": "Blood Rushing",
+                                "albumVanityId": "Josephine-Foster/Blood-Rushing",
+                                "artistId": 105806,
+                                "artistName": "Josephine Foster",
+                                "artists": [
+                                    {
+                                        "aliases": [],
+                                        "externalIds": {
+                                            "itunes": [
+                                                "65704045"
+                                            ],
+                                            "spotify": [
+                                                "1fVyf1LbeIEE4DUT4dZhHL"
+                                            ]
+                                        },
+                                        "genres": [
+                                            {
+                                                "id": 10,
+                                                "name": "Singer/Songwriter",
+                                                "vanity_id": "Singer-Songwriter"
+                                            }
+                                        ],
+                                        "id": 105806,
+                                        "image": "https://static.musixmatch.com/images-storage/mxmimages/6/3/3/1/1/2/211336_2.jpg",
+                                        "imageCopyright": "",
+                                        "isVerified": true,
+                                        "name": "Josephine Foster",
+                                        "vanityId": "Josephine-Foster",
+                                        "websiteUrl": "https://www.josephinefoster.info/"
+                                    }
+                                ],
+                                "commonTrackId": 11300085,
+                                "commontrackItunesIds": [
+                                    1216837113,
+                                    553474527
+                                ],
+                                "commontrackSpotifyIds": [
+                                    "1QxDOkiksTnjRkTaonsVqe",
+                                    "2Z5QE9S5tIXMFAAjo79BEm",
+                                    "2p1TyTRxUKJD00NHAIcu2J"
+                                ],
+                                "coverImage": "https://s.mxmcdn.net/images-storage/albums/0/8/9/3/4/2/14243980_350_350.jpg",
+                                "coverImageHD": "https://s.mxmcdn.net/images-storage/albums/0/8/9/3/4/2/14243980_500_500.jpg",
+                                "hasLyrics": false,
+                                "hasPreReleaseRestricted": false,
+                                "hasSync": false,
+                                "hasTrackStructure": false,
+                                "id": 19720673,
+                                "isExplicit": false,
+                                "isInstrumental": false,
+                                "isPreRelease": false,
+                                "lastEditDate": "2012-09-08T07:39:47Z",
+                                "name": "Blood Rushing",
+                                "releaseDate": "2012-09-17T00:00:00Z",
+                                "spotifyId": "1QxDOkiksTnjRkTaonsVqe",
+                                "vanityId": "Josephine-Foster/Blood-Rushing"
+                            },
+                            {
+                                "albumId": 14246996,
+                                "albumName": "Blood Rushing",
+                                "albumVanityId": "Josephine-Foster/Blood-Rushing",
+                                "artistId": 105806,
+                                "artistName": "Josephine Foster",
+                                "artists": [
+                                    {
+                                        "aliases": [],
+                                        "externalIds": {
+                                            "itunes": [
+                                                "65704045"
+                                            ],
+                                            "spotify": [
+                                                "1fVyf1LbeIEE4DUT4dZhHL"
+                                            ]
+                                        },
+                                        "genres": [
+                                            {
+                                                "id": 10,
+                                                "name": "Singer/Songwriter",
+                                                "vanity_id": "Singer-Songwriter"
+                                            }
+                                        ],
+                                        "id": 105806,
+                                        "image": "https://static.musixmatch.com/images-storage/mxmimages/6/3/3/1/1/2/211336_2.jpg",
+                                        "imageCopyright": "",
+                                        "isVerified": true,
+                                        "name": "Josephine Foster",
+                                        "vanityId": "Josephine-Foster",
+                                        "websiteUrl": "https://www.josephinefoster.info/"
+                                    }
+                                ],
+                                "commonTrackId": 11300091,
+                                "commontrackItunesIds": [
+                                    1216837114,
+                                    553474528
+                                ],
+                                "commontrackSpotifyIds": [
+                                    "3XgmWleK2omwCuWDxV9Ulv",
+                                    "1ISVv8ujIFTZ8G0lj5HBUy",
+                                    "4lQrQRAiqxBVDPTBFuNNGq"
+                                ],
+                                "coverImage": "https://s.mxmcdn.net/images-storage/albums/0/8/9/3/4/2/14243980_350_350.jpg",
+                                "coverImageHD": "https://s.mxmcdn.net/images-storage/albums/0/8/9/3/4/2/14243980_500_500.jpg",
+                                "hasLyrics": false,
+                                "hasPreReleaseRestricted": false,
+                                "hasSync": false,
+                                "hasTrackStructure": false,
+                                "id": 19720674,
+                                "isExplicit": false,
+                                "isInstrumental": false,
+                                "isPreRelease": false,
+                                "lastEditDate": "2012-09-08T07:39:48Z",
+                                "name": "The Wave of Love",
+                                "releaseDate": "2012-09-17T00:00:00Z",
+                                "spotifyId": "3XgmWleK2omwCuWDxV9Ulv",
+                                "vanityId": "Josephine-Foster/The-Wave-of-Love"
+                            },
+                            {
+                                "albumId": 14246996,
+                                "albumName": "Blood Rushing",
+                                "albumVanityId": "Josephine-Foster/Blood-Rushing",
+                                "artistId": 105806,
+                                "artistName": "Josephine Foster",
+                                "artists": [
+                                    {
+                                        "aliases": [],
+                                        "externalIds": {
+                                            "itunes": [
+                                                "65704045"
+                                            ],
+                                            "spotify": [
+                                                "1fVyf1LbeIEE4DUT4dZhHL"
+                                            ]
+                                        },
+                                        "genres": [
+                                            {
+                                                "id": 10,
+                                                "name": "Singer/Songwriter",
+                                                "vanity_id": "Singer-Songwriter"
+                                            }
+                                        ],
+                                        "id": 105806,
+                                        "image": "https://static.musixmatch.com/images-storage/mxmimages/6/3/3/1/1/2/211336_2.jpg",
+                                        "imageCopyright": "",
+                                        "isVerified": true,
+                                        "name": "Josephine Foster",
+                                        "vanityId": "Josephine-Foster",
+                                        "websiteUrl": "https://www.josephinefoster.info/"
+                                    }
+                                ],
+                                "commonTrackId": 11300088,
+                                "commontrackItunesIds": [
+                                    1216837115,
+                                    553474549
+                                ],
+                                "commontrackSpotifyIds": [
+                                    "7H3gdEN83YhERIZwv0wep0",
+                                    "4MEeBq5mGfQxImXalUTfpF",
+                                    "6eRqQrsQu6fA8c9jMmWNhJ"
+                                ],
+                                "coverImage": "https://s.mxmcdn.net/images-storage/albums/0/8/9/3/4/2/14243980_350_350.jpg",
+                                "coverImageHD": "https://s.mxmcdn.net/images-storage/albums/0/8/9/3/4/2/14243980_500_500.jpg",
+                                "hasLyrics": false,
+                                "hasPreReleaseRestricted": false,
+                                "hasSync": false,
+                                "hasTrackStructure": false,
+                                "id": 19720675,
+                                "isExplicit": false,
+                                "isInstrumental": false,
+                                "isPreRelease": false,
+                                "lastEditDate": "2012-09-08T07:39:48Z",
+                                "name": "O Stars",
+                                "releaseDate": "2012-09-17T00:00:00Z",
+                                "spotifyId": "7H3gdEN83YhERIZwv0wep0",
+                                "vanityId": "Josephine-Foster/O-Stars"
+                            },
+                            {
+                                "albumId": 14246996,
+                                "albumName": "Blood Rushing",
+                                "albumVanityId": "Josephine-Foster/Blood-Rushing",
+                                "artistId": 105806,
+                                "artistName": "Josephine Foster",
+                                "artists": [
+                                    {
+                                        "aliases": [],
+                                        "externalIds": {
+                                            "itunes": [
+                                                "65704045"
+                                            ],
+                                            "spotify": [
+                                                "1fVyf1LbeIEE4DUT4dZhHL"
+                                            ]
+                                        },
+                                        "genres": [
+                                            {
+                                                "id": 10,
+                                                "name": "Singer/Songwriter",
+                                                "vanity_id": "Singer-Songwriter"
+                                            }
+                                        ],
+                                        "id": 105806,
+                                        "image": "https://static.musixmatch.com/images-storage/mxmimages/6/3/3/1/1/2/211336_2.jpg",
+                                        "imageCopyright": "",
+                                        "isVerified": true,
+                                        "name": "Josephine Foster",
+                                        "vanityId": "Josephine-Foster",
+                                        "websiteUrl": "https://www.josephinefoster.info/"
+                                    }
+                                ],
+                                "commonTrackId": 11300087,
+                                "commontrackItunesIds": [
+                                    1216837116,
+                                    553474550
+                                ],
+                                "commontrackSpotifyIds": [
+                                    "2UuO3JJMFx3rLuG3HtAvaT",
+                                    "3ExZPpgaNLqXlQqMg3d6ac",
+                                    "5IUCp52q5pFCKXJEwlJjn9"
+                                ],
+                                "coverImage": "https://s.mxmcdn.net/images-storage/albums/0/8/9/3/4/2/14243980_350_350.jpg",
+                                "coverImageHD": "https://s.mxmcdn.net/images-storage/albums/0/8/9/3/4/2/14243980_500_500.jpg",
+                                "hasLyrics": false,
+                                "hasPreReleaseRestricted": false,
+                                "hasSync": false,
+                                "hasTrackStructure": false,
+                                "id": 19720676,
+                                "isExplicit": false,
+                                "isInstrumental": false,
+                                "isPreRelease": false,
+                                "lastEditDate": "2012-09-08T07:39:47Z",
+                                "name": "Geyser",
+                                "releaseDate": "2012-09-17T00:00:00Z",
+                                "spotifyId": "2UuO3JJMFx3rLuG3HtAvaT",
+                                "vanityId": "Josephine-Foster/Geyser"
+                            },
+                            {
+                                "albumId": 14246996,
+                                "albumName": "Blood Rushing",
+                                "albumVanityId": "Josephine-Foster/Blood-Rushing",
+                                "artistId": 105806,
+                                "artistName": "Josephine Foster",
+                                "artists": [
+                                    {
+                                        "aliases": [],
+                                        "externalIds": {
+                                            "itunes": [
+                                                "65704045"
+                                            ],
+                                            "spotify": [
+                                                "1fVyf1LbeIEE4DUT4dZhHL"
+                                            ]
+                                        },
+                                        "genres": [
+                                            {
+                                                "id": 10,
+                                                "name": "Singer/Songwriter",
+                                                "vanity_id": "Singer-Songwriter"
+                                            }
+                                        ],
+                                        "id": 105806,
+                                        "image": "https://static.musixmatch.com/images-storage/mxmimages/6/3/3/1/1/2/211336_2.jpg",
+                                        "imageCopyright": "",
+                                        "isVerified": true,
+                                        "name": "Josephine Foster",
+                                        "vanityId": "Josephine-Foster",
+                                        "websiteUrl": "https://www.josephinefoster.info/"
+                                    }
+                                ],
+                                "commonTrackId": 11300092,
+                                "commontrackItunesIds": [
+                                    1216837117,
+                                    553474551
+                                ],
+                                "commontrackSpotifyIds": [
+                                    "081VeBLdowZ8dQiSO7pGaj",
+                                    "6dExHYD3PG8q2nP6XnaQbb",
+                                    "1H30bRNlvaROC3QC9q1x69"
+                                ],
+                                "coverImage": "https://s.mxmcdn.net/images-storage/albums/0/8/9/3/4/2/14243980_350_350.jpg",
+                                "coverImageHD": "https://s.mxmcdn.net/images-storage/albums/0/8/9/3/4/2/14243980_500_500.jpg",
+                                "hasLyrics": false,
+                                "hasPreReleaseRestricted": false,
+                                "hasSync": false,
+                                "hasTrackStructure": false,
+                                "id": 19720677,
+                                "isExplicit": false,
+                                "isInstrumental": false,
+                                "isPreRelease": false,
+                                "lastEditDate": "2012-09-08T07:39:48Z",
+                                "name": "Underwater Daughter",
+                                "releaseDate": "2012-09-17T00:00:00Z",
+                                "spotifyId": "081VeBLdowZ8dQiSO7pGaj",
+                                "vanityId": "Josephine-Foster/Underwater-Daughter"
+                            },
+                            {
+                                "albumId": 14246996,
+                                "albumName": "Blood Rushing",
+                                "albumVanityId": "Josephine-Foster/Blood-Rushing",
+                                "artistId": 105806,
+                                "artistName": "Josephine Foster",
+                                "artists": [
+                                    {
+                                        "aliases": [],
+                                        "externalIds": {
+                                            "itunes": [
+                                                "65704045"
+                                            ],
+                                            "spotify": [
+                                                "1fVyf1LbeIEE4DUT4dZhHL"
+                                            ]
+                                        },
+                                        "genres": [
+                                            {
+                                                "id": 10,
+                                                "name": "Singer/Songwriter",
+                                                "vanity_id": "Singer-Songwriter"
+                                            }
+                                        ],
+                                        "id": 105806,
+                                        "image": "https://static.musixmatch.com/images-storage/mxmimages/6/3/3/1/1/2/211336_2.jpg",
+                                        "imageCopyright": "",
+                                        "isVerified": true,
+                                        "name": "Josephine Foster",
+                                        "vanityId": "Josephine-Foster",
+                                        "websiteUrl": "https://www.josephinefoster.info/"
+                                    }
+                                ],
+                                "commonTrackId": 11300094,
+                                "commontrackItunesIds": [
+                                    1216837118,
+                                    553474552
+                                ],
+                                "commontrackSpotifyIds": [
+                                    "1wegvf5RVCSAeVxGEitGg8",
+                                    "6wtSqmA5YEceMDfEPGx7MU",
+                                    "1uZoxZB0OfCffN9cc7B8s1"
+                                ],
+                                "coverImage": "https://s.mxmcdn.net/images-storage/albums/0/8/9/3/4/2/14243980_350_350.jpg",
+                                "coverImageHD": "https://s.mxmcdn.net/images-storage/albums/0/8/9/3/4/2/14243980_500_500.jpg",
+                                "hasLyrics": false,
+                                "hasPreReleaseRestricted": false,
+                                "hasSync": false,
+                                "hasTrackStructure": false,
+                                "id": 19720678,
+                                "isExplicit": false,
+                                "isInstrumental": false,
+                                "isPreRelease": false,
+                                "lastEditDate": "2012-09-08T07:39:48Z",
+                                "name": "Words Come Loose",
+                                "releaseDate": "2012-09-17T00:00:00Z",
+                                "spotifyId": "1wegvf5RVCSAeVxGEitGg8",
+                                "vanityId": "Josephine-Foster/Words-Come-Loose"
+                            }
+                        ],
+                        "vanityId": "Josephine-Foster/Blood-Rushing"
+                    }
+                },
+                "bannerGet": {
+                    "data": {
+                        "backgroundColor": {
+                            "hex": "#600909",
+                            "__typename": "ColorField"
+                        },
+                        "backgroundImage": null,
+                        "buttonColor": "",
+                        "cta": "Explore Musixmatch Pro",
+                        "description": "Take full control of your lyrics. Curate, sync, and distribute your lyrics on Spotify, Apple Music, and more.",
+                        "id": "Uc-STqotTAaUAARXb04PRw",
+                        "image": "https://www.datocms-assets.com/65297/1750090961-cardmainheropro.png",
+                        "imageSize": 2144639,
+                        "linking": {
+                            "appsLink": "https://t.musixmatch.com/mobilebottomlyricspro",
+                            "link": "https://t.musixmatch.com/webbottomlyricspro",
+                            "type": "external"
+                        },
+                        "textColor": {
+                            "hex": "#FFFFFF",
+                            "__typename": "ColorField"
+                        },
+                        "title": "Distribute your lyrics!"
+                    }
+                },
+                "creditsTrackCollaboratorsGet": {
+                    "data": [
+                        {
+                            "avatar_img_url": null,
+                            "categoryIds": [
+                                "4"
+                            ],
+                            "firstName": null,
+                            "id": "8e360016-2614-4961-9e14-4b514e3965d7",
+                            "lastName": null,
+                            "name": "Josephine Marion Foster",
+                            "roles": [
+                                {
+                                    "id": "4",
+                                    "name": "Composer Lyricist"
+                                }
+                            ],
+                            "stageName": null,
+                            "vanity": "Josephine-Marion-Foster"
+                        }
+                    ]
+                },
+                "crowdTrackHistoryGet": {
+                    "data": [
+                        {
+                            "avatar": "https://lh3.googleusercontent.com/a/ACg8ocI1ijQaRRXSs1HjlXM2mwmUyYi1TnbfSDeMyUoFE0tBFU8xfTJ7=s96-c",
+                            "id": "3vUCAOA37G1GlTCLStb_o_ZDXCrzFI2oWCCgIkisrvMWMjwJ1Cf4fh_qkGVBTbdgMZ3WnAUe9BbQG5xM0LmzDOvdBaj3LropGa6ANpEeubrwga2KmBYYKU-I6ffuyd4qU1YXHjIzSK7nALlKzca_HQgA7ck",
+                            "isAI": false,
+                            "name": "Nicola Di Costanzo",
+                            "role": "curator",
+                            "contributionType": "lyrics_missing",
+                            "date": "2019-10-02T07:38:31Z"
+                        },
+                        {
+                            "avatar": "https://lh3.googleusercontent.com/a/ACg8ocI1ijQaRRXSs1HjlXM2mwmUyYi1TnbfSDeMyUoFE0tBFU8xfTJ7=s96-c",
+                            "id": "3vUCAF2n1EVCoZ0p4MLTA7Pc8iIqyIOO6SyJ0ElDBojDBkf-4QWsqFadWC1v2Jt7GDFdSN5grzo_D4JNo0aDF0wS5UpDuYO3w3qLwCr6bppgEWt3FFjcBSwyY3oeXaUq3K3PZsF5R5r5NDlsgUkULRBS5l0",
+                            "isAI": false,
+                            "name": "Nicola Di Costanzo",
+                            "role": "curator",
+                            "contributionType": "lyrics_changed",
+                            "date": "2019-10-02T07:38:31Z"
+                        },
+                        {
+                            "avatar": "https://lh3.googleusercontent.com/a/ACg8ocI1ijQaRRXSs1HjlXM2mwmUyYi1TnbfSDeMyUoFE0tBFU8xfTJ7=s96-c",
+                            "id": "3vUCACurp5Iz1wY-2UY4fYKGRHDz-UfnkkCBeodXh5xcldrE9h4_PhdsYNxZ9WwDbGWKrPmlphAtPwBUVhX5orOnOuLA1b8af0HUubew2pd4Yyh20xlTstzPlIYAMd2O91LVWQlS8HOooJzbWvHwe25YXJk",
+                            "isAI": false,
+                            "name": "Nicola Di Costanzo",
+                            "role": "curator",
+                            "contributionType": "lyrics_subtitle_added"
+                        }
+                    ]
+                },
+                "languagesGet": {
+                    "data": [
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "n4",
+                            "language_iso_code_3": "nah",
+                            "language_name": "nahuatl"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "aa",
+                            "language_iso_code_3": "aar",
+                            "language_name": "afar"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ab",
+                            "language_iso_code_3": "abk",
+                            "language_name": "abkhazian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "af",
+                            "language_iso_code_3": "afr",
+                            "language_name": "afrikaans"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ak",
+                            "language_iso_code_3": "aka",
+                            "language_name": "akan"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "sq",
+                            "language_iso_code_3": "sqi",
+                            "language_name": "albanian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "am",
+                            "language_iso_code_3": "amh",
+                            "language_name": "amharic"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ar",
+                            "language_iso_code_3": "ara",
+                            "language_name": "arabic"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "an",
+                            "language_iso_code_3": "arg",
+                            "language_name": "aragonese"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "hy",
+                            "language_iso_code_3": "hye",
+                            "language_name": "armenian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "as",
+                            "language_iso_code_3": "asm",
+                            "language_name": "assamese",
+                            "has_romanization": 1,
+                            "iso_code_romanization": "a5"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "a3",
+                            "language_iso_code_3": "ast",
+                            "language_name": "asturian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "av",
+                            "language_iso_code_3": "ava",
+                            "language_name": "avaric"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ae",
+                            "language_iso_code_3": "ave",
+                            "language_name": "avestan"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ay",
+                            "language_iso_code_3": "aym",
+                            "language_name": "aymara"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "az",
+                            "language_iso_code_3": "aze",
+                            "language_name": "azerbaijani"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ba",
+                            "language_iso_code_3": "bak",
+                            "language_name": "bashkir"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "bm",
+                            "language_iso_code_3": "bam",
+                            "language_name": "bambara"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "eu",
+                            "language_iso_code_3": "eus",
+                            "language_name": "basque"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "be",
+                            "language_iso_code_3": "bel",
+                            "language_name": "belarusian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "bn",
+                            "language_iso_code_3": "ben",
+                            "language_name": "bengali",
+                            "has_romanization": 1,
+                            "iso_code_romanization": "b5"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "bh",
+                            "language_iso_code_3": "bh0",
+                            "language_name": "bihari languages"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "bi",
+                            "language_iso_code_3": "bis",
+                            "language_name": "bislama"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "bs",
+                            "language_iso_code_3": "bos",
+                            "language_name": "bosnian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "br",
+                            "language_iso_code_3": "bre",
+                            "language_name": "breton"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "bg",
+                            "language_iso_code_3": "bul",
+                            "language_name": "bulgarian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "my",
+                            "language_iso_code_3": "mya",
+                            "language_name": "burmese"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ca",
+                            "language_iso_code_3": "cat",
+                            "language_name": "catalan"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "c2",
+                            "language_iso_code_3": "ceb",
+                            "language_name": "cebuano"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ch",
+                            "language_iso_code_3": "cha",
+                            "language_name": "chamorro"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ce",
+                            "language_iso_code_3": "che",
+                            "language_name": "chechen"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "zh",
+                            "language_iso_code_3": "zho",
+                            "language_name": "chinese (simplified)",
+                            "has_romanization": 1,
+                            "iso_code_romanization": "rz"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "cu",
+                            "language_iso_code_3": "chu",
+                            "language_name": "church slavic"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "cv",
+                            "language_iso_code_3": "chv",
+                            "language_name": "chuvash"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "kw",
+                            "language_iso_code_3": "cor",
+                            "language_name": "cornish"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "co",
+                            "language_iso_code_3": "cos",
+                            "language_name": "corsican"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "c5",
+                            "language_iso_code_3": "cp5",
+                            "language_name": "creoles and pidgins, english based"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "c6",
+                            "language_iso_code_3": "cp6",
+                            "language_name": "creoles and pidgins, french-based"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "c7",
+                            "language_iso_code_3": "cp7",
+                            "language_name": "creoles and pidgins, portuguese-based"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "cr",
+                            "language_iso_code_3": "cre",
+                            "language_name": "cree"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "c4",
+                            "language_iso_code_3": "cr4",
+                            "language_name": "creoles and pidgins"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "cs",
+                            "language_iso_code_3": "ces",
+                            "language_name": "czech"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "da",
+                            "language_iso_code_3": "dan",
+                            "language_name": "danish"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "dv",
+                            "language_iso_code_3": "div",
+                            "language_name": "divehi"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "d2",
+                            "language_iso_code_3": "dsb",
+                            "language_name": "sorbian, lower"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "nl",
+                            "language_iso_code_3": "nld",
+                            "language_name": "dutch"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "dz",
+                            "language_iso_code_3": "dzo",
+                            "language_name": "dzongkha"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "en",
+                            "language_iso_code_3": "eng",
+                            "language_name": "english"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "eo",
+                            "language_iso_code_3": "epo",
+                            "language_name": "esperanto"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "et",
+                            "language_iso_code_3": "est",
+                            "language_name": "estonian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ee",
+                            "language_iso_code_3": "ewe",
+                            "language_name": "ewe"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "fo",
+                            "language_iso_code_3": "fao",
+                            "language_name": "faroese"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "fj",
+                            "language_iso_code_3": "fij",
+                            "language_name": "fijian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "f1",
+                            "language_iso_code_3": "fil",
+                            "language_name": "filipino"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "fi",
+                            "language_iso_code_3": "fin",
+                            "language_name": "finnish"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "fr",
+                            "language_iso_code_3": "fra",
+                            "language_name": "french"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "fy",
+                            "language_iso_code_3": "fry",
+                            "language_name": "frisian, western"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ff",
+                            "language_iso_code_3": "ful",
+                            "language_name": "fulah"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ka",
+                            "language_iso_code_3": "kat",
+                            "language_name": "georgian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "de",
+                            "language_iso_code_3": "deu",
+                            "language_name": "german"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "gd",
+                            "language_iso_code_3": "gla",
+                            "language_name": "scottish gaelic"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ga",
+                            "language_iso_code_3": "gle",
+                            "language_name": "irish"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "gl",
+                            "language_iso_code_3": "glg",
+                            "language_name": "galician"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "gv",
+                            "language_iso_code_3": "glv",
+                            "language_name": "manx"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "el",
+                            "language_iso_code_3": "ell",
+                            "language_name": "greek",
+                            "has_romanization": 1,
+                            "iso_code_romanization": "e2"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "gn",
+                            "language_iso_code_3": "grn",
+                            "language_name": "guarani"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "gu",
+                            "language_iso_code_3": "guj",
+                            "language_name": "gujarati",
+                            "has_romanization": 1,
+                            "iso_code_romanization": "g2"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ht",
+                            "language_iso_code_3": "hat",
+                            "language_name": "haitian creole"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ha",
+                            "language_iso_code_3": "hau",
+                            "language_name": "hausa"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "he",
+                            "language_iso_code_3": "heb",
+                            "language_name": "hebrew"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "hz",
+                            "language_iso_code_3": "her",
+                            "language_name": "herero"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "hi",
+                            "language_iso_code_3": "hin",
+                            "language_name": "hindi",
+                            "has_romanization": 1,
+                            "iso_code_romanization": "h3"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ho",
+                            "language_iso_code_3": "hmo",
+                            "language_name": "hiri motu"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "h2",
+                            "language_iso_code_3": "hsb",
+                            "language_name": "sorbian, upper"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "hu",
+                            "language_iso_code_3": "hun",
+                            "language_name": "hungarian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ig",
+                            "language_iso_code_3": "ibo",
+                            "language_name": "igbo"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "is",
+                            "language_iso_code_3": "isl",
+                            "language_name": "icelandic"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "io",
+                            "language_iso_code_3": "ido",
+                            "language_name": "ido"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ii",
+                            "language_iso_code_3": "iii",
+                            "language_name": "sichuan yi"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "iu",
+                            "language_iso_code_3": "iku",
+                            "language_name": "inuktitut"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ie",
+                            "language_iso_code_3": "ile",
+                            "language_name": "interlingue"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "i1",
+                            "language_iso_code_3": "ilo",
+                            "language_name": "iloko"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ia",
+                            "language_iso_code_3": "ina",
+                            "language_name": "interlingua"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "id",
+                            "language_iso_code_3": "ind",
+                            "language_name": "indonesian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ik",
+                            "language_iso_code_3": "ipk",
+                            "language_name": "inupiaq"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "it",
+                            "language_iso_code_3": "ita",
+                            "language_name": "italian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "jv",
+                            "language_iso_code_3": "jav",
+                            "language_name": "javanese"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "j1",
+                            "language_iso_code_3": "jbo",
+                            "language_name": "lojban"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ja",
+                            "language_iso_code_3": "jpn",
+                            "language_name": "japanese",
+                            "has_romanization": 1,
+                            "iso_code_romanization": "rj"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "kl",
+                            "language_iso_code_3": "kal",
+                            "language_name": "greenlandic"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "kn",
+                            "language_iso_code_3": "kan",
+                            "language_name": "kannada",
+                            "has_romanization": 1,
+                            "iso_code_romanization": "k2"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ks",
+                            "language_iso_code_3": "kas",
+                            "language_name": "kashmiri"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "kr",
+                            "language_iso_code_3": "kau",
+                            "language_name": "kanuri"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "kk",
+                            "language_iso_code_3": "kaz",
+                            "language_name": "kazakh"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "km",
+                            "language_iso_code_3": "khm",
+                            "language_name": "khmer, central"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ki",
+                            "language_iso_code_3": "kik",
+                            "language_name": "kikuyu"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "rw",
+                            "language_iso_code_3": "kin",
+                            "language_name": "kinyarwanda"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ky",
+                            "language_iso_code_3": "kir",
+                            "language_name": "kirghiz"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "kv",
+                            "language_iso_code_3": "kom",
+                            "language_name": "komi"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "kg",
+                            "language_iso_code_3": "kon",
+                            "language_name": "kongo"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ko",
+                            "language_iso_code_3": "kor",
+                            "language_name": "korean",
+                            "has_romanization": 1,
+                            "iso_code_romanization": "rk"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "k1",
+                            "language_iso_code_3": "krc",
+                            "language_name": "karachay-balkar"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "kj",
+                            "language_iso_code_3": "kua",
+                            "language_name": "kuanyama"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ku",
+                            "language_iso_code_3": "kur",
+                            "language_name": "kurdish"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "lo",
+                            "language_iso_code_3": "lao",
+                            "language_name": "lao"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "la",
+                            "language_iso_code_3": "lat",
+                            "language_name": "latin"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "lv",
+                            "language_iso_code_3": "lav",
+                            "language_name": "latvian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "l1",
+                            "language_iso_code_3": "lez",
+                            "language_name": "lezghian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "li",
+                            "language_iso_code_3": "lim",
+                            "language_name": "limburgish"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ln",
+                            "language_iso_code_3": "lin",
+                            "language_name": "lingala"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "lt",
+                            "language_iso_code_3": "lit",
+                            "language_name": "lithuanian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "lb",
+                            "language_iso_code_3": "ltz",
+                            "language_name": "luxembourgish"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "lu",
+                            "language_iso_code_3": "lub",
+                            "language_name": "luba-katanga"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "lg",
+                            "language_iso_code_3": "lug",
+                            "language_name": "ganda"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "mk",
+                            "language_iso_code_3": "mkd",
+                            "language_name": "macedonian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "mh",
+                            "language_iso_code_3": "mah",
+                            "language_name": "marshallese"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "m1",
+                            "language_iso_code_3": "mai",
+                            "language_name": "maithili"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ml",
+                            "language_iso_code_3": "mal",
+                            "language_name": "malayalam",
+                            "has_romanization": 1,
+                            "iso_code_romanization": "m8"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "mi",
+                            "language_iso_code_3": "mri",
+                            "language_name": "maori"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "mr",
+                            "language_iso_code_3": "mar",
+                            "language_name": "marathi",
+                            "has_romanization": 1,
+                            "iso_code_romanization": "m9"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ms",
+                            "language_iso_code_3": "msa",
+                            "language_name": "malay"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "m3",
+                            "language_iso_code_3": "min",
+                            "language_name": "minangkabau"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "mg",
+                            "language_iso_code_3": "mlg",
+                            "language_name": "malagasy"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "mt",
+                            "language_iso_code_3": "mlt",
+                            "language_name": "maltese"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "mo",
+                            "language_iso_code_3": "mo0",
+                            "language_name": "moldavian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "mn",
+                            "language_iso_code_3": "mon",
+                            "language_name": "mongolian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "m5",
+                            "language_iso_code_3": "mwl",
+                            "language_name": "mirandese"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "m6",
+                            "language_iso_code_3": "myv",
+                            "language_name": "erzya"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "n1",
+                            "language_iso_code_3": "nap",
+                            "language_name": "neapolitan"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "na",
+                            "language_iso_code_3": "nau",
+                            "language_name": "nauru"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "nv",
+                            "language_iso_code_3": "nav",
+                            "language_name": "navajo"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "nr",
+                            "language_iso_code_3": "nbl",
+                            "language_name": "ndebele, south"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "nd",
+                            "language_iso_code_3": "nde",
+                            "language_name": "ndebele, north"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ng",
+                            "language_iso_code_3": "ndo",
+                            "language_name": "ndonga"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "n2",
+                            "language_iso_code_3": "nds",
+                            "language_name": "german, low"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ne",
+                            "language_iso_code_3": "nep",
+                            "language_name": "nepali",
+                            "has_romanization": 1,
+                            "iso_code_romanization": "n5"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "n3",
+                            "language_iso_code_3": "new",
+                            "language_name": "nepal bhasa"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "nn",
+                            "language_iso_code_3": "nno",
+                            "language_name": "norwegian nynorsk"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "nb",
+                            "language_iso_code_3": "nob",
+                            "language_name": "norwegian bokmål"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "no",
+                            "language_iso_code_3": "nor",
+                            "language_name": "norwegian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ny",
+                            "language_iso_code_3": "nya",
+                            "language_name": "chichewa"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "oc",
+                            "language_iso_code_3": "oci",
+                            "language_name": "occitan"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "oj",
+                            "language_iso_code_3": "oji",
+                            "language_name": "ojibwa"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "or",
+                            "language_iso_code_3": "ori",
+                            "language_name": "oriya",
+                            "has_romanization": 1,
+                            "iso_code_romanization": "o1"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "om",
+                            "language_iso_code_3": "orm",
+                            "language_name": "oromo"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "os",
+                            "language_iso_code_3": "oss",
+                            "language_name": "ossetian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "p1",
+                            "language_iso_code_3": "pam",
+                            "language_name": "pampanga"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "pa",
+                            "language_iso_code_3": "pan",
+                            "language_name": "panjabi",
+                            "has_romanization": 1,
+                            "iso_code_romanization": "p5"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "fa",
+                            "language_iso_code_3": "fas",
+                            "language_name": "persian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "pi",
+                            "language_iso_code_3": "pli",
+                            "language_name": "pali"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "pl",
+                            "language_iso_code_3": "pol",
+                            "language_name": "polish"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "pt",
+                            "language_iso_code_3": "por",
+                            "language_name": "portuguese"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ps",
+                            "language_iso_code_3": "pus",
+                            "language_name": "pushto"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "qu",
+                            "language_iso_code_3": "que",
+                            "language_name": "quechua"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "rm",
+                            "language_iso_code_3": "roh",
+                            "language_name": "romansh"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ro",
+                            "language_iso_code_3": "ron",
+                            "language_name": "romanian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "rn",
+                            "language_iso_code_3": "run",
+                            "language_name": "rundi"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ru",
+                            "language_iso_code_3": "rus",
+                            "language_name": "russian",
+                            "has_romanization": 1,
+                            "iso_code_romanization": "r2"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "sg",
+                            "language_iso_code_3": "sag",
+                            "language_name": "sango"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "s1",
+                            "language_iso_code_3": "sah",
+                            "language_name": "yakut"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "sa",
+                            "language_iso_code_3": "san",
+                            "language_name": "sanskrit",
+                            "has_romanization": 1,
+                            "iso_code_romanization": "s4"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "sr",
+                            "language_iso_code_3": "srp",
+                            "language_name": "serbian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "s2",
+                            "language_iso_code_3": "scn",
+                            "language_name": "sicilian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "s3",
+                            "language_iso_code_3": "sco",
+                            "language_name": "scots"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "hr",
+                            "language_iso_code_3": "hrv",
+                            "language_name": "croatian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "si",
+                            "language_iso_code_3": "sin",
+                            "language_name": "sinhala"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "sk",
+                            "language_iso_code_3": "slk",
+                            "language_name": "slovak"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "sl",
+                            "language_iso_code_3": "slv",
+                            "language_name": "slovenian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "se",
+                            "language_iso_code_3": "sme",
+                            "language_name": "sami, northern"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "sm",
+                            "language_iso_code_3": "smo",
+                            "language_name": "samoan"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "sn",
+                            "language_iso_code_3": "sna",
+                            "language_name": "shona"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "sd",
+                            "language_iso_code_3": "snd",
+                            "language_name": "sindhi"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "so",
+                            "language_iso_code_3": "som",
+                            "language_name": "somali"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "st",
+                            "language_iso_code_3": "sot",
+                            "language_name": "sotho, southern"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "es",
+                            "language_iso_code_3": "spa",
+                            "language_name": "spanish"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "sc",
+                            "language_iso_code_3": "srd",
+                            "language_name": "sardinian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ss",
+                            "language_iso_code_3": "ssw",
+                            "language_name": "swati"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "su",
+                            "language_iso_code_3": "sun",
+                            "language_name": "sundanese"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "sw",
+                            "language_iso_code_3": "swa",
+                            "language_name": "swahili"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "sv",
+                            "language_iso_code_3": "swe",
+                            "language_name": "swedish"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ty",
+                            "language_iso_code_3": "tah",
+                            "language_name": "tahitian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ta",
+                            "language_iso_code_3": "tam",
+                            "language_name": "tamil",
+                            "has_romanization": 1,
+                            "iso_code_romanization": "t2"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "tt",
+                            "language_iso_code_3": "tat",
+                            "language_name": "tatar"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "te",
+                            "language_iso_code_3": "tel",
+                            "language_name": "telugu",
+                            "has_romanization": 1,
+                            "iso_code_romanization": "t3"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "tg",
+                            "language_iso_code_3": "tgk",
+                            "language_name": "tajik"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "tl",
+                            "language_iso_code_3": "tgl",
+                            "language_name": "tagalog"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "th",
+                            "language_iso_code_3": "tha",
+                            "language_name": "thai",
+                            "has_romanization": 1,
+                            "iso_code_romanization": "t4"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "bo",
+                            "language_iso_code_3": "bod",
+                            "language_name": "tibetan"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ti",
+                            "language_iso_code_3": "tir",
+                            "language_name": "tigrinya"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "to",
+                            "language_iso_code_3": "ton",
+                            "language_name": "tonga (tonga islands)"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "tn",
+                            "language_iso_code_3": "tsn",
+                            "language_name": "tswana"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ts",
+                            "language_iso_code_3": "tso",
+                            "language_name": "tsonga"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "tk",
+                            "language_iso_code_3": "tuk",
+                            "language_name": "turkmen"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "tr",
+                            "language_iso_code_3": "tur",
+                            "language_name": "turkish"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "tw",
+                            "language_iso_code_3": "twi",
+                            "language_name": "twi"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "t1",
+                            "language_iso_code_3": "tyv",
+                            "language_name": "tuvinian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ug",
+                            "language_iso_code_3": "uig",
+                            "language_name": "uighur"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "uk",
+                            "language_iso_code_3": "ukr",
+                            "language_name": "ukrainian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "u0",
+                            "language_iso_code_3": "und",
+                            "language_name": "undetermined"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ur",
+                            "language_iso_code_3": "urd",
+                            "language_name": "urdu",
+                            "has_romanization": 1,
+                            "iso_code_romanization": "u1"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "uz",
+                            "language_iso_code_3": "uzb",
+                            "language_name": "uzbek"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "ve",
+                            "language_iso_code_3": "ven",
+                            "language_name": "venda"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "vi",
+                            "language_iso_code_3": "vie",
+                            "language_name": "vietnamese"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "vo",
+                            "language_iso_code_3": "vol",
+                            "language_name": "volapük"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "w1",
+                            "language_iso_code_3": "war",
+                            "language_name": "waray"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "cy",
+                            "language_iso_code_3": "cym",
+                            "language_name": "welsh"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "wa",
+                            "language_iso_code_3": "wln",
+                            "language_name": "walloon"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "wo",
+                            "language_iso_code_3": "wol",
+                            "language_name": "wolof"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "x1",
+                            "language_iso_code_3": "xal",
+                            "language_name": "kalmyk"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "xh",
+                            "language_iso_code_3": "xho",
+                            "language_name": "xhosa"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "yi",
+                            "language_iso_code_3": "yid",
+                            "language_name": "yiddish"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "yo",
+                            "language_iso_code_3": "yor",
+                            "language_name": "yoruba"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "za",
+                            "language_iso_code_3": "zha",
+                            "language_name": "zhuang"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "zu",
+                            "language_iso_code_3": "zul",
+                            "language_name": "zulu"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "f2",
+                            "language_iso_code_3": "frr",
+                            "language_name": "frisian, northern"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "a1",
+                            "language_iso_code_3": "als",
+                            "language_name": "tosk albanian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "a2",
+                            "language_iso_code_3": "arz",
+                            "language_name": "egyptian arabic"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "a4",
+                            "language_iso_code_3": "azb",
+                            "language_name": "south azerbaijani"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "b1",
+                            "language_iso_code_3": "bar",
+                            "language_name": "bavarian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "b2",
+                            "language_iso_code_3": "bcl",
+                            "language_name": "central bikol"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "b3",
+                            "language_iso_code_3": "bpy",
+                            "language_name": "bishnupriya"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "b4",
+                            "language_iso_code_3": "bxr",
+                            "language_name": "russia buriat"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "c1",
+                            "language_iso_code_3": "cbk",
+                            "language_name": "chavacano"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "c3",
+                            "language_iso_code_3": "ckb",
+                            "language_name": "central kurdish"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "d1",
+                            "language_iso_code_3": "diq",
+                            "language_name": "dimli (individual language)"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "d3",
+                            "language_iso_code_3": "dty",
+                            "language_name": "dotyali"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "g1",
+                            "language_iso_code_3": "gom",
+                            "language_name": "goan konkani"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "sh",
+                            "language_iso_code_3": "hbs",
+                            "language_name": "serbo-croatian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "h1",
+                            "language_iso_code_3": "hif",
+                            "language_name": "fiji hindi"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "l2",
+                            "language_iso_code_3": "lmo",
+                            "language_name": "lombard"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "l3",
+                            "language_iso_code_3": "lrc",
+                            "language_name": "northern luri"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "m2",
+                            "language_iso_code_3": "mhr",
+                            "language_name": "eastern mari"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "m4",
+                            "language_iso_code_3": "mrj",
+                            "language_name": "western mari"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "m7",
+                            "language_iso_code_3": "mzn",
+                            "language_name": "mazanderani"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "p2",
+                            "language_iso_code_3": "pfl",
+                            "language_name": "pfaelzisch"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "p3",
+                            "language_iso_code_3": "pms",
+                            "language_name": "piemontese"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "p4",
+                            "language_iso_code_3": "pnb",
+                            "language_name": "western panjabi"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "r1",
+                            "language_iso_code_3": "rue",
+                            "language_name": "rusyn"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "v1",
+                            "language_iso_code_3": "vec",
+                            "language_name": "venetian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "v2",
+                            "language_iso_code_3": "vep",
+                            "language_name": "veps"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "v3",
+                            "language_iso_code_3": "vls",
+                            "language_name": "vlaams"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "w2",
+                            "language_iso_code_3": "wuu",
+                            "language_name": "wu chinese"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "x2",
+                            "language_iso_code_3": "xmf",
+                            "language_name": "mingrelian"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "y1",
+                            "language_iso_code_3": "yue",
+                            "language_name": "yue chinese"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "rk",
+                            "language_iso_code_3": "rkr",
+                            "language_name": "korean-romaji",
+                            "is_romanized": 1
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "rz",
+                            "language_iso_code_3": "rz0",
+                            "language_name": "chinese-romaji",
+                            "is_romanized": 1
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "rj",
+                            "language_iso_code_3": "rja",
+                            "language_name": "japanese-romaji",
+                            "is_romanized": 1
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "z1",
+                            "language_iso_code_3": "zht",
+                            "language_name": "chinese (traditional)",
+                            "has_romanization": 1,
+                            "iso_code_romanization": "rz"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "e1",
+                            "language_iso_code_3": "eml",
+                            "language_name": "emilian-romagnol"
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "a5",
+                            "language_iso_code_3": "as5",
+                            "language_name": "assamese-romaji",
+                            "is_romanized": 1
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "b5",
+                            "language_iso_code_3": "be5",
+                            "language_name": "bengali-romaji",
+                            "is_romanized": 1
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "g2",
+                            "language_iso_code_3": "gu2",
+                            "language_name": "gujarati-romaji",
+                            "is_romanized": 1
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "h3",
+                            "language_iso_code_3": "hi3",
+                            "language_name": "hindi-romaji",
+                            "is_romanized": 1
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "k2",
+                            "language_iso_code_3": "ka2",
+                            "language_name": "kannada-romaji",
+                            "is_romanized": 1
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "m8",
+                            "language_iso_code_3": "ma8",
+                            "language_name": "malayalam-romaji",
+                            "is_romanized": 1
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "m9",
+                            "language_iso_code_3": "ma9",
+                            "language_name": "marathi-romaji",
+                            "is_romanized": 1
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "p5",
+                            "language_iso_code_3": "pa5",
+                            "language_name": "panjabi-romaji",
+                            "is_romanized": 1
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "t2",
+                            "language_iso_code_3": "ta2",
+                            "language_name": "tamil-romaji",
+                            "is_romanized": 1
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "t3",
+                            "language_iso_code_3": "te3",
+                            "language_name": "telugu-romaji",
+                            "is_romanized": 1
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "u1",
+                            "language_iso_code_3": "ur1",
+                            "language_name": "urdu-romaji",
+                            "is_romanized": 1
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "o1",
+                            "language_iso_code_3": "or1",
+                            "language_name": "oriya-romaji",
+                            "is_romanized": 1
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "n5",
+                            "language_iso_code_3": "ne5",
+                            "language_name": "nepali-romaji",
+                            "is_romanized": 1
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "s4",
+                            "language_iso_code_3": "sa4",
+                            "language_name": "sanskrit-romaji",
+                            "is_romanized": 1
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "e2",
+                            "language_iso_code_3": "el2",
+                            "language_name": "greek-romaji",
+                            "is_romanized": 1
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "r2",
+                            "language_iso_code_3": "ru2",
+                            "language_name": "russian-romaji",
+                            "is_romanized": 1
+                        },
+                        {
+                            "__typename": "Language",
+                            "language_iso_code_1": "t4",
+                            "language_iso_code_3": "tr1",
+                            "language_name": "thai-romaji",
+                            "is_romanized": 1
+                        }
+                    ]
+                },
+                "lyricVideosGet": {
+                    "data": {
+                        "lyricsVideo": null
+                    }
+                },
+                "previewImage": {
+                    "data": "https://s.mxmcdn.net/community-dynamic-images/community/lyrics?options=eyJkZXRhaWxzIjoiIiwibG9nbyI6Imh0dHBzOi8vcy5teG1jZG4ubmV0L2ltYWdlcy1zdG9yYWdlL2FsYnVtcy8wLzgvOS8zLzQvMi8xNDI0Mzk4MF81MDBfNTAwLmpwZyIsIm5hbWUiOiJKb3NlcGhpbmUgRm9zdGVyIiwidGl0bGUiOiJDaGlsZCBvZiBHb2QifQ%3D%3D\u0026imageFormat=jpeg\u0026signature=jJh764S1v1vFa%2BnO%2BTxHy1syFmARkbXfS1yPgEDHrFc\u0026signature_protocol=sha256"
+                },
+                "trackInfo": {
+                    "data": {
+                        "lyrics": {
+                            "body": "Don′t it feel silly? Don't it feel odd?\nBeing just a bitty child of God\nLiving in the city, gettin′ high on the hog\nIsn't it a pity? A child of God\n\nThe city is our reservation\nAnd the tribe is on its knees\n'Cause child of God, we′re living miserably\n\nDon′t it feel silly? Don't it feel odd?\nBeing just a bitty child of God\nSinnin′ in the city, getting' lost in the fog\nAin′t that a pity? A child of God\n\nThe city is our reservation\nAnd the tribe is on its knees\n'Cause child of God, we′re living miserably\n\nChild of God\n\nChild of God\n\nDon't it feel silly? Don't it feel odd?\nBeing just a bitty child of God\nLiving in the city, gettin′ high on the hog\nIsn′t it a pity? A child of God\n\nThe city is our reservation\nAnd the tribes acknowledging\nThat child of God, we're living miserably\n\nMaybe it′s the revelation\nThat we're cogs in the machine\nChild of God, we′re living miserably",
+                            "canEdit": false,
+                            "copyright": "Writer(s): Josephine Foster\n",
+                            "id": 19755733,
+                            "language": "en",
+                            "languageDescription": "English",
+                            "lyricsUser": {
+                                "uaid": "3vUCAOkmSDigz-cxw2ZfL9YaMaVN0QGhUyjqzpNa8ivOUe5kCLyrY1MV54OH8lAFrb7Czk0dm79yethvR9lMgmbDFm5aYL_qui5XmECcnOksJJGwLmBcQpMgLJWLU6NaqIpX00cfa0j4ta8vQGZnP3dP7Rg",
+                                "is_mine": 0,
+                                "user_name": "Nicola Di Costanzo",
+                                "user_name_alias": "",
+                                "created": "2014-12-18T17:57:51Z",
+                                "user_profile_photo": "https://lh3.googleusercontent.com/a/ACg8ocI1ijQaRRXSs1HjlXM2mwmUyYi1TnbfSDeMyUoFE0tBFU8xfTJ7=s96-c",
+                                "has_private_profile": 0,
+                                "has_informative_profile_page": 0,
+                                "has_distributor_profile_page": 0,
+                                "score": 131014,
+                                "position": 3288,
+                                "level": "top",
+                                "key": "dfc95b20cf3671a0b563d65c9e5b7572e1c8f6c8214a0620d1502aa5b83d293e",
+                                "rank_level": 60,
+                                "rank_name": "king",
+                                "rank_color": "D4A34B",
+                                "rank_colors": {
+                                    "rank_color_10": "FFF4DE",
+                                    "rank_color_50": "EFCA87",
+                                    "rank_color_100": "D4A34B",
+                                    "rank_color_200": "B78436"
+                                },
+                                "rank_image_url": "https://static.musixmatch.com/badges/rank_icons/king.png",
+                                "weekly_score": 30,
+                                "points_to_next_level": 0,
+                                "ratio_to_next_level": 0,
+                                "next_rank_name": "",
+                                "ratio_to_next_rank": 0,
+                                "next_rank_color": null,
+                                "next_rank_colors": null,
+                                "next_rank_image_url": null,
+                                "counters": {
+                                    "translation_ok": 261,
+                                    "lyrics_missing": 4414,
+                                    "track_structure": 69,
+                                    "lyrics_not_spam": 5,
+                                    "vote_bonuses": 1545,
+                                    "lyrics_changed": 3909,
+                                    "vote_maluses": 9,
+                                    "lyrics_subtitle_added": 2506,
+                                    "save_academy_test_passed": 4,
+                                    "lyrics_report_contain_mistakes": 9,
+                                    "lyrics_music_id": 172,
+                                    "lyrics_ai_phrases_not_related_no": 29,
+                                    "track_complete_metadata": 9,
+                                    "evaluation_curator_test": 2,
+                                    "lyrics_richsync_added": 4,
+                                    "lyrics_ranking_change": 3327,
+                                    "admin_add_score": 1,
+                                    "lyrics_ai_incorrect_text_no": 3,
+                                    "evaluation_academy_test": 1,
+                                    "track_influencer_bonus_moderator_vote": 222,
+                                    "lyrics_ko": 250,
+                                    "lyrics_implicitly_ok": 3,
+                                    "lyrics_ok": 1072,
+                                    "lyrics_favourite_added": 8,
+                                    "subtitle_report_wrong_sync": 3,
+                                    "track_translation": 40196,
+                                    "lyrics_report_completely_wrong": 1,
+                                    "lyrics_generic_ko": 2,
+                                    "lyrics_ai_completely_wrong_no": 12,
+                                    "lyrics_ai_phrases_not_related_skip": 1
+                                },
+                                "moderator": true,
+                                "artist_manager": 0,
+                                "academy_completed": true,
+                                "academy_completed_date": "2024-09-03"
+                            },
+                            "pixelTrackingUrl": "https://tracking.musixmatch.com/t1.0/m_img/e_0/sn_0/l_19755733/su_0/rs_0/tr_3vUCANjQgeiBFKDRdN5ofCiYTpsba8DwkAPbBNJiUrmCh8lU6LM445CVMssgvMpIPCzP7oeacF0pv7xXNGl_r69JVMoEjkmkZo6kwXzT2_lsSgJhEcfvnW0L24gUw0RZPaE1BcUmPHdYk2zx8QPbPmX_h-uwv3o_s5o43OK9_jHjixNSK43TWjK1Ef3tuhTZQwPq_EkUwHE2qua14gZ0CaKbHSQkYP__YvptPkiVcZNwtixPxbDbccsfygAQfUf25gTXzX2avWIDUh1ke3sR7nqIn8VGReSz3sNBZiNXrLT2RRXJsJLkPA3ydx0SZJfikBfU_JLwg5fRSxJyzcKH2Ozg7QRwyuGHLZPIgV-79w2WkfivANSD8bW9AMxDtboBjrPm5zenVmdpjeXVgaUlBFmgoL8yM9FwKoiPwwAc8YCflzA-fHqmfoYh-TJqcD3szKYftep5ykaEpeImF-b85pNv0g5-EpN4RuhHvcHH4l28ZRMYkqld55KvATgqW4F1vA/",
+                            "verifier": "curator"
+                        },
+                        "subtitle": [],
+                        "track": {
+                            "albumId": 14246996,
+                            "albumName": "Blood Rushing",
+                            "albumVanityId": "Josephine-Foster/Blood-Rushing",
+                            "artistId": 105806,
+                            "artistName": "Josephine Foster",
+                            "artists": [
+                                {
+                                    "aliases": [],
+                                    "externalIds": {
+                                        "itunes": [
+                                            "65704045"
+                                        ],
+                                        "spotify": [
+                                            "1fVyf1LbeIEE4DUT4dZhHL"
+                                        ]
+                                    },
+                                    "genres": [
+                                        {
+                                            "id": 10,
+                                            "name": "Singer/Songwriter",
+                                            "vanity_id": "Singer-Songwriter"
+                                        }
+                                    ],
+                                    "id": 105806,
+                                    "image": "https://static.musixmatch.com/images-storage/mxmimages/6/3/3/1/1/2/211336_2.jpg",
+                                    "imageCopyright": "",
+                                    "isVerified": true,
+                                    "name": "Josephine Foster",
+                                    "vanityId": "Josephine-Foster",
+                                    "websiteUrl": "https://www.josephinefoster.info/"
+                                }
+                            ],
+                            "commonTrackId": 11300086,
+                            "commontrackItunesIds": [
+                                1216837112,
+                                553474526
+                            ],
+                            "commontrackSpotifyIds": [
+                                "1Pcw7InXymhyDG6vtL1iZE",
+                                "6sO1dtO4c8CQWi0hBWrTTR",
+                                "6kMiUQo61ZsFh5yDBWcViR"
+                            ],
+                            "coverImage": "https://s.mxmcdn.net/images-storage/albums/0/8/9/3/4/2/14243980_350_350.jpg",
+                            "coverImageHD": "https://s.mxmcdn.net/images-storage/albums/0/8/9/3/4/2/14243980_500_500.jpg",
+                            "hasLyrics": true,
+                            "hasPreReleaseRestricted": false,
+                            "hasSync": true,
+                            "hasTrackStructure": false,
+                            "id": 19720672,
+                            "isExplicit": false,
+                            "isInstrumental": false,
+                            "isPreRelease": false,
+                            "lastEditDate": "2019-10-02T07:38:31Z",
+                            "lens": {
+                                "meaning": {
+                                    "explanation": "Josephine Foster's 'Child of God' reflects on the irony and sadness of living a dissolute life in the city despite being a 'child of God,' using the metaphor of the city as a reservation to depict modern alienation and spiritual disconnection.",
+                                    "type": "meaning"
+                                },
+                                "moods": {
+                                    "main_moods": [
+                                        "despair",
+                                        "angst",
+                                        "spirituality",
+                                        "reflection",
+                                        "social commentary"
+                                    ],
+                                    "type": "moods"
+                                },
+                                "rating": {
+                                    "audience": "PG-13",
+                                    "descriptor": "The lyrics contain themes of living miserably and sinning in the city, which may be considered mature themes. Additionally, there are references to 'gettin' high on the hog,' which could imply substance use, and the repeated mention of 'living miserably' suggests a level of despair that may not be suitable for younger audiences without parental guidance.",
+                                    "type": "rating"
+                                },
+                                "themes": {
+                                    "main_themes": [
+                                        {
+                                            "theme": "hypocrisy",
+                                            "quotes": [
+                                                "Living in the city, gettin' high on the hog",
+                                                "Don't it feel silly? Don't it feel odd? Being just a bitty child of God"
+                                            ]
+                                        },
+                                        {
+                                            "theme": "urban struggle",
+                                            "quotes": [
+                                                "And the tribe is on its knees",
+                                                "The city is our reservation"
+                                            ]
+                                        },
+                                        {
+                                            "theme": "misery and suffering",
+                                            "quotes": [
+                                                "'Cause child of God, we're living miserably",
+                                                "Maybe it's the revelation That we're cogs in the machine"
+                                            ]
+                                        },
+                                        {
+                                            "theme": "self-awareness",
+                                            "quotes": [
+                                                "The tribes acknowledging That child of God, we're living miserably"
+                                            ]
+                                        }
+                                    ],
+                                    "type": "themes"
+                                }
+                            },
+                            "name": "Child of God",
+                            "performersMiscTags": {
+                                "fan_chant": "Fanchant",
+                                "voice_over": "Voice-over",
+                                "backing_vocalist": "Backing vocalist",
+                                "robotic_vocal": "Robotic vocal",
+                                "unknown": "Unknown"
+                            },
+                            "performersTagging": null,
+                            "releaseDate": "2012-09-17T00:00:00Z",
+                            "spotifyId": "1Pcw7InXymhyDG6vtL1iZE",
+                            "vanityId": "Josephine-Foster/Child-of-God"
+                        },
+                        "translationStatuses": {},
+                        "type": "no-structure"
+                    }
+                }
+            },
+            "seo": {
+                "deepLinks": {
+                    "androidAppIndexURL": "android-app://com.musixmatch.android.lyrify/mxm/lyrics/19720672?origin=appindexing",
+                    "iOSAppIndexURL": "ios-app://448278467/mxm/lyrics/19720672",
+                    "mobileDeepLink": "mxm://lyrics/19720672"
+                },
+                "description": "Lyrics for Child of God by Josephine Foster. ",
+                "ogTags": {
+                    "og:description": "Lyrics for Child of God by Josephine Foster. ",
+                    "og:image": "https://s.mxmcdn.net/community-dynamic-images/community/lyrics?options=eyJkZXRhaWxzIjoiIiwibG9nbyI6Imh0dHBzOi8vcy5teG1jZG4ubmV0L2ltYWdlcy1zdG9yYWdlL2FsYnVtcy8wLzgvOS8zLzQvMi8xNDI0Mzk4MF81MDBfNTAwLmpwZyIsIm5hbWUiOiJKb3NlcGhpbmUgRm9zdGVyIiwidGl0bGUiOiJDaGlsZCBvZiBHb2QifQ%3D%3D\u0026imageFormat=jpeg\u0026signature=jJh764S1v1vFa%2BnO%2BTxHy1syFmARkbXfS1yPgEDHrFc\u0026signature_protocol=sha256",
+                    "og:image:height": "500",
+                    "og:image:width": "500",
+                    "og:title": "Josephine Foster - Child of God lyrics | Musixmatch",
+                    "og:type": "website",
+                    "og:url": "https://www.musixmatch.com/lyrics/Josephine-Foster/Child-of-God"
+                },
+                "structuredData": "[\n  {\n    \"@context\": \"https://schema.org\",\n    \"@type\": \"MusicRecording\",\n    \"byArtist\": {\n      \"@type\": \"MusicGroup\",\n      \"name\": \"Josephine Foster\"\n    },\n    \"description\": \"Lyrics for Child of God by Josephine Foster. \",\n    \"headline\": \"Josephine Foster - Child of God lyrics | Musixmatch\",\n    \"mainEntityOfPage\": \"https://www.musixmatch.com/lyrics/Josephine-Foster/Child-of-God\",\n    \"name\": \"Child of God\",\n    \"thumbnailUrl\": \"https://s.mxmcdn.net/images-storage/albums/0/8/9/3/4/2/14243980_500_500.jpg\"\n  }\n]",
+                "title": "Josephine Foster - Child of God lyrics | Musixmatch",
+                "twitterTags": {
+                    "twitter:card": "summary",
+                    "twitter:description": "Lyrics for Child of God by Josephine Foster. ",
+                    "twitter:image": "https://s.mxmcdn.net/community-dynamic-images/community/lyrics?options=eyJkZXRhaWxzIjoiIiwibG9nbyI6Imh0dHBzOi8vcy5teG1jZG4ubmV0L2ltYWdlcy1zdG9yYWdlL2FsYnVtcy8wLzgvOS8zLzQvMi8xNDI0Mzk4MF81MDBfNTAwLmpwZyIsIm5hbWUiOiJKb3NlcGhpbmUgRm9zdGVyIiwidGl0bGUiOiJDaGlsZCBvZiBHb2QifQ%3D%3D\u0026imageFormat=jpeg\u0026signature=jJh764S1v1vFa%2BnO%2BTxHy1syFmARkbXfS1yPgEDHrFc\u0026signature_protocol=sha256",
+                    "twitter:title": "Josephine Foster - Child of God lyrics | Musixmatch",
+                    "twitter:url": "https://www.musixmatch.com/lyrics/Josephine-Foster/Child-of-God"
+                }
+            },
+            "serverConfig": {
+                "debugHeaders": null,
+                "enableOpenSearch": true,
+                "host": "www.musixmatch.com",
+                "queryCount": null,
+                "screenSize": "large",
+                "showArtistBanner": true,
+                "showProBanner": true
+            },
+            "_sentryTraceData": "b1415f0e341ee4dead347650f67314de-32a1f535c21d2c57",
+            "_sentryBaggage": "sentry-environment=production,sentry-release=mxm-com%401.37.0,sentry-public_key=b52091f915524eae8cb88c4df3e51dc0,sentry-trace_id=b1415f0e341ee4dead347650f67314de"
+        },
+        "__N_SSP": true
+    },
+    "page": "/lyrics/[artistVanityId]/[trackVanityId]",
+    "query": {
+        "artistVanityId": "Josephine-Foster",
+        "trackVanityId": "Child-of-God"
+    },
+    "buildId": "ZBB3NZB_xceIKLp-DwNyA",
+    "assetPrefix": "https://s.mxmcdn.net/mxm-com/prod/1.37.0",
+    "isFallback": false,
+    "isExperimentalCompile": false,
+    "gssp": true,
+    "locale": "en",
+    "locales": [
+        "en",
+        "de",
+        "es",
+        "fr",
+        "it",
+        "ja",
+        "ko",
+        "pt"
+    ],
+    "defaultLocale": "en",
+    "scriptLoader": []
+}

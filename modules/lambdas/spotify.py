@@ -59,6 +59,8 @@ def get_playlist_tracks(playlist_id):
 
     return tracks
 
+def format_to_search_text()
+
 def fetch_lyrics(song_title, artist_name):
     """
     Search Genius for a song and return lyrics text.
@@ -68,32 +70,27 @@ def fetch_lyrics(song_title, artist_name):
     query = f"{song_title} {artist_name}"
 
     try:
-        res = requests.get(search_url, headers=headers, params={"q": query}, timeout=10)
-        res.raise_for_status()
-        data = res.json()
+        HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+        SONG_URL = 'https://www.musixmatch.com/lyrics/'
+        # SONG_LINK = 'https://www.musixmatch.com/lyrics/Josephine-Foster/Child-of-God'
 
-        hits = data["response"]["hits"]
-        if not hits:
-            return {}
+        # build bs4 soup object.
+        response = requests.get(f'{SONG_URL}{artist_name}/{song_title}', headers=HEADERS)
+        soup = BeautifulSoup(response.text, "html.parser")
+        # print(soup)
+        # find the lyrics data.
+        text = soup.find(id="__NEXT_DATA__").text
+        # print(data)
+        data = json.loads(text)
+        lyrics = data['props']['pageProps']['data']['trackInfo']['data']['lyrics']['body']
 
-        song_path = hits[0]["result"]["path"]
-        song_url = f"https://genius.com{song_path}"
-
-        page = requests.get(song_url, timeout=10)
-        soup = BeautifulSoup(page.text, "html.parser")
-        lyrics_div = soup.find_all("div", {"data-lyrics-container": "true"})[0]
-        if not lyrics_div:
-            return {}
-        
-        for child in lyrics_div.find_all("div", {"data-exclude-from-selection": "true"}):
-            child.decompose() 
-
-        for br in lyrics_div.find_all("br"):
-            br.replace_with("\n")
-        lyrics = lyrics_div.text.strip()
-
-        if not lyrics:
-            return {}
+        # if cols:
+        #     lyrics = "\n".join(x.text for x in cols)
+        # elif data := soup.find(class_="lyrics__content__warning", text=True):
+        #     lyrics = data.get_text()
+        # finally print the lyrics.
+        # print(lyrics)
+      
         return {
             'title': song_title,
             'artist': artist_name,
@@ -102,70 +99,6 @@ def fetch_lyrics(song_title, artist_name):
     except Exception as e:
         return {}
 
-class RateLimitedError(Exception):
-    pass
-
-def _encode_params(title: str, artist: str) -> str:
-    return f"title={urllib.parse.quote_plus(title)}&artist={urllib.parse.quote_plus(artist)}"
-
-async def fetch_json(session: aiohttp.ClientSession, url: str, *, max_retries=5, base_delay=0.5, timeout=10):
-    """
-    Fetch JSON with retries on 429/5xx. Exponential backoff + jitter.
-    """
-    attempt = 0
-    while True:
-        try:
-            async with session.get(url, timeout=timeout) as r:
-                if r.status == 429:
-                    # surface as special error to trigger backoff
-                    raise RateLimitedError("429 Too Many Requests")
-                if 500 <= r.status < 600:
-                    raise RuntimeError(f"Server error {r.status}")
-                r.raise_for_status()
-                return await r.json()
-        except (RateLimitedError, aiohttp.ClientError, asyncio.TimeoutError, RuntimeError) as e:
-            attempt += 1
-            if attempt > max_retries:
-                raise
-            # decorrelated jitter backoff
-            delay = min(30.0, random.uniform(0, 1) + base_delay * (2 ** (attempt - 1)))
-            await asyncio.sleep(delay)
-
-async def fetch_one_song(session, sem, title, artist, cache):
-    key = (title.strip().lower(), artist.strip().lower())
-    if key in cache:
-        return cache[key]
-
-    params = _encode_params(title, artist)
-
-    async with sem:
-        # Try primary (YouTube) first
-        yt_url = f"{YOUTUBE_BASE}?{params}"
-        try:
-            data = await fetch_json(session, yt_url)
-            lyrics = data.get("data", {}).get("lyrics")
-            if lyrics:
-                cache[key] = {"title": title, "artist": artist, "lyrics": lyrics}
-                return cache[key]
-        except Exception:
-            # If it's a hard error, we still try fallback below
-            pass
-
-    # If no lyrics from YT, try Musixmatch (but still bounded by sem)
-    async with sem:
-        mm_url = f"{MM_BASE}?{params}"
-        try:
-            data_mm = await fetch_json(session, mm_url)
-            lyrics_mm = data_mm.get("data", {}).get("lyrics")
-            if lyrics_mm:
-                cache[key] = {"title": title, "artist": artist, "lyrics": lyrics_mm}
-                return cache[key]
-        except Exception:
-            pass
-
-    # Nothing worked
-    cache[key] = None
-    return None
 
 async def fetch_all_lyrics_concurrently(songs, *, max_concurrency=6, timeout=10):
     """
@@ -173,31 +106,21 @@ async def fetch_all_lyrics_concurrently(songs, *, max_concurrency=6, timeout=10)
     Returns: list of dicts with title, artist, lyrics
     """
     # Deduplicate upfront to reduce host pressure
-    seen = set()
-    deduped = []
-    for t, a in songs:
-        key = (t.strip().lower(), a.strip().lower())
-        if key not in seen:
-            seen.add(key)
-            deduped.append((t, a))
+    results = []
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        future_to_song = {executor.submit(fetch_lyrics, title, artist): (title, artist) for title, artist in songs}
 
-    sem = asyncio.Semaphore(max_concurrency)
-    cache = {}
+        for future in as_completed(future_to_song):
+            title, artist = future_to_song[future]
+            try:
+                lyrics = future.result()
+                if lyrics:
+                    results.append(lyrics)
+            except Exception as e:
+                print(f"Failed to fetch {title}: {e}")
+            time.sleep(0.3)  # small delay to avoid hammering Genius
 
-    connector = aiohttp.TCPConnector(limit=0)  # let semaphore govern concurrency
-    async with aiohttp.ClientSession(connector=connector) as session:
-        tasks = [fetch_one_song(session, sem, t, a, cache) for (t, a) in deduped]
-        results = await asyncio.gather(*tasks, return_exceptions=False)
-
-    # Map results back to original list order (including duplicates if present)
-    out = []
-    cache_for_lookup = {(t.strip().lower(), a.strip().lower()): res for (t, a), res in zip(deduped, results)}
-    for t, a in songs:
-        res = cache_for_lookup.get((t.strip().lower(), a.strip().lower()))
-        if res:
-            out.append(res)
-
-    return out
+    return results
 
 def get_playlist_lyrics_async(playlist_id, *, max_concurrency=6):
     _logger.info(('get playlist lyrics', playlist_id))
