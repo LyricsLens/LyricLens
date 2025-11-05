@@ -87,39 +87,44 @@ def lambda_handler(event, context):
         elif http_method == 'GET' and path == SONGS:
             query_params = event.get('queryStringParameters') or {}
             playlist_url = query_params.get('playlist_id')
-            
+
             logger.info(f"Getting songs for playlist: {playlist_url}")
-            
+
             if not playlist_url:
                 return format(400, {"message": "No Query params supplied. Need playlist_id"}, origin=origin)
-            
+
             try:
-                lyrics = get_playlist_lyrics_async(playlist_url)
-                logger.info(f"Retrieved lyrics: {lyrics is not None}")
-                
+                # Handle async or sync implementations transparently
+                maybe_coro = get_playlist_lyrics_async(playlist_url)
+                lyrics = asyncio.run(maybe_coro) if asyncio.iscoroutine(maybe_coro) else maybe_coro
+
+                logger.info(f"Retrieved lyrics: {bool(lyrics)}")
+
                 if lyrics:
+                    # Ensure JSON-serializable (e.g., no sets/bytes/Decimal)
                     return format(200, lyrics, origin=origin)
                 else:
-                    return format(400, {"message": "Issue getting songs from playlist. Make sure the playlist is public and there are songs."}, origin=origin)
+                    return format(
+                        400,
+                        {"message": "Issue getting songs from playlist. Make sure the playlist is public and there are songs."},
+                        origin=origin,
+                    )
             except Exception as e:
                 logger.error(f"Error getting playlist lyrics: {str(e)}")
                 logger.error(traceback.format_exc())
                 return format(500, {"message": f"Error retrieving playlist: {str(e)}"}, origin=origin)
-        
+
         else:
             logger.warning(f"Unsupported operation: {http_method} {path}")
             return format(400, {"message": f"Unsupported operation: {http_method} {path}"}, origin=origin)
-            
+
     except Exception as e:
-        # Catch any unhandled exceptions
         logger.error(f"Unhandled exception: {str(e)}")
         logger.error(traceback.format_exc())
-        
-        # Return a properly formatted error response
         return {
             "statusCode": 500,
             "headers": _cors_headers(origin if 'origin' in locals() else None),
-            "body": json.dumps({"message": "Internal server error", "error": str(e)})
+            "body": json.dumps({"message": "Internal server error", "error": str(e)}),
         }
 
 def main():
