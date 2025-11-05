@@ -52,7 +52,7 @@ module "bedrock_lambda" {
   source        = "./modules/bedrock-lambda"
 
   function_name = "bedrock-image-generator"
-  filename      = "${path.module}/modules/bedrock-lambda/bedrock_lambda.zip"
+  filename      = "${path.module}/modules/lambda-bedrock/bedrock_lambda.zip"
   handler       = "bedrock_lambda.handler"
   runtime       = "python3.11"
 
