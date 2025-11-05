@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
+import json
 
 HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
 SONG_LINK = 'https://www.musixmatch.com/lyrics/Josephine-Foster/Child-of-God'
@@ -19,12 +20,16 @@ def get_soup(url: str) -> BeautifulSoup:
 
 # build bs4 soup object.
 soup = get_soup(SONG_LINK)
-print(soup)
+# print(soup)
 # find the lyrics data.
-cols = soup.findAll(class_="lyrics__content__ok", text=True)
-if cols:
-    lyrics = "\n".join(x.text for x in cols)
-elif data := soup.find(class_="lyrics__content__warning", text=True):
-    lyrics = data.get_text()
+text = soup.find(id="__NEXT_DATA__").text
+# print(data)
+data = json.loads(text)
+print(data['props']['pageProps']['data']['trackInfo']['data']['lyrics']['body'])
+
+# if cols:
+#     lyrics = "\n".join(x.text for x in cols)
+# elif data := soup.find(class_="lyrics__content__warning", text=True):
+#     lyrics = data.get_text()
 # finally print the lyrics.
-print(lyrics)
+# print(lyrics)
