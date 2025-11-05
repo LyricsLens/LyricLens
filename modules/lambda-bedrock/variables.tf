@@ -16,7 +16,7 @@ variable "image_prefix"    {
 }
 
 # Bedrock + env config
-variable "model_id"        { type = string }  # e.g., "amazon.titan-image-generator-v2:0"
+variable "model_id"        { type = string }  
 variable "aws_region"      { type = string }
 variable "url_expiry_secs" { 
     type = number  
