@@ -30,7 +30,7 @@ def get_playlist_tracks(playlist_id):
     auth_manager = SpotifyClientCredentials(
         client_id=CLIENT_ID, 
         client_secret=CLIENT_SECRET,     
-        # cache_handler=spotipy.cache_handler.CacheFileHandler(cache_path="/tmp/.cache-spotify")
+        cache_handler=spotipy.cache_handler.CacheFileHandler(cache_path="/tmp/.cache-spotify")
     )   
     sp = spotipy.Spotify(auth_manager=auth_manager)
 
@@ -54,47 +54,79 @@ def get_playlist_tracks(playlist_id):
 
     return tracks
 
+# def fetch_urls(song_title, artist_name):
+#     headers = {"Authorization": f"Bearer {GENIUS_TOKEN}"}
+#     search_url = "https://api.genius.com/search"
+#     query = f"{song_title} {artist_name}"
+
+#     try:
+#         res = requests.get(search_url, headers=headers, params={"q": query}, timeout=10)
+#         res.raise_for_status()
+#         data = res.json()
+
+#         hits = data["response"]["hits"]
+#         if not hits:
+#             return {}
+
+#         song_path = hits[0]["result"]["path"]
+#         song_url = f"https://genius.com{song_path}"
+        
+#         return {
+#             'title': song_title,
+#             'artist': artist_name,
+#             'url': song_path
+#         } 
+#     except:
+#         return {}
+    
 def fetch_lyrics(song_title, artist_name):
     """
     Search Genius for a song and return lyrics text.
     """
     headers = {"Authorization": f"Bearer {GENIUS_TOKEN}"}
-    search_url = "https://api.genius.com/search"
+    search_url = "https://lrclib.net/api/search"
     query = f"{song_title} {artist_name}"
 
     try:
         res = requests.get(search_url, headers=headers, params={"q": query}, timeout=10)
         res.raise_for_status()
         data = res.json()
-
-        hits = data["response"]["hits"]
-        if not hits:
+        if not data:
             return {}
-
-        song_path = hits[0]["result"]["path"]
-        song_url = f"https://genius.com{song_path}"
-
-        page = requests.get(song_url, timeout=10, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
-        soup = BeautifulSoup(page.text, "html.parser")
-        lyrics_div = soup.find_all("div", {"data-lyrics-container": "true"})[0]
-        if not lyrics_div:
-            return {}
-        
-        for child in lyrics_div.find_all("div", {"data-exclude-from-selection": "true"}):
-            child.decompose() 
-
-        for br in lyrics_div.find_all("br"):
-            br.replace_with("\n")
-        lyrics = lyrics_div.text.strip()
-
-        if not lyrics:
-            return {}
-        {}
+        song = data[0]
         return {
-            'title': song_title,
-            'artist': artist_name,
-            'lyrics': lyrics
+            'title': song['trackName'],
+            'artist': song['artistName'],
+            'lyrics': song['plainLyrics']
         }
+        # hits = data["response"]["hits"]
+        # if not hits:
+        #     return {}
+
+        # song_path = hits[0]["result"]["path"]
+        # song_url = f"https://genius.com{song_path}"
+
+        # page = requests.get(song_url, timeout=10, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
+        # soup = BeautifulSoup(page.text, "html.parser")
+        # lyrics_div = soup.find_all("div", {"data-lyrics-container": "true"})[0]
+        # if not lyrics_div:
+        #     return {}
+        
+        # for child in lyrics_div.find_all("div", {"data-exclude-from-selection": "true"}):
+        #     child.decompose() 
+
+        # for br in lyrics_div.find_all("br"):
+        #     br.replace_with("\n")
+        # lyrics = lyrics_div.text.strip()
+
+        # if not lyrics:
+        #     return {}
+        # {}
+        # return {
+        #     'title': song_title,
+        #     'artist': artist_name,
+        #     'lyrics': lyrics
+        # }
     except Exception as e:
         return {}
 
@@ -118,6 +150,7 @@ def fetch_all_lyrics_concurrently(songs):
     return results
 
 def get_playlist_lyrics(playlist_id):
+    # playlist_id = extract_playlist_id(playlist_url)
     _logger.info(('get playlist lyrics', playlist_id))
     songs = get_playlist_tracks(playlist_id)
     _logger.info(('found tracks', len(songs)))
@@ -131,8 +164,13 @@ def main():
     playlist_id = '5Ez74MIoh4pOSLFXhpwKdr'
     songs = get_playlist_tracks(playlist_id)
     lyrics = get_playlist_lyrics(playlist_id)
-
+    print(fetch_lyrics('red eyes', 'war on drugs'))
+    
+    print()
+    print()
+    
     print(json.dumps(lyrics))
+    
     # print(songs)
 
 if __name__=='__main__':

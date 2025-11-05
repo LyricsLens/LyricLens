@@ -34,3 +34,5 @@ Thumbs.db
 
 # python env
 .venv/
+
+.cache
