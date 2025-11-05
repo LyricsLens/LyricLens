@@ -48,8 +48,8 @@ module "api-gateway" {
   ]
 }
 
-module "bedrock_lambda" {
-  source        = "./modules/bedrock-lambda"
+module "lambda-bedrock" {
+  source        = "./modules/lambda-bedrock"
 
   function_name = "bedrock-image-generator"
   filename      = "${path.module}/modules/lambda-bedrock/bedrock_lambda.zip"
