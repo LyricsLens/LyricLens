@@ -49,14 +49,14 @@ function LandingPage() {
 		// --- bing bong the logic goes here ---
 
 		const res = await fetch(`${API_URL}/songs?playlist_id=${playlist_id}`);
-
 		if (!res.ok) {
 			setError("Failed to fetch songs. Please check the playlist URL and try again.");
 			setLoading(false);
 			return;
 		}
-
+		
 		const data = await res.json();
+		console.log('data', data);
 		setSongs(data);
 
 		// postImage();
