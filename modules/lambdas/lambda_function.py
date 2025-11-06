@@ -3,6 +3,8 @@ import os
 import traceback  # Add for better error logging
 import dynamodb
 from spotify import get_playlist_lyrics_async
+import asyncio  # Import asyncio for handling async functions
+import base64
 
 IMAGES = '/images'
 SONGS = '/songs'
@@ -32,13 +34,41 @@ def _cors_headers(origin: str | None):
         "Vary": "Origin",
     }
 
+async def _fully_await_async(obj):
+    if asyncio.iscoroutine(obj):
+        obj = await obj
+    if isinstance(obj, list):
+        return [await _fully_await_async(x) for x in obj]
+    if isinstance(obj, dict):
+        # Await only values that are coroutines
+        out = {}
+        for k, v in obj.items():
+            out[k] = await _fully_await_async(v)
+        return out
+    # tuples? sets? keep structure JSON-safe later
+    return obj
+
+def fully_await(obj):
+    # Runs a small event loop to resolve any nested coroutines
+    return asyncio.run(_fully_await_async(obj))
+
+def _json_default(x):
+    if isinstance(x, set):
+        return list(x)
+    if isinstance(x, bytes):
+        return base64.b64encode(x).decode("ascii")
+    if isinstance(x, Decimal):
+        return float(x)
+    # last resort string-ify custom objects
+    return str(x)
+
 def format(code: int, body=None, origin: str | None = None):
     return _resp(code, origin, body)
 
 def _resp(code: int, origin: str | None, body=None):
     out = {"statusCode": code, "headers": _cors_headers(origin)}
     if body is not None:
-        out["body"] = json.dumps(body)
+        out["body"] = json.dumps(body, default=_json_default)
     return out
 
 def lambda_handler(event, context):
