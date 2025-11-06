@@ -1,107 +1,178 @@
 import json
+import os
+import traceback  # Add for better error logging
 import dynamodb
-from spotify import get_playlist_lyrics
+import spotify
+import asyncio  # Import asyncio for handling async functions
+import base64
+from decimal import Decimal
 
 IMAGES = '/images'
 SONGS = '/songs'
 
-CORS_HEADERS = {
-    "Access-Control-Allow-Origin": "*",  # or set to your S3 URL for security
-    "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type"  
-}
+# Add logging
+import logging
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
-def format(code: int, body = None):
-    result = {
-        "statusCode": code,
-        "headers": CORS_HEADERS,
+ALLOWED_ORIGINS = set(
+    (os.environ.get("ALLOWED_ORIGINS") or "http://localhost:3000")
+    .split(",")
+)
+
+def _cors_headers(origin: str | None):
+    # If origin is in allowed list, use it; otherwise use wildcard
+    allow_origin = origin if origin in ALLOWED_ORIGINS else "*"
+    
+    # When using wildcard, credentials must be false
+    credentials = "true" if origin in ALLOWED_ORIGINS else "false"
+    
+    return {
+        "Access-Control-Allow-Origin": allow_origin,
+        "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type,Authorization",
+        "Access-Control-Allow-Credentials": credentials,
+        "Vary": "Origin",
     }
 
-    if body:
-        result['body'] = json.dumps(body)
+async def _fully_await_async(obj):
+    if asyncio.iscoroutine(obj):
+        obj = await obj
+    if isinstance(obj, list):
+        return [await _fully_await_async(x) for x in obj]
+    if isinstance(obj, dict):
+        # Await only values that are coroutines
+        out = {}
+        for k, v in obj.items():
+            out[k] = await _fully_await_async(v)
+        return out
+    # tuples? sets? keep structure JSON-safe later
+    return obj
 
-    return result
+def fully_await(obj):
+    # Runs a small event loop to resolve any nested coroutines
+    return asyncio.run(_fully_await_async(obj))
+
+def _json_default(x):
+    if isinstance(x, set):
+        return list(x)
+    if isinstance(x, bytes):
+        return base64.b64encode(x).decode("ascii")
+    if isinstance(x, Decimal):
+        return float(x)
+    # last resort string-ify custom objects
+    return str(x)
+
+def format(code: int, body=None, origin: str | None = None):
+    return _resp(code, origin, body)
+
+def _resp(code: int, origin: str | None, body=None):
+    out = {"statusCode": code, "headers": _cors_headers(origin)}
+    if body is not None:
+        out["body"] = json.dumps(body, default=_json_default)
+    return out
 
 def lambda_handler(event, context):
-    http_method = event['httpMethod']
-    path = event['resource']
-
-    if http_method == "OPTIONS":
-        return format(200)
-
-    # GET /images - return all URLs
-    if http_method == "GET" and path == IMAGES:
-       return format(200, dynamodb.get_all_images())
-
-    # GET /images/{id} - return URL by id
-    elif http_method == "GET" and path == IMAGES + "/{id}":
-        image_id = event['pathParameters']['id']
-        images = dynamodb.get_images(image_id)
-        if not images:
-            return format(404, {"message": "Not found"})
-        return format(200, images)
-
-    # POST /images - add a new URL
-    elif http_method == "POST" and path == IMAGES:
-        body = json.loads(event['body'])
-        result = dynamodb.post_image(body)        
-        if result:
-            return format(201, {"message": "Image URL added"})
-        return format(400, {"message": "id and url required"})
-    
-    # POST /songs - get songs with their lyrics
-    elif http_method == 'GET' and path == SONGS:
-        query_params = event.get('queryStringParameters', {})
-        playlist_id = query_params.get('playlist_id', False)
-        # playlist_url = '5Ez74MIoh4pOSLFXhpwKdr'
-        if not playlist_id:
-            return format(400, {"message": "No Query params supplied. Need playlist_url"})
+    try:
+        # Log the incoming event for debugging
+        logger.info(f"Received event: {json.dumps(event)}")
         
-        lyrics = get_playlist_lyrics(playlist_id)
-        if lyrics:
-            return format(200, lyrics)
-        return format(400, {"message": "Issue getting songs from playlist. Make sure the playlist is public and there are songs."})
+        headers_in = event.get("headers") or {}
+        origin = headers_in.get("origin") or headers_in.get("Origin")
+        http_method = event.get("httpMethod")
+        path = event.get("resource") or event.get("path")
         
-    else:
-        return {"statusCode": 400, "body": json.dumps({"message": "Unsupported operation"})}
+        logger.info(f"Method: {http_method}, Path: {path}, Origin: {origin}")
+        
+        # API Gateway handles OPTIONS with MOCK integration, so this shouldn't be reached
+        # But if it is, handle it gracefully
+        if http_method == "OPTIONS":
+            logger.info("Handling OPTIONS request in Lambda")
+            return format(200, origin=origin)
 
-# def lambda_handler(event, context):
-#     http_method = event['httpMethod']
-#     path = event['resource']
+        # GET /images - return all URLs
+        if http_method == "GET" and path == IMAGES:
+            logger.info("Getting all images")
+            images = dynamodb.get_all_images()
+            return format(200, images, origin=origin)
 
-#         # Handle preflight OPTIONS request
-#     if http_method == "OPTIONS":
-#         return {
-#             "statusCode": 200,
-#             "headers": CORS_HEADERS,
-#             "body": ""
-#     }
+        # GET /images/{id} - return URL by id
+        elif http_method == "GET" and path == IMAGES + "/{id}":
+            image_id = event['pathParameters']['id']
+            logger.info(f"Getting image with id: {image_id}")
+            images = dynamodb.get_images(image_id)
+            if not images:
+                return format(404, {"message": "Not found"}, origin=origin)
+            return format(200, images, origin=origin)
 
-    
-#     # GET /images - return all URLs
-#     if http_method == "GET" and path == "/images":
-#         response = table.scan()
-#         return {
-#             "statusCode": 200,
-#             "headers": CORS_HEADERS,
-#             "body": json.dumps(response.get('Items', []))
-#         }
+        # POST /images - add a new URL
+        elif http_method == "POST" and path == IMAGES:
+            body = json.loads(event['body'])
+            logger.info(f"Posting new image: {body}")
+            result = dynamodb.post_image(body)        
+            if result:
+                return format(201, {"message": "Image URL added"}, origin=origin)
+            return format(400, {"message": "id and url required"}, origin=origin)
+        
+        # GET /songs - get songs with their lyrics
+        elif http_method == 'GET' and path == SONGS:
+            query_params = event.get('queryStringParameters') or {}
+            playlist_id = query_params.get('playlist_id')
 
-#     # GET /images/{id} - return URL by id
-#     elif http_method == "GET" and path == "/images/{id}":
-#         image_id = event['pathParameters']['id']
-#         response = table.get_item(Key={"id": image_id})
-#         if 'Item' in response:
-#             return {"statusCode": 200, "headers": CORS_HEADERS, "body": json.dumps(response['Item'])}
-#         return {"statusCode": 404, "headers": CORS_HEADERS, "body": json.dumps({"message": "Not found"})}
+            logger.info(f"Getting songs for playlist: {playlist_id}")
 
-#     # POST /images - add a new URL
-#     elif http_method == "POST" and path == "/images":
-#         body = json.loads(event['body'])
-#         if 'id' not in body or 'url' not in body:
-#             return {"statusCode": 400, "headers": CORS_HEADERS, "body": json.dumps({"message": "id and url required"})}
-#         table.put_item(Item={"id": body['id'], "url": body['url']})
-#         return {"statusCode": 201, "headers": CORS_HEADERS, "body": json.dumps({"message": "Image URL added"})}
+            if not playlist_id:
+                return format(400, {"message": "No Query params supplied. Need playlist_id"}, origin=origin)
 
-#     else:
-#         return {"statusCode": 400, "headers": CORS_HEADERS, "body": json.dumps({"message": "Unsupported operation"})}
+            try:
+                # maybe_coro = get_playlist_lyrics_async(playlist_url)
+                # top_level = asyncio.run(maybe_coro) if asyncio.iscoroutine(maybe_coro) else maybe_coro
+
+                # # 🔧 NEW: resolve any nested coroutines produced inside the async function
+                # lyrics = fully_await(top_level)
+                lyrics = spotify.get_playlist_lyrics(playlist_id)
+                logger.info(f"Retrieved lyrics: {bool(lyrics)}; type={type(lyrics)}")
+
+                if lyrics:
+                    return format(200, lyrics, origin=origin)
+                else:
+                    return format(
+                        400,
+                        {"message": "Issue getting songs from playlist. Make sure the playlist is public and there are songs."},
+                        origin=origin,
+                    )
+            except Exception as e:
+                logger.error(f"Error getting playlist lyrics: {str(e)}")
+                logger.error(traceback.format_exc())
+                return format(500, {"message": f"Error retrieving playlist: {str(e)}"}, origin=origin)
+
+        else:
+            logger.warning(f"Unsupported operation: {http_method} {path}")
+            return format(400, {"message": f"Unsupported operation: {http_method} {path}"}, origin=origin)
+
+    except Exception as e:
+        logger.error(f"Unhandled exception: {str(e)}")
+        logger.error(traceback.format_exc())
+        return {
+            "statusCode": 500,
+            "headers": _cors_headers(origin if 'origin' in locals() else None),
+            "body": json.dumps({"message": "Internal server error", "error": str(e)}),
+        }
+
+def main():
+    # For local testing
+    test_event = {
+        "httpMethod": "GET",
+        "resource": "/songs",
+        "queryStringParameters": {
+            "playlist_id": "0ZS0e1UXYRFxZfkBTEGnk4"
+        },
+        "headers": {
+            "origin": "http://localhost:3000"
+        }
+    }
+    response = lambda_handler(test_event, None)
+    print(json.dumps(response, indent=2))
+
+if __name__ == "__main__":
+    main()

@@ -6,7 +6,7 @@ import Logo from "@/public/logos/LyricLensLogo.png";
 function LandingPage() {
 	let tempID = 1;
 	const [url, setUrl] = useState("");
-	type Song = { id: string; title: string; artist: string };
+	type Song = { title: string; artist: string; lyrics: string };
 	const [songs, setSongs] = useState<Song[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [hovering, setHovering] = useState(false);
@@ -31,6 +31,7 @@ function LandingPage() {
 	}
 
 	async function handleAnalyze() {
+		setSongs([]);
 		setError(null);
 		const sanitized_url = url.split("?")[0]
 		if (!validateSpotifyUrl(sanitized_url)) {
@@ -45,9 +46,17 @@ function LandingPage() {
 
 		setLoading(true);
 		// --- bing bong the logic goes here ---
-		
+
 		const res = await fetch(`${API_URL}/songs?playlist_id=${playlist_id}`);
-		console.log(res.json());
+
+		if (!res.ok) {
+			setError("Failed to fetch songs. Please check the playlist URL and try again.");
+			setLoading(false);
+			return;
+		}
+
+		const data = await res.json();
+		setSongs(data);
 
 		// postImage();
 
@@ -220,7 +229,7 @@ function LandingPage() {
 									<tbody>
 										{songs.map((song, i) => (
 											<tr
-												key={song.id}
+												key={i}
 												className="border-b border-white/5 hover:bg-white/[.03] transition"
 											>
 												<td className="px-6 py-4 text-sm text-gray-400">

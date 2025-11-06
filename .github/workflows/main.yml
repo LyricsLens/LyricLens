@@ -21,20 +21,38 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Zip Lambda function
-        shell: bash
-        run: |
-          cd modules/lambdas
-          zip -r lambda_function.zip lambda_function.py dynamodb.py spotify.py playlist_results_example.json package
-          cd package
-          zip -r ../lambda_function.zip .
-          cd ..
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
+
+      - name: Zip Lambda function
+        shell: bash
+        run: |
+          cd modules/lambdas
+
+          # Clean start
+          rm -rf package lambda_function.zip
+          mkdir package
+
+          # Install dependencies FIRST
+          pip install --target ./package -r requirements.txt
+
+          # Copy Python files TO package
+          cp *.py package/
+          cp *.json package/ 2>/dev/null || true
+
+          # Zip FROM INSIDE package
+          cd package
+          zip -r ../lambda_function.zip .
+          cd ..
+
+          echo "Lambda package created successfully"
+          echo "Package size: $(ls -lh lambda_function.zip | awk '{print $5}')"
+          echo "Package contents (first 20 files):"
+          unzip -l lambda_function.zip | head -20
 
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v3
@@ -122,8 +140,13 @@ jobs:
           GENIUS_TOKEN: ${{secrets.GENIUS_TOKEN}}
           SPOTIFY_CLIENT_ID: ${{secrets.SPOTIFY_CLIENT_ID}}
           SPOTIFY_CLIENT_SECRET: ${{secrets.SPOTIFY_CLIENT_SECRET}}
-        run: terraform apply -auto-approve -input=false tfplan || terraform apply -auto-approve -input=false
-      
+        run: |
+          if [ -f tfplan ]; then
+            terraform apply -auto-approve -input=false tfplan
+          else
+            terraform apply -auto-approve -input=false
+          fi
+
       - name: Get API URL & Website Bucket
         if: ${{ github.event.inputs.action == 'apply' }}
         id: outputs
