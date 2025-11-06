@@ -14,6 +14,7 @@ _logger = logging.getLogger(__name__)
 CLIENT_ID = '622c032e55de4204901f03aae8b8cb45'
 CLIENT_SECRET = 'e2e4732c2f8342a3bc3af2883df70266'
 GENIUS_TOKEN = 'LvVgUY1EnbzspBCfeCOfH2ZudhwSpt-YYaeiSy7afQI-XUU6X4UvST4mdT1SUo_0'
+MAX_SONGS = 50
 
 def extract_playlist_id(playlist_url):
     """Extracts the playlist ID from a Spotify playlist URL."""
@@ -156,7 +157,7 @@ def get_playlist_lyrics(playlist_id):
     _logger.info(('found tracks', len(songs)))
     # with open('playlist_results_example.json', 'r', encoding='utf-8') as file:
     #     lyrics = json.loads(file.read())['body']
-    lyrics = fetch_all_lyrics_concurrently(songs)
+    lyrics = fetch_all_lyrics_concurrently(songs[:MAX_SONGS])
     return lyrics
 
 def main():
