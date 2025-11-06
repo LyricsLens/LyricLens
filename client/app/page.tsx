@@ -42,7 +42,8 @@ function LandingPage() {
 		if(!match) {
 			return;
 		}
-		const playlist_id = match[0] 
+		console.log('match', match) 
+		const playlist_id = match[1]
 
 		setLoading(true);
 		// --- bing bong the logic goes here ---
