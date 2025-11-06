@@ -5,6 +5,7 @@ import dynamodb
 from spotify import get_playlist_lyrics_async
 import asyncio  # Import asyncio for handling async functions
 import base64
+from decimal import Decimal
 
 IMAGES = '/images'
 SONGS = '/songs'
@@ -124,14 +125,15 @@ def lambda_handler(event, context):
                 return format(400, {"message": "No Query params supplied. Need playlist_id"}, origin=origin)
 
             try:
-                # Handle async or sync implementations transparently
                 maybe_coro = get_playlist_lyrics_async(playlist_url)
-                lyrics = asyncio.run(maybe_coro) if asyncio.iscoroutine(maybe_coro) else maybe_coro
+                top_level = asyncio.run(maybe_coro) if asyncio.iscoroutine(maybe_coro) else maybe_coro
 
-                logger.info(f"Retrieved lyrics: {bool(lyrics)}")
+                # 🔧 NEW: resolve any nested coroutines produced inside the async function
+                lyrics = fully_await(top_level)
+
+                logger.info(f"Retrieved lyrics: {bool(lyrics)}; type={type(lyrics)}")
 
                 if lyrics:
-                    # Ensure JSON-serializable (e.g., no sets/bytes/Decimal)
                     return format(200, lyrics, origin=origin)
                 else:
                     return format(
