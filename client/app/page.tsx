@@ -236,6 +236,26 @@ function LandingPage() {
 						)}
 					</div>
 				</main>
+
+				<section id="services-used" className="mt-20 py-16 px-4 from-[#171717] to-[#121212] bg-linear-to-b">
+					<h2 className="text-lg font-semibold text-white mb-6 text-center">
+						Features
+					</h2>
+					<div className="mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-4">
+						<Feature
+							title="Deep Analysis"
+							text="We dive into lyrics, moods, and themes to give you a comprehensive overview of your playlist."
+						/>
+						<Feature
+							title="Standout Tracks"
+							text="Identify key songs that define the vibe of your playlist."
+						/>
+						<Feature
+							title="Easy to Use"
+							text="Just paste your Spotify playlist link and let us do the rest."
+						/>
+					</div>
+				</section>
 			</div>
 		</div>
 	);
@@ -246,18 +266,20 @@ function Feature({
 	title,
 	text,
 }: {
-	icon: React.ReactNode;
+	icon?: React.ReactNode;
 	title: string;
 	text: string;
 }) {
 	return (
-		<div className="flex items-start gap-3 rounded-lg border border-white/10 bg-white/[.02] px-3 py-2">
-			<div className="mt-[2px] grid h-6 w-6 place-items-center rounded-md border border-white/10">
-				{icon}
-			</div>
+		<div className="flex items-start gap-3 rounded-lg border border-white/10 bg-white/2 px-5 py-5">
+			{icon && (
+				<div className="mt-0.5 grid h-6 w-6 place-items-center rounded-md border border-white/10">
+					{icon}
+				</div>
+			)}
 			<div>
-				<p className="text-xs font-semibold text-white">{title}</p>
-				<p className="text-xs text-gray-400">{text}</p>
+				<p className="text-sm font-semibold text-white">{title}</p>
+				<p className="text-sm text-gray-400">{text}</p>
 			</div>
 		</div>
 	);
