@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { Search } from "lucide-react";
 import Logo from "@/public/logos/LyricLensLogo.png";
+import Navbar from "./components/navbar";
 
 function LandingPage() {
 	let tempID = 1;
@@ -93,6 +94,7 @@ function LandingPage() {
 			/>
 
 			<div className="relative">
+				<Navbar />
 				{/* Header / Logo */}
 				<header className="px-4 pt-14">
 					<div className="mx-auto max-w-3xl text-center">
