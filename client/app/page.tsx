@@ -90,6 +90,8 @@ function LandingPage() {
 			} else {
 				console.log("image generation url:" + data.url);
 				console.log("image generation id:" + data.id);
+				console.log("image generation url:" + data.imageBase64);
+				console.log("image generation id:" + data.prompt);
 			}
 		} catch (err) {
 			console.error("image generation error:" + err);
