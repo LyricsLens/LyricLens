@@ -21,6 +21,13 @@ resource "aws_iam_role_policy_attachment" "lambda_policy_attach" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
+# needs access to bedrock to generate images
+resource "aws_iam_role_policy_attachment" "lambda_bedrock" {
+  role       = aws_iam_role.lambda_role.name   # adapt name if different
+  policy_arn = "arn:aws:iam::aws:policy/AmazonBedrockFullAccess"
+}
+
+
 # 🔒 Custom inline policy to allow DynamoDB access
 resource "aws_iam_role_policy" "lambda_dynamodb_policy" {
   name = "${var.function_name}-dynamodb-policy"
