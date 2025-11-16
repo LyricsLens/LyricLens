@@ -25,7 +25,7 @@ module "lambda" {
   handler       = "lambda_function.lambda_handler"
   runtime       = "python3.11"
   environment = {
-    IMAGE_BUCKET           = aws_s3_bucket.site.bucket  # <----- WHERE IMAGES ARE STORED
+    IMAGE_BUCKET           =  module.s3-website.bucket_name  # <----- WHERE IMAGES ARE STORED
 		BEDROCK_IMAGE_MODEL_ID = var.bedrock_image_model_id,
     TABLE_NAME = module.dynamodb.table_name,
     ALLOWED_ORIGINS = join(",", [
