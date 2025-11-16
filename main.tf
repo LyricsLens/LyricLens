@@ -24,6 +24,7 @@ module "lambda" {
   filename      = "${path.module}/modules/lambdas/lambda_function.zip"
   handler       = "lambda_function.lambda_handler"
   runtime       = "python3.11"
+  image_bucket_arn = module.s3-website.bucket_arn
   environment = {
     IMAGE_BUCKET           =  module.s3-website.bucket_name  # <----- WHERE IMAGES ARE STORED
 		BEDROCK_IMAGE_MODEL_ID = var.bedrock_image_model_id,
