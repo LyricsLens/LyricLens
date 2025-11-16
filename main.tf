@@ -27,7 +27,6 @@ module "lambda" {
   environment = {
     IMAGE_BUCKET           = var.bucket_name,
 		BEDROCK_IMAGE_MODEL_ID = var.bedrock_image_model_id,
-		AWS_REGION = var.aws_region,
     TABLE_NAME = module.dynamodb.table_name,
     ALLOWED_ORIGINS = join(",", [
       "http://localhost:3000",
