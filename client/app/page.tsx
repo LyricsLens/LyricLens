@@ -60,11 +60,33 @@ function LandingPage() {
 		setSongs(data);
 
 		// postImage();
+		generateImage();
 
 		//TODO this will need to be longer and we will probably need a better signal since playlist time is not constant
 		setTimeout(() => {
 			setLoading(false);
 		}, 600);
+	}
+
+	async function generateImage() {
+		console.log("Generating image..")
+		try {
+			const res = await fetch(`/api/images`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ 
+					prompt: "angsty frog in a neon city",
+					width: 512,
+					height: 512,
+					cfgScale: 8,
+				}),
+			})
+			const data = await res.json();
+			console.log(data);
+		} catch (err) {
+			console.error(err);
+		} finally {
+		}
 	}
 
 	async function postImage() {
