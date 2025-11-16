@@ -77,7 +77,7 @@ function LandingPage() {
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ 
 					// example for noe
-					prompt: "angsty frog in a neon city", 
+					prompt: "literally the chillest dude on the planet", 
 					width: 512,
 					height: 512,
 					cfgScale: 8,
