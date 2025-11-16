@@ -5,10 +5,21 @@ import dynamodb
 import spotify
 import asyncio  # Import asyncio for handling async functions
 import base64
+import boto3
 from decimal import Decimal
 
+BEDROCK = '/generate_images' 
 IMAGES = '/images'
 SONGS = '/songs'
+
+AWS_REGION = os.environ.get("AWS_REGION", "us-east-1")  # TODO make this not hardcoded
+IMAGE_BUCKET = os.environ.get("IMAGE_BUCKET", "")      
+BEDROCK_IMAGE_MODEL_ID = os.environ.get(                
+    "BEDROCK_IMAGE_MODEL_ID",
+    "amazon.titan-image-generator-v2:0"
+)
+bedrock = boto3.client("bedrock-runtime", region_name=AWS_REGION)
+s3 = boto3.client("s3")
 
 # Add logging
 import logging
