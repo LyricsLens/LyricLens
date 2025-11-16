@@ -84,6 +84,13 @@ function LandingPage() {
 			})
 			const data = await res.json();
 			console.log("image generation data:" + data);
+			if (!res.ok) {
+				console.error("image generation failed:", data.error ?? data.message ?? "Unknown error from image generator.");
+				return;
+			} else {
+				console.log("image generation url:" + data.url);
+				console.log("image generation id:" + data.id);
+			}
 		} catch (err) {
 			console.error("image generation error:" + err);
 		} finally {
