@@ -2,7 +2,10 @@ import json
 import os
 import traceback  # Add for better error logging
 import dynamodb
-from spotify import get_playlist_lyrics_async
+import spotify
+import asyncio  # Import asyncio for handling async functions
+import base64
+from decimal import Decimal
 
 IMAGES = '/images'
 SONGS = '/songs'
@@ -32,13 +35,41 @@ def _cors_headers(origin: str | None):
         "Vary": "Origin",
     }
 
+async def _fully_await_async(obj):
+    if asyncio.iscoroutine(obj):
+        obj = await obj
+    if isinstance(obj, list):
+        return [await _fully_await_async(x) for x in obj]
+    if isinstance(obj, dict):
+        # Await only values that are coroutines
+        out = {}
+        for k, v in obj.items():
+            out[k] = await _fully_await_async(v)
+        return out
+    # tuples? sets? keep structure JSON-safe later
+    return obj
+
+def fully_await(obj):
+    # Runs a small event loop to resolve any nested coroutines
+    return asyncio.run(_fully_await_async(obj))
+
+def _json_default(x):
+    if isinstance(x, set):
+        return list(x)
+    if isinstance(x, bytes):
+        return base64.b64encode(x).decode("ascii")
+    if isinstance(x, Decimal):
+        return float(x)
+    # last resort string-ify custom objects
+    return str(x)
+
 def format(code: int, body=None, origin: str | None = None):
     return _resp(code, origin, body)
 
 def _resp(code: int, origin: str | None, body=None):
     out = {"statusCode": code, "headers": _cors_headers(origin)}
     if body is not None:
-        out["body"] = json.dumps(body)
+        out["body"] = json.dumps(body, default=_json_default)
     return out
 
 def lambda_handler(event, context):
@@ -86,40 +117,46 @@ def lambda_handler(event, context):
         # GET /songs - get songs with their lyrics
         elif http_method == 'GET' and path == SONGS:
             query_params = event.get('queryStringParameters') or {}
-            playlist_url = query_params.get('playlist_id')
-            
-            logger.info(f"Getting songs for playlist: {playlist_url}")
-            
-            if not playlist_url:
+            playlist_id = query_params.get('playlist_id')
+
+            logger.info(f"Getting songs for playlist: {playlist_id}")
+
+            if not playlist_id:
                 return format(400, {"message": "No Query params supplied. Need playlist_id"}, origin=origin)
-            
+
             try:
-                lyrics = get_playlist_lyrics_async(playlist_url)
-                logger.info(f"Retrieved lyrics: {lyrics is not None}")
-                
+                # maybe_coro = get_playlist_lyrics_async(playlist_url)
+                # top_level = asyncio.run(maybe_coro) if asyncio.iscoroutine(maybe_coro) else maybe_coro
+
+                # # 🔧 NEW: resolve any nested coroutines produced inside the async function
+                # lyrics = fully_await(top_level)
+                lyrics = spotify.get_playlist_lyrics(playlist_id)
+                logger.info(f"Retrieved lyrics: {bool(lyrics)}; type={type(lyrics)}")
+
                 if lyrics:
                     return format(200, lyrics, origin=origin)
                 else:
-                    return format(400, {"message": "Issue getting songs from playlist. Make sure the playlist is public and there are songs."}, origin=origin)
+                    return format(
+                        400,
+                        {"message": "Issue getting songs from playlist. Make sure the playlist is public and there are songs."},
+                        origin=origin,
+                    )
             except Exception as e:
                 logger.error(f"Error getting playlist lyrics: {str(e)}")
                 logger.error(traceback.format_exc())
                 return format(500, {"message": f"Error retrieving playlist: {str(e)}"}, origin=origin)
-        
+
         else:
             logger.warning(f"Unsupported operation: {http_method} {path}")
             return format(400, {"message": f"Unsupported operation: {http_method} {path}"}, origin=origin)
-            
+
     except Exception as e:
-        # Catch any unhandled exceptions
         logger.error(f"Unhandled exception: {str(e)}")
         logger.error(traceback.format_exc())
-        
-        # Return a properly formatted error response
         return {
             "statusCode": 500,
             "headers": _cors_headers(origin if 'origin' in locals() else None),
-            "body": json.dumps({"message": "Internal server error", "error": str(e)})
+            "body": json.dumps({"message": "Internal server error", "error": str(e)}),
         }
 
 def main():

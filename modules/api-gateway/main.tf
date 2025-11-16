@@ -99,6 +99,65 @@ resource "aws_api_gateway_integration_response" "images_options_200" {
     "method.response.header.Access-Control-Allow-Credentials" = "'false'"
     "method.response.header.Vary"                             = "'Origin'"
   }
+  depends_on = [
+    aws_api_gateway_integration.images_options
+  ]
+}
+
+# /images/{id}
+resource "aws_api_gateway_method" "image_id_options" {
+  rest_api_id   = aws_api_gateway_rest_api.api.id
+  resource_id   = aws_api_gateway_resource.image_id.id
+  http_method   = "OPTIONS"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "image_id_options" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  resource_id = aws_api_gateway_resource.image_id.id
+  http_method = aws_api_gateway_method.image_id_options.http_method
+  type        = "MOCK"
+  request_templates = {
+    "application/json" = "{\"statusCode\": 200}"
+  }
+}
+
+resource "aws_api_gateway_method_response" "image_id_options_200" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  resource_id = aws_api_gateway_resource.image_id.id
+  http_method = aws_api_gateway_method.image_id_options.http_method
+  status_code = "200"
+  
+  response_models = {
+    "application/json" = "Empty"
+  }
+  
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin"      = true
+    "method.response.header.Access-Control-Allow-Headers"     = true
+    "method.response.header.Access-Control-Allow-Methods"     = true
+    "method.response.header.Access-Control-Allow-Credentials" = true
+    "method.response.header.Vary"                             = true
+  }
+}
+
+resource "aws_api_gateway_integration_response" "image_id_options_200" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  resource_id = aws_api_gateway_resource.image_id.id
+  http_method = aws_api_gateway_method.image_id_options.http_method
+  status_code = aws_api_gateway_method_response.image_id_options_200.status_code
+  
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin"      = "'*'"
+    "method.response.header.Access-Control-Allow-Headers"     = "'Content-Type,Authorization'"
+    "method.response.header.Access-Control-Allow-Methods"     = "'GET,OPTIONS'"
+    "method.response.header.Access-Control-Allow-Credentials" = "'false'"
+    "method.response.header.Vary"                             = "'Origin'"
+  }
+  
+  depends_on = [
+    aws_api_gateway_integration.image_id_options
+  ]
 }
 
 # /songs
@@ -145,6 +204,9 @@ resource "aws_api_gateway_integration_response" "songs_options_200" {
     "method.response.header.Access-Control-Allow-Credentials" = "'false'"
     "method.response.header.Vary"                             = "'Origin'"
   }
+  depends_on = [ 
+    aws_api_gateway_integration.songs_options
+   ]
 }
 
 # ---------- Lambda proxy integrations ----------
@@ -227,20 +289,51 @@ resource "aws_lambda_permission" "api_gw_invoke" {
 # ---------- Deployment & Stage ----------
 resource "aws_api_gateway_deployment" "deployment" {
   rest_api_id = aws_api_gateway_rest_api.api.id
-  triggers    = { redeploy = timestamp() }
+  
+  triggers = {
+    redeployment = sha1(jsonencode([
+      aws_api_gateway_resource.images.id,
+      aws_api_gateway_resource.image_id.id,
+      aws_api_gateway_resource.songs.id,
+      aws_api_gateway_method.get_all.id,
+      aws_api_gateway_method.get_by_id.id,
+      aws_api_gateway_method.post_image.id,
+      aws_api_gateway_method.get_songs_with_lyrics.id,
+      aws_api_gateway_method.images_options.id,
+      aws_api_gateway_method.image_id_options.id,
+      aws_api_gateway_method.songs_options.id,
+      aws_api_gateway_integration.get_all_integration.id,
+      aws_api_gateway_integration.get_by_id_integration.id,
+      aws_api_gateway_integration.post_image_integration.id,
+      aws_api_gateway_integration.get_lyrics_integration.id,
+      aws_api_gateway_integration.images_options.id,
+      aws_api_gateway_integration.image_id_options.id,
+      aws_api_gateway_integration.songs_options.id,
+    ]))
+  }
+  
   lifecycle {
     create_before_destroy = true
   }
+  
   depends_on = [
+    aws_api_gateway_method.get_all,
+    aws_api_gateway_method.get_by_id,
+    aws_api_gateway_method.post_image,
+    aws_api_gateway_method.get_songs_with_lyrics,
+    aws_api_gateway_method.images_options,
+    aws_api_gateway_method.image_id_options,
+    aws_api_gateway_method.songs_options,
     aws_api_gateway_integration.get_all_integration,
     aws_api_gateway_integration.get_by_id_integration,
     aws_api_gateway_integration.post_image_integration,
     aws_api_gateway_integration.get_lyrics_integration,
+    aws_api_gateway_integration.images_options,
+    aws_api_gateway_integration.image_id_options,
     aws_api_gateway_integration.songs_options,
-    aws_api_gateway_method_response.songs_options_200,
+    aws_api_gateway_integration_response.images_options_200,
+    aws_api_gateway_integration_response.image_id_options_200,
     aws_api_gateway_integration_response.songs_options_200,
-    aws_api_gateway_gateway_response.default_4xx,
-    aws_api_gateway_gateway_response.default_5xx,
   ]
 }
 
@@ -248,7 +341,4 @@ resource "aws_api_gateway_stage" "dev" {
   stage_name    = var.stage_name
   rest_api_id   = aws_api_gateway_rest_api.api.id
   deployment_id = aws_api_gateway_deployment.deployment.id
-  depends_on = [
-    aws_api_gateway_deployment.deployment
-  ]
 }
