@@ -75,16 +75,17 @@ function LandingPage() {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ 
-					prompt: "angsty frog in a neon city",
+					// example for noe
+					prompt: "angsty frog in a neon city", 
 					width: 512,
 					height: 512,
 					cfgScale: 8,
 				}),
 			})
 			const data = await res.json();
-			console.log(data);
+			console.log("image generation data:" + data);
 		} catch (err) {
-			console.error(err);
+			console.error("image generation error:" + err);
 		} finally {
 		}
 	}
