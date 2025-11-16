@@ -48,30 +48,6 @@ module "api-gateway" {
   ]
 }
 
-module "lambda-bedrock" {
-  source        = "./modules/lambda-bedrock"
-
-  function_name = "bedrock-image-generator"
-  filename      = "${path.module}/modules/lambda-bedrock/lambda-bedrock.zip"
-  handler       = "lambda-bedrock.handler"
-  runtime       = "python3.11"
-
-  bucket_name   = module.s3-website.bucket_name
-  bucket_arn    = module.s3-website.bucket_arn
-  image_prefix  = "generated/"
-
-  model_id      =  "amazon.lyriclens-image-generator"
-  aws_region    = var.aws_region
-  url_expiry_secs = 900
-
-  timeout      = 60
-  memory_size  = 1024
-
-  tags = {
-    Project = "lyric-lens"
-  }
-}
-
 terraform {
   required_version = ">= 1.11.0"
   backend "s3" {
