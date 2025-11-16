@@ -13,6 +13,7 @@ function LandingPage() {
 	const [x, setX] = useState(50);
 	const [y, setY] = useState(50);
 	const [error, setError] = useState<string | null>(null);
+	const [imageUrl, setImageUrl] = useState<string | null>(null);
 	const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 	useEffect(() => {
@@ -92,6 +93,8 @@ function LandingPage() {
 				console.log("image generation id:" + data.id);
 				console.log("image generation url:" + data.imageBase64);
 				console.log("image generation id:" + data.prompt);
+				const dataUrl = `data:image/png;base64,${data.imageBase64}`;
+				setImageUrl(dataUrl);
 			}
 		} catch (err) {
 			console.error("image generation error:" + err);
@@ -289,6 +292,17 @@ function LandingPage() {
 							</div>
 						)}
 					</div>
+					Image:
+					{imageUrl && (
+					<div className="mt-6">
+						<img
+						src={imageUrl}
+						alt="Generated image"
+						className="w-full max-w-md rounded-lg border border-white/10 shadow-lg"
+						/>
+					</div>
+					)}
+
 				</main>
 			</div>
 		</div>
