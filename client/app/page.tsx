@@ -6,13 +6,14 @@ import Logo from "@/public/logos/LyricLensLogo.png";
 function LandingPage() {
 	let tempID = 1;
 	const [url, setUrl] = useState("");
-	type Song = { id: string; title: string; artist: string };
+	type Song = { title: string; artist: string; lyrics: string };
 	const [songs, setSongs] = useState<Song[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [hovering, setHovering] = useState(false);
 	const [x, setX] = useState(50);
 	const [y, setY] = useState(50);
 	const [error, setError] = useState<string | null>(null);
+	const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -30,16 +31,37 @@ function LandingPage() {
 	}
 
 	async function handleAnalyze() {
+		setSongs([]);
 		setError(null);
-
-		if (!validateSpotifyUrl(url)) {
+		const sanitized_url = url.split("?")[0]
+		if (!validateSpotifyUrl(sanitized_url)) {
 			setError("Please enter a valid Spotify playlist. We support playlist URLs only.");
 			return;
 		}
+		const match = sanitized_url.match(/playlist\/([a-zA-Z0-9]+)/);
+		if(!match) {
+			return;
+		}
+		console.log('match', match) 
+		const playlist_id = match[1]
 
 		setLoading(true);
 		// --- bing bong the logic goes here ---
-		postImage();
+
+		const res = await fetch(`${API_URL}/songs?playlist_id=${playlist_id}`);
+		if (!res.ok) {
+			setError("Failed to fetch songs. Please check the playlist URL and try again.");
+			setLoading(false);
+			return;
+		}
+		
+		const data = await res.json();
+		console.log('data', data);
+		setSongs(data);
+
+		// postImage();
+
+		//TODO this will need to be longer and we will probably need a better signal since playlist time is not constant
 		setTimeout(() => {
 			setLoading(false);
 		}, 600);
@@ -208,7 +230,7 @@ function LandingPage() {
 									<tbody>
 										{songs.map((song, i) => (
 											<tr
-												key={song.id}
+												key={i}
 												className="border-b border-white/5 hover:bg-white/[.03] transition"
 											>
 												<td className="px-6 py-4 text-sm text-gray-400">
