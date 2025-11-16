@@ -26,6 +26,12 @@ resource "aws_api_gateway_resource" "songs" {
   path_part   = var.songs_path
 }
 
+resource "aws_api_gateway_resource" "generate_images" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  parent_id   = aws_api_gateway_rest_api.api.root_resource_id
+  path_part   = var.image_generation_path
+}
+
 # ---------- Methods (GET/POST) ----------
 resource "aws_api_gateway_method" "get_all" {
   rest_api_id   = aws_api_gateway_rest_api.api.id
@@ -55,6 +61,12 @@ resource "aws_api_gateway_method" "get_songs_with_lyrics" {
   authorization = "NONE"
 }
 
+resource "aws_api_gateway_method" "generate_images_post" {
+  rest_api_id   = aws_api_gateway_rest_api.api.id
+  resource_id   = aws_api_gateway_resource.generate_images.id
+  http_method   = "POST"
+  authorization = "NONE"
+}
 # ---------- MOCK OPTIONS (CORS preflight) ----------
 # /images
 resource "aws_api_gateway_method" "images_options" {
@@ -191,6 +203,52 @@ resource "aws_api_gateway_method_response" "songs_options_200" {
   }
 }
 
+resource "aws_api_gateway_method" "generate_images_options" {
+  rest_api_id   = aws_api_gateway_rest_api.api.id
+  resource_id   = aws_api_gateway_resource.generate_images.id
+  http_method   = "OPTIONS"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "generate_images_options" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  resource_id = aws_api_gateway_resource.generate_images.id
+  http_method = aws_api_gateway_method.generate_images_options.http_method
+  type        = "MOCK"
+  request_templates = { "application/json" = "{\"statusCode\": 200}" }
+}
+
+resource "aws_api_gateway_method_response" "generate_images_options_200" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  resource_id = aws_api_gateway_resource.generate_images.id
+  http_method = aws_api_gateway_method.generate_images_options.http_method
+  status_code = "200"
+  response_models = { "application/json" = "Empty" }
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin"      = true
+    "method.response.header.Access-Control-Allow-Headers"     = true
+    "method.response.header.Access-Control-Allow-Methods"     = true
+    "method.response.header.Access-Control-Allow-Credentials" = true
+    "method.response.header.Vary"                             = true
+  }
+}
+
+resource "aws_api_gateway_integration_response" "generate_images_options_200" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  resource_id = aws_api_gateway_resource.generate_images.id
+  http_method = aws_api_gateway_method.generate_images_options.http_method
+  status_code = "200"
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin"      = "'*'"
+    "method.response.header.Access-Control-Allow-Headers"     = "'Content-Type,Authorization'"
+    "method.response.header.Access-Control-Allow-Methods"     = "'GET,POST,OPTIONS'"
+    "method.response.header.Access-Control-Allow-Credentials" = "'false'"
+    "method.response.header.Vary"                             = "'Origin'"
+  }
+  depends_on = [aws_api_gateway_integration.generate_images_options]
+}
+
+
 # IMPORTANT: use ONE origin or '*' (not a comma list). If '*', credentials must be false.
 resource "aws_api_gateway_integration_response" "songs_options_200" {
   rest_api_id = aws_api_gateway_rest_api.api.id
@@ -246,6 +304,15 @@ resource "aws_api_gateway_integration" "get_lyrics_integration" {
   uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${var.lambda_arn}/invocations"
 }
 
+resource "aws_api_gateway_integration" "generate_images_post_integration" {
+  rest_api_id             = aws_api_gateway_rest_api.api.id
+  resource_id             = aws_api_gateway_resource.generate_images.id
+  http_method             = aws_api_gateway_method.generate_images_post.http_method
+  type                    = "AWS_PROXY"
+  integration_http_method = "POST"
+  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${var.lambda_arn}/invocations"
+}
+
 # ---------- CORS for API Gateway-generated errors ----------
 locals {
   cors_origin      = "'${join(",", var.allowed_origins)}'"
@@ -290,27 +357,34 @@ resource "aws_lambda_permission" "api_gw_invoke" {
 resource "aws_api_gateway_deployment" "deployment" {
   rest_api_id = aws_api_gateway_rest_api.api.id
   
-  triggers = {
-    redeployment = sha1(jsonencode([
-      aws_api_gateway_resource.images.id,
-      aws_api_gateway_resource.image_id.id,
-      aws_api_gateway_resource.songs.id,
-      aws_api_gateway_method.get_all.id,
-      aws_api_gateway_method.get_by_id.id,
-      aws_api_gateway_method.post_image.id,
-      aws_api_gateway_method.get_songs_with_lyrics.id,
-      aws_api_gateway_method.images_options.id,
-      aws_api_gateway_method.image_id_options.id,
-      aws_api_gateway_method.songs_options.id,
-      aws_api_gateway_integration.get_all_integration.id,
-      aws_api_gateway_integration.get_by_id_integration.id,
-      aws_api_gateway_integration.post_image_integration.id,
-      aws_api_gateway_integration.get_lyrics_integration.id,
-      aws_api_gateway_integration.images_options.id,
-      aws_api_gateway_integration.image_id_options.id,
-      aws_api_gateway_integration.songs_options.id,
-    ]))
-  }
+triggers = {
+  redeployment = sha1(jsonencode([
+    aws_api_gateway_resource.images.id,
+    aws_api_gateway_resource.image_id.id,
+    aws_api_gateway_resource.songs.id,
+    aws_api_gateway_resource.generate_images.id,
+
+    aws_api_gateway_method.get_all.id,
+    aws_api_gateway_method.get_by_id.id,
+    aws_api_gateway_method.post_image.id,
+    aws_api_gateway_method.get_songs_with_lyrics.id,
+    aws_api_gateway_method.images_options.id,
+    aws_api_gateway_method.image_id_options.id,
+    aws_api_gateway_method.songs_options.id,
+    aws_api_gateway_method.generate_images_post.id,
+    aws_api_gateway_method.generate_images_options.id, 
+
+    aws_api_gateway_integration.get_all_integration.id,
+    aws_api_gateway_integration.get_by_id_integration.id,
+    aws_api_gateway_integration.post_image_integration.id,
+    aws_api_gateway_integration.get_lyrics_integration.id,
+    aws_api_gateway_integration.generate_images_post_integration.id,
+    aws_api_gateway_integration.images_options.id,
+    aws_api_gateway_integration.image_id_options.id,
+    aws_api_gateway_integration.songs_options.id,
+    aws_api_gateway_integration.generate_images_options.id, 
+  ]))
+}
   
   lifecycle {
     create_before_destroy = true
