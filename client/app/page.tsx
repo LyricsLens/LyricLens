@@ -171,21 +171,13 @@ function LandingPage() {
 							</div>
 
 							{/* helper / error */}
-							<div className="mt-3 min-h-[1.25rem] text-sm">
-								{error ? (
+							{error && (
+								<div className="mt-3 min-h-[1.25rem] text-sm">
 									<p id="url-error" className="text-red-400">
 										{error}
 									</p>
-								) : (
-									<p className="text-gray-500">
-										Tip: Works with{" "}
-										<span className="text-gray-300">
-											playlist
-										</span>{" "}
-										links.
-									</p>
-								)}
-							</div>
+								</div>
+							)}
 						</div>
 					</div>
 
