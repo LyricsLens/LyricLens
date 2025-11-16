@@ -71,7 +71,7 @@ function LandingPage() {
 	async function generateImage() {
 		console.log("Generating image..")
 		try {
-			const res = await fetch(`/api/images`, {
+			const res = await fetch(`/api/generate_images`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ 
