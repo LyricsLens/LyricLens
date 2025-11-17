@@ -13,12 +13,12 @@ export default function PortfolioPage() {
     const [imageURLs, setImageURLS] = useState<string[]>([]);
 
     // Sample images for now
-    const images: string[] = [
-        "https://picsum.photos/id/237/200/300",
-        "https://picsum.photos/seed/picsum/200/300",
-        "https://picsum.photos/200/300?grayscale",
-        "https://picsum.photos/200/300",
-    ];
+    // const images: string[] = [
+    //     "https://picsum.photos/id/237/200/300",
+    //     "https://picsum.photos/seed/picsum/200/300",
+    //     "https://picsum.photos/200/300?grayscale",
+    //     "https://picsum.photos/200/300",
+    // ];
 
     useEffect(() => {
         async function loadData() {
@@ -26,7 +26,8 @@ export default function PortfolioPage() {
             try {
                 const res = await fetch(`${API_URL}/images`);
                 const data = await res.json();
-                setImageURLS(data);
+                const urls = data.map((obj: {url: string; id:string}) => obj.url);
+                setImageURLS(urls);
             } catch (err) {
                 console.error("Failed to load images", err);
             } finally {
@@ -91,7 +92,7 @@ export default function PortfolioPage() {
 
                                 {/* Image grid */}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
-                                    {images.map((url, index) => (
+                                    {imageURLs.map((url, index) => (
                                         <div
                                             key={index}
                                             className="group overflow-hidden rounded-xl border border-white/10 bg-black/30 shadow-[0_6px_26px_rgba(0,0,0,.45)]"
