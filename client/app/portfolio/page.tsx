@@ -12,17 +12,9 @@ export default function PortfolioPage() {
     const [loading, setLoading] = useState(true);
     const [imageURLs, setImageURLS] = useState<string[]>([]);
 
-    // Sample images for now
-    // const images: string[] = [
-    //     "https://picsum.photos/id/237/200/300",
-    //     "https://picsum.photos/seed/picsum/200/300",
-    //     "https://picsum.photos/200/300?grayscale",
-    //     "https://picsum.photos/200/300",
-    // ];
-
     useEffect(() => {
         async function loadData() {
-            console.log("api url", API_URL);
+            //console.log("api url", API_URL);
             try {
                 const res = await fetch(`${API_URL}/images`);
                 const data = await res.json();
@@ -35,7 +27,6 @@ export default function PortfolioPage() {
             }
         }
         loadData();
-        console.log("image urls", imageURLs);
     }, []);
 
     if (loading) {
