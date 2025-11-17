@@ -48,6 +48,6 @@ resource "aws_s3_bucket_website_configuration" "site" {
 resource "aws_s3_object" "index" {
   bucket       = aws_s3_bucket.site.id
   key          = "index.html"
-  content      = "<h1>Welcome to LyricLens!</h1>"
+  content      = "<h1>Initializing..</h1>"
   content_type = "text/html"
 }
