@@ -7,8 +7,10 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function PortfolioPage() {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
     const router = useRouter();
     const [loading, setLoading] = useState(true);
+    const [imageURLs, setImageURLS] = useState<string[]>([]);
 
     // Sample images for now
     const images: string[] = [
@@ -19,10 +21,21 @@ export default function PortfolioPage() {
     ];
 
     useEffect(() => {
-        setTimeout(() => {
-            setLoading(false);
-        }, 1500);
-    }, [])
+        async function loadData() {
+            console.log("api url", API_URL);
+            try {
+                const res = await fetch(`${API_URL}/images`);
+                const data = await res.json();
+                setImageURLS(data);
+            } catch (err) {
+                console.error("Failed to load images", err);
+            } finally {
+                setLoading(false);
+            }
+        }
+        loadData();
+        console.log("image urls", imageURLs);
+    }, []);
 
     if (loading) {
         return <div className="flex items-center flex-col justify-center min-h-screen bg-[#121212]">
