@@ -15,6 +15,7 @@ function LandingPage() {
 	const [error, setError] = useState<string | null>(null);
 	const [imageUrl, setImageUrl] = useState<string | null>(null);
 	const API_URL = process.env.NEXT_PUBLIC_API_URL;
+	const [themes, setThemes] = useState<any | null>(null);
 
 	type ImageType = {
 		id: string;
@@ -56,6 +57,58 @@ function LandingPage() {
 		return r.test(value.trim());
 	}
 
+
+	async function buildPromptFromThemes(playlistId: string): Promise<string> {
+		try {
+			const res = await fetch(`${API_URL}/themes?playlist_id=${playlistId}`);
+			if (!res.ok) {
+				console.error("failed to fetch themes:", res.status);
+				return "abstract, moody album cover art inspired by this playlist";
+				// generic prompt ^
+			}
+
+			const data = await res.json();
+			console.log("Themes response:", data);
+			setThemes(data);
+
+			let summary = "";
+			let keywords: string[] = [];
+
+			if (typeof data === "string") {
+				summary = data;
+			} else if (Array.isArray(data)) {
+				keywords = data.slice(0, 8).map(String);
+			} else if (typeof data === "object" && data !== null) {
+				summary =
+					(data.summary as string) ||
+					(data.description as string) ||
+					(data.overall_theme as string) ||
+					"";
+
+				if (Array.isArray(data.keywords)) {
+					keywords = data.keywords.slice(0, 8).map(String);
+				} else if (Array.isArray(data.moods)) {
+					keywords = data.moods.slice(0, 8).map(String);
+				}
+			}
+
+			const keywordsText = keywords.length ? keywords.join(", ") : "";
+			const themeText = [summary, keywordsText].filter(Boolean).join(". ");
+
+			const prompt = `
+				highly detailed album cover illustration capturing the overall mood of this playlist;
+				${themeText || "emotional, atmospheric, playlist-inspired artwork"};
+				cinematic lighting, rich colors, expressive character and environment, 16:9 aspect ratio
+			`.replace(/\s+/g, " ").trim();
+
+			return prompt;
+		} catch (err) {
+			console.error("error fetching themes:", err);
+			return "abstract, moody album cover art inspired by this playlist";
+			// again, a generic prompt ^
+		}
+	}
+
 	async function handleAnalyze() {
 		setSongs([]);
 		setError(null);
@@ -70,7 +123,6 @@ function LandingPage() {
 		}
 		console.log('match', match) 
 		const playlist_id = match[1]
-
 		setLoading(true);
 		// --- bing bong the logic goes here ---
 
@@ -85,7 +137,10 @@ function LandingPage() {
 		console.log('data', data);
 		setSongs(data);
 
-		generateImage();
+		const prompt = await buildPromptFromThemes(playlist_id);
+		console.log("Generated prompt from themes:", prompt);
+
+		await generateImage(prompt);
 
 		//TODO this will need to be longer and we will probably need a better signal since playlist time is not constant
 		setTimeout(() => {
@@ -93,10 +148,9 @@ function LandingPage() {
 		}, 600);
 	}
 
-	async function generateImage() {
+	async function generateImage(prompt: string) {
 		console.log(" Generatingimage..");
-		const prompt = "literally the chillest dude on the planet";
-
+		
 		try {
 			const res = await fetch(`${API_URL}/generate_images`, {
 				method: "POST",
