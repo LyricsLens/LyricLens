@@ -5,7 +5,6 @@ import Logo from "@/public/logos/LyricLensLogo.png";
 import Navbar from "./components/navbar";
 
 function LandingPage() {
-	let tempID = 1;
 	const [url, setUrl] = useState("");
 	type Song = { title: string; artist: string; lyrics: string };
 	const [songs, setSongs] = useState<Song[]>([]);
@@ -32,7 +31,7 @@ function LandingPage() {
 				const res = await fetch(`${API_URL}/images`);
 				if (!res.ok) return;
 				const data = await res.json(); 
-				console.log("Data pulled from dynamo fetch: " + data)
+				console.log("Data pulled from dynamo fetch: ", data)
 				setImages(data);
 			} catch (err) {
 				console.error("Error fetching images", err);
