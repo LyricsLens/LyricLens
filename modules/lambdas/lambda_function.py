@@ -315,21 +315,6 @@ def handle_bedrock_image(event, origin):
 
         url = f"https://{IMAGE_BUCKET}.s3.{AWS_REGION}.amazonaws.com/{key}"
 
-        # saving to dynamo
-        try:
-            dynamodb.post_image({
-                "id": image_id,
-                "url": url,
-                "prompt": prompt,
-                "width": width,
-                "height": height,
-                "cfgScale": cfg_scale,
-                "seed": seed,
-                "createdAt": datetime.utcnow().isoformat() + "Z",
-            })
-        except Exception as e:
-            logger.error(f"Failed to save image metadata to DynamoDB: {e}")
-
         return format(200, {
             "id": image_id,
             "url": url,

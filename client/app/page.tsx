@@ -21,7 +21,6 @@ function LandingPage() {
 		id: string;
 		url: string;
 		prompt?: string;
-		playlistId?: string;
 		createdAt?: string;
 	};
 
@@ -87,7 +86,6 @@ function LandingPage() {
 		console.log('data', data);
 		setSongs(data);
 
-		// postImage();
 		generateImage();
 
 		//TODO this will need to be longer and we will probably need a better signal since playlist time is not constant
@@ -97,53 +95,66 @@ function LandingPage() {
 	}
 
 	async function generateImage() {
-		console.log("Generating image..")
+		console.log(" Generatingimage..");
+		const prompt = "literally the chillest dude on the planet";
+
 		try {
 			const res = await fetch(`${API_URL}/generate_images`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ 
-					// example for noe
-					prompt: "literally the chillest dude on the planet", 
+				body: JSON.stringify({
+					prompt,
 					width: 512,
 					height: 512,
 					cfgScale: 8,
 				}),
-			})
+			});
+
 			const data = await res.json();
-			console.log("image generation data:" + data);
+			console.log("image generation data:", data);
+
 			if (!res.ok) {
-				console.error("image generation failed:", data.error ?? data.message ?? "Unknown error from image generator.");
+				console.error(
+					"image generation failed:",
+					data.error ?? data.message ?? "Unknown error from image generator."
+				);
 				return;
-			} else {
-				console.log("image generation url:" + data.url);
-				console.log("image generation id:" + data.id);
-				console.log("image generation url:" + data.imageBase64);
-				console.log("image generation id:" + data.prompt);
+			}
+
+			if (data.url && data.id) {
+				setImageUrl(data.url);
+
+				const image: ImageType = {
+					id: data.id,
+					url: data.url,
+					prompt,
+					createdAt: data.createdAt ?? new Date().toISOString(),
+				};
+
+				await postImage(image);
+				setImages((prev) => [image, ...prev]); // update gallery before
+			} else if (data.imageBase64) {
+				console.log(" Using base64..");
 				const dataUrl = `data:image/png;base64,${data.imageBase64}`;
 				setImageUrl(dataUrl);
 			}
 		} catch (err) {
 			console.error("image generation error:" + err);
-		} finally {
-		}
+		} 
 	}
 
-	async function postImage() {
-		console.log("Posting image..")
+	async function postImage(image: ImageType) {
+		console.log("Posting image..");
 		try {
-			const res = await fetch(`/api/images`, {
+			const res = await fetch(`${API_URL}/images`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ id: tempID, url: "sample URL" }),
-			})
+				body: JSON.stringify(image),
+			});
 			const data = await res.json();
-			console.log(data);
+			console.log("POST /images response:", data);
 		} catch (err) {
-			console.error(err);
-		} finally {
-			setLoading(false);
-			tempID += 1;
+			console.error("Error posting image:", err);
 		}
 	}
 
