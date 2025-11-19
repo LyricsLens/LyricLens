@@ -15,7 +15,18 @@ function LandingPage() {
 	const [error, setError] = useState<string | null>(null);
 	const [imageUrl, setImageUrl] = useState<string | null>(null);
 	const API_URL = process.env.NEXT_PUBLIC_API_URL;
-	const [themes, setThemes] = useState<any | null>(null);
+	type Themes =
+		| string
+		| string[]
+		| {
+			summary?: string;
+			description?: string;
+			overall_theme?: string;
+			keywords?: string[];
+			moods?: string[];
+			[key: string]: unknown;
+		};
+	const [themes, setThemes] = useState<Themes | null>(null);
 
 	type ImageType = {
 		id: string;
@@ -23,7 +34,6 @@ function LandingPage() {
 		prompt?: string;
 		createdAt?: string;
 	};
-
 	const [images, setImages] = useState<ImageType[]>([]);
 
 	useEffect(() => {
