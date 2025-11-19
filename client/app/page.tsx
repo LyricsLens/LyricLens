@@ -81,34 +81,20 @@ function LandingPage() {
 			console.log("Themes response:", data);
 			setThemes(data);
 
-			let summary = "";
-			let keywords: string[] = [];
-
-			if (typeof data === "string") {
-				summary = data;
-			} else if (Array.isArray(data)) {
-				keywords = data.slice(0, 8).map(String);
-			} else if (typeof data === "object" && data !== null) {
-				summary =
-					(data.summary as string) ||
-					(data.description as string) ||
-					(data.overall_theme as string) ||
-					"";
-
-				if (Array.isArray(data.keywords)) {
-					keywords = data.keywords.slice(0, 8).map(String);
-				} else if (Array.isArray(data.moods)) {
-					keywords = data.moods.slice(0, 8).map(String);
-				}
-			}
-
-			const keywordsText = keywords.length ? keywords.join(", ") : "";
-			const themeText = [summary, keywordsText].filter(Boolean).join(". ");
+			const overallVibe = data.playlist_summary?.overall_vibe || "";
+			const mood = data.playlist_summary?.sentiment?.primary || "";
+			const themes = (data.top_themes || []).slice(0, 6).join(", ");
+			const people = (data.people_mentioned || []).slice(0, 3).join(", ");
+			const preview = data.lyric_preview?.slice(0, 180) || "";  
 
 			const prompt = `
-				highly detailed album cover illustration capturing the overall mood of this playlist;
-				${themeText || "emotional, atmospheric, playlist-inspired artwork"};
-				cinematic lighting, rich colors, expressive character and environment, 16:9 aspect ratio
+			Cinematic album cover illustration capturing a ${overallVibe || "emotional"} atmosphere.
+			Mood: ${mood.toLowerCase()}.
+			Primary imagery themes: ${themes || "abstract emotional motifs"}.
+			Subtle references to: ${people || "symbolic figures"}.
+			Inspired by lyrics: "${preview}".
+			Dark, expressive lighting, stylized environment, rich textures, surreal storytelling,
+			emotional depth, dramatic composition, 16:9 aspect ratio.
 			`.replace(/\s+/g, " ").trim();
 
 			return prompt;
