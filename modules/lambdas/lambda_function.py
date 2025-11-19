@@ -6,9 +6,11 @@ import spotify
 import asyncio  # Import asyncio for handling async functions
 import base64
 from decimal import Decimal
+import theme_analysis
 
 IMAGES = '/images'
 SONGS = '/songs'
+THEMES = '/themes'
 
 # Add logging
 import logging
@@ -145,7 +147,33 @@ def lambda_handler(event, context):
                 logger.error(f"Error getting playlist lyrics: {str(e)}")
                 logger.error(traceback.format_exc())
                 return format(500, {"message": f"Error retrieving playlist: {str(e)}"}, origin=origin)
+        #GET /themes - get theme analysis for playlist
+        elif http_method == 'GET' and path == THEMES:
+            query_params = event.get('queryStringParameters') or {}
+            playlist_id = query_params.get('playlist_id')
 
+            logger.info(f"Getting themes for playlist: {playlist_id}")
+
+            if not playlist_id:
+                return format(400, {"message": "No Query params supplied. Need playlist_id"}, origin=origin)
+
+            try:
+                lyrics = spotify.get_playlist_lyrics(playlist_id)
+                logger.info(f"Retrieved {len(lyrics)} songs")
+
+                if lyrics:
+                    themes = theme_analysis.analyze_playlist_themes(lyrics)
+                    return format(200, themes, origin=origin)
+                else:
+                    return format(
+                        400,
+                        {"message": "Issue getting songs from playlist. Make sure the playlist is public and there are songs."},
+                        origin=origin,
+                    )
+            except Exception as e:
+                logger.error(f"Error analyzing themes: {str(e)}")
+                logger.error(traceback.format_exc())
+                return format(500, {"message": f"Error analyzing themes: {str(e)}"}, origin=origin)
         else:
             logger.warning(f"Unsupported operation: {http_method} {path}")
             return format(400, {"message": f"Unsupported operation: {http_method} {path}"}, origin=origin)
