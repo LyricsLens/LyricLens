@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { Search } from "lucide-react";
 import Logo from "@/public/logos/LyricLensLogo.png";
+import Navbar from "./components/navbar";
 
 function LandingPage() {
 	let tempID = 1;
@@ -115,6 +116,7 @@ function LandingPage() {
 			/>
 
 			<div className="relative">
+				<Navbar />
 				{/* Header / Logo */}
 				<header className="px-4 pt-14">
 					<div className="mx-auto max-w-3xl text-center">
@@ -191,21 +193,13 @@ function LandingPage() {
 							</div>
 
 							{/* helper / error */}
-							<div className="mt-3 min-h-[1.25rem] text-sm">
-								{error ? (
+							{error && (
+								<div className="mt-3 min-h-[1.25rem] text-sm">
 									<p id="url-error" className="text-red-400">
 										{error}
 									</p>
-								) : (
-									<p className="text-gray-500">
-										Tip: Works with{" "}
-										<span className="text-gray-300">
-											playlist
-										</span>{" "}
-										links.
-									</p>
-								)}
-							</div>
+								</div>
+							)}
 						</div>
 					</div>
 
