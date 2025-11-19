@@ -1,8 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Search } from "lucide-react";
+import { Search, Loader2 } from "lucide-react";
 import Logo from "@/public/logos/LyricLensLogo.png";
-import Navbar from "./components/navbar";
+import Navbar from "./components/navbar"
 
 function LandingPage() {
 	const [url, setUrl] = useState("");
@@ -14,6 +14,7 @@ function LandingPage() {
 	const [y, setY] = useState(50);
 	const [error, setError] = useState<string | null>(null);
 	const [imageUrl, setImageUrl] = useState<string | null>(null);
+	const [imageLoading, setImageLoading] = useState(false);
 	const API_URL = process.env.NEXT_PUBLIC_API_URL;
 	type Themes =
 		| string
@@ -110,7 +111,7 @@ function LandingPage() {
 					.join(". ");
 
 				if (Array.isArray(data.top_themes)) {
-					keywords = data.top_themes.slice(0, 5).map(String); 
+					keywords = data.top_themes.slice(0, 5).map(String);
 				}
 			}
 
@@ -126,7 +127,7 @@ function LandingPage() {
 				.trim();
 
 			// hard safety cap for prompt length.
-			const MAX_LEN = 500; 
+			const MAX_LEN = 500;
 			if (prompt.length > MAX_LEN) {
 				prompt = prompt.slice(0, MAX_LEN);
 				// prompt may suck at the end... but oh well. this will break the app if it's not here :/
@@ -154,13 +155,16 @@ function LandingPage() {
 		}
 		console.log('match', match)
 		const playlist_id = match[1]
+
 		setLoading(true);
+		setImageLoading(true);
 		// --- bing bong the logic goes here ---
 
 		const res = await fetch(`${API_URL}/songs?playlist_id=${playlist_id}`);
 		if (!res.ok) {
 			setError("Failed to fetch songs. Please check the playlist URL and try again.");
 			setLoading(false);
+			setImageLoading(false);
 			return;
 		}
 
@@ -172,6 +176,7 @@ function LandingPage() {
 		console.log("Generated prompt from themes:", prompt);
 
 		await generateImage(prompt);
+		setImageLoading(false);
 
 		//TODO this will need to be longer and we will probably need a better signal since playlist time is not constant
 		setTimeout(() => {
@@ -201,7 +206,7 @@ function LandingPage() {
 				const msg = data.error ?? data.message ?? "";
 				if (msg.toLowerCase().includes("content filters")) {
 					console.warn("Prompt blocked — retrying without lyrics...");
-					const safePrompt = prompt.slice(0,prompt.length-250);
+					const safePrompt = prompt.slice(0, prompt.length - 250);
 					return generateImage(safePrompt);
 				}
 				console.error(
@@ -366,63 +371,92 @@ function LandingPage() {
 					</div>
 
 					{/* Results */}
-					<div className="mx-auto mt-10 max-w-3xl">
-						Generated image:
-						{imageUrl && (
-							<div className="mt-6">
-								<img
-									src={imageUrl}
-									alt="Generated image"
-									className="w-full max-w-md rounded-lg border border-white/10 shadow-lg"
-								/>
-							</div>
-						)}
-
-						{songs.length > 0 && (
-							<div className="rounded-lg overflow-hidden border border-white/10 bg-white/[.04] backdrop-blur-sm">
-								<table className="w-full border-collapse">
-									<thead className="bg-white/[.06] border-b border-white/10">
-										<tr>
-											<th className="px-6 py-3 text-left text-[11px] font-medium tracking-wide text-gray-400">
-												#
-											</th>
-											<th className="px-6 py-3 text-left text-[11px] font-medium tracking-wide text-gray-400">
-												SONG
-											</th>
-											<th className="px-6 py-3 text-left text-[11px] font-medium tracking-wide text-gray-400">
-												ARTIST
-											</th>
-										</tr>
-									</thead>
-									<tbody>
-										{songs.map((song, i) => (
-											<tr
-												key={i}
-												className="border-b border-white/5 hover:bg-white/[.03] transition"
-											>
-												<td className="px-6 py-4 text-sm text-gray-400">
-													{i + 1}
-												</td>
-												<td className="px-6 py-4 text-sm text-gray-100">
-													{song.title}
-												</td>
-												<td className="px-6 py-4 text-sm text-gray-300">
-													{song.artist}
-												</td>
+					<div className="mx-auto mt-10 max-w-5xl lg:grid lg:grid-cols-[minmax(0,2fr)_minmax(0,1.1fr)] lg:gap-8 items-start">
+						<div>
+							{songs.length > 0 && (
+								<div className="rounded-lg overflow-hidden border border-white/10 bg-white/[.04] backdrop-blur-sm">
+									<table className="w-full border-collapse">
+										<thead className="bg-white/[.06] border-b border-white/10">
+											<tr>
+												<th className="px-6 py-3 text-left text-[11px] font-medium tracking-wide text-gray-400">
+													#
+												</th>
+												<th className="px-6 py-3 text-left text-[11px] font-medium tracking-wide text-gray-400">
+													SONG
+												</th>
+												<th className="px-6 py-3 text-left text-[11px] font-medium tracking-wide text-gray-400">
+													ARTIST
+												</th>
 											</tr>
-										))}
-									</tbody>
-								</table>
-							</div>
-						)}
+										</thead>
+										<tbody>
+											{songs.map((song, i) => (
+												<tr
+													key={i}
+													className="border-b border-white/5 hover:bg-white/[.03] transition"
+												>
+													<td className="px-6 py-4 text-sm text-gray-400">{i + 1}</td>
+													<td className="px-6 py-4 text-sm text-gray-100">
+														{song.title}
+													</td>
+													<td className="px-6 py-4 text-sm text-gray-300">
+														{song.artist}
+													</td>
+												</tr>
+											))}
+										</tbody>
+									</table>
+								</div>
+							)}
 
-						{songs.length === 0 && !loading && (
-							<div className="mt-16 text-center">
-								<p className="mt-4 text-gray-400">
-									Paste a Spotify link to get started.
+							{songs.length === 0 && !loading && (
+								<div className="mt-16 text-center">
+									<p className="mt-4 text-gray-400">
+										Paste a Spotify link to get started.
+									</p>
+								</div>
+							)}
+						</div>
+
+						<aside className="mt-10 lg:mt-0 lg:pl-4 lg:sticky lg:top-28">
+							<div className="rounded-2xl border border-white/10 bg-white/[.03] backdrop-blur-sm p-4 shadow-[0_8px_30px_rgba(0,0,0,.45)]">
+								<h3 className="text-sm font-semibold text-white mb-2">Artwork preview</h3>
+								<p className="text-xs text-gray-400 mb-4">
+									We generate a cinematic cover based on your playlist&apos;s themes and mood.
 								</p>
+
+								{imageLoading && (
+									<div className="relative h-64 w-full overflow-hidden rounded-xl border border-white/10 bg-gradient-to-br from-lime-300/10 via-emerald-500/10 to-sky-500/15 animate-pulse">
+										<div className="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_0%_0%,rgba(190,242,100,0.9),transparent_55%),radial-gradient(circle_at_100%_0%,rgba(45,212,191,0.9),transparent_55%),radial-gradient(circle_at_50%_100%,rgba(56,189,248,0.9),transparent_55%)]" />
+										<div className="relative z-10 h-full w-full flex flex-col items-center justify-center gap-3 text-xs text-gray-100">
+											<Loader2 className="h-6 w-6 animate-spin" />
+											<span className="uppercase tracking-[0.2em] text-[10px] text-gray-200">
+												Generating artwork
+											</span>
+											<span className="text-[11px] text-gray-300/80 text-center max-w-[70%]">
+												Reading your playlist&apos;s lyrics, themes, and moods…
+											</span>
+										</div>
+									</div>
+								)}
+
+								{!imageLoading && !imageUrl && (
+									<div className="h-64 w-full rounded-xl border border-dashed border-white/15 grid place-items-center text-xs text-gray-500">
+										Image will appear here after analysis.
+									</div>
+								)}
+
+								{!imageLoading && imageUrl && (
+									<div className="mt-1">
+										<img
+											src={imageUrl}
+											alt="Generated playlist artwork"
+											className="w-full rounded-xl border border-white/10 shadow-lg"
+										/>
+									</div>
+								)}
 							</div>
-						)}
+						</aside>
 					</div>
 				</main>
 
