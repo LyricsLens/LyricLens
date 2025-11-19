@@ -276,6 +276,7 @@ function LandingPage() {
 
 					{/* Results */}
 					<div className="mx-auto mt-10 max-w-3xl">
+						Generated image:
 						{imageUrl && (
 						<div className="mt-6">
 							<img
@@ -285,21 +286,6 @@ function LandingPage() {
 							/>
 						</div>
 						)}
-						All images:
-						<div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4">
-							{images.map((img) => (
-								<div key={img.id} className="rounded-lg border border-white/10 p-3">
-									<img
-										src={img.url}
-										alt={img.prompt ?? "Generated image"}
-										className="w-full rounded-md mb-2"
-									/>
-									<p className="text-xs text-gray-400 truncate">
-										{img.prompt ?? img.id}
-									</p>
-								</div>
-							))}
-						</div>
 
 						{songs.length > 0 && (
 							<div className="rounded-lg overflow-hidden border border-white/10 bg-white/[.04] backdrop-blur-sm">
