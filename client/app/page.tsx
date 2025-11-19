@@ -41,7 +41,7 @@ function LandingPage() {
 			try {
 				const res = await fetch(`${API_URL}/images`);
 				if (!res.ok) return;
-				const data = await res.json(); 
+				const data = await res.json();
 				console.log("Data pulled from dynamo fetch: ", data)
 				setImages(data);
 			} catch (err) {
@@ -81,21 +81,61 @@ function LandingPage() {
 			console.log("Themes response:", data);
 			setThemes(data);
 
-			const overallVibe = data.playlist_summary?.overall_vibe || "";
-			const mood = data.playlist_summary?.sentiment?.primary || "";
-			const themes = (data.top_themes || []).slice(0, 6).join(", ");
-			const people = (data.people_mentioned || []).slice(0, 3).join(", ");
-			const preview = data.lyric_preview?.slice(0, 180) || "";  
+			// summary
+			let summary = "";
+			let keywords: string[] = [];
 
-			const prompt = `
-			Cinematic album cover illustration capturing a ${overallVibe || "emotional"} atmosphere.
-			Mood: ${mood.toLowerCase()}.
-			Primary imagery themes: ${themes || "abstract emotional motifs"}.
-			Subtle references to: ${people || "symbolic figures"}.
-			Inspired by lyrics: "${preview}".
-			Dark, expressive lighting, stylized environment, rich textures, surreal storytelling,
-			emotional depth, dramatic composition, 16:9 aspect ratio.
-			`.replace(/\s+/g, " ").trim();
+			if (typeof data === "string") {
+				summary = data;
+			} else if (Array.isArray(data)) {
+				keywords = data.slice(0, 5).map(String); // only 5 keywords
+			} else if (typeof data === "object" && data !== null) {
+				const ps = (data.playlist_summary ?? {}) as {
+					overall_vibe?: string;
+					sentiment?: { primary?: string };
+				};
+
+				const overallVibe = ps.overall_vibe || "";
+				const sentiment = ps.sentiment?.primary || "";
+
+				const vibeLine = overallVibe
+					? `melancholic, introspective vibe: ${overallVibe}`
+					: "";
+				const sentimentLine = sentiment
+					? `overall mood: ${sentiment.toLowerCase()}`
+					: "";
+
+				const lyricPreview =
+					typeof data.lyric_preview === "string"
+						? data.lyric_preview.slice(0, 140)
+						: "";
+
+				summary = [vibeLine, sentimentLine, lyricPreview]
+					.filter(Boolean)
+					.join(". ");
+
+				if (Array.isArray(data.top_themes)) {
+					keywords = data.top_themes.slice(0, 5).map(String); 
+				}
+			}
+
+			const keywordsText = keywords.length ? keywords.join(", ") : "";
+			const themeText = [summary, keywordsText].filter(Boolean).join(". ");
+
+			let prompt = `
+			cinematic album cover illustration capturing the overall mood of this playlist;
+			${themeText || "emotional, atmospheric, playlist-inspired artwork"};
+			moody lighting, rich colors, expressive environment, subtle symbolism, 16:9 aspect ratio
+		`
+				.replace(/\s+/g, " ")
+				.trim();
+
+			// hard safety cap for prompt length.
+			const MAX_LEN = 500; 
+			if (prompt.length > MAX_LEN) {
+				prompt = prompt.slice(0, MAX_LEN);
+				// prompt may suck at the end... but oh well. this will break the app if it's not here :/
+			}
 
 			return prompt;
 		} catch (err) {
@@ -114,10 +154,10 @@ function LandingPage() {
 			return;
 		}
 		const match = sanitized_url.match(/playlist\/([a-zA-Z0-9]+)/);
-		if(!match) {
+		if (!match) {
 			return;
 		}
-		console.log('match', match) 
+		console.log('match', match)
 		const playlist_id = match[1]
 		setLoading(true);
 		// --- bing bong the logic goes here ---
@@ -128,7 +168,7 @@ function LandingPage() {
 			setLoading(false);
 			return;
 		}
-		
+
 		const data = await res.json();
 		console.log('data', data);
 		setSongs(data);
@@ -146,7 +186,7 @@ function LandingPage() {
 
 	async function generateImage(prompt: string) {
 		console.log(" Generatingimage..");
-		
+
 		try {
 			const res = await fetch(`${API_URL}/generate_images`, {
 				method: "POST",
@@ -189,7 +229,7 @@ function LandingPage() {
 			}
 		} catch (err) {
 			console.error("image generation error:" + err);
-		} 
+		}
 	}
 
 	async function postImage(image: ImageType) {
@@ -328,13 +368,13 @@ function LandingPage() {
 					<div className="mx-auto mt-10 max-w-3xl">
 						Generated image:
 						{imageUrl && (
-						<div className="mt-6">
-							<img
-							src={imageUrl}
-							alt="Generated image"
-							className="w-full max-w-md rounded-lg border border-white/10 shadow-lg"
-							/>
-						</div>
+							<div className="mt-6">
+								<img
+									src={imageUrl}
+									alt="Generated image"
+									className="w-full max-w-md rounded-lg border border-white/10 shadow-lg"
+								/>
+							</div>
 						)}
 
 						{songs.length > 0 && (
