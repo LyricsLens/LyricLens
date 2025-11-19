@@ -40,6 +40,7 @@ module "api-gateway" {
   source      = "./modules/api-gateway"
   api_name    = "lyric-lens-rest-api"  
   images_path = "images"
+  themes_path = "themes"
   stage_name  = "dev"
   lambda_arn  = module.lambda.arn
   aws_region = var.aws_region
