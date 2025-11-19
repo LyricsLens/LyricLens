@@ -18,5 +18,5 @@ def get_images(image_id: str):
 def post_image(body: dict):
     if 'id' not in body or 'url' not in body:
         return False
-    table.put_item(Item={"id": body['id'], "url": body['url']})
+    table.put_item(Item=body)
     return True

@@ -9,6 +9,7 @@ import boto3
 import uuid
 from decimal import Decimal
 import theme_analysis
+from datetime import datetime
 
 AWS_REGION = os.environ.get("AWS_REGION", "us-east-1") # TODO make sure this is not hardcoded (i dont really know how this line works yet)
 
@@ -314,8 +315,20 @@ def handle_bedrock_image(event, origin):
 
         url = f"https://{IMAGE_BUCKET}.s3.{AWS_REGION}.amazonaws.com/{key}"
 
-        # Optional: you could also call dynamodb.post_image({"id": image_id, "url": url})
-        # if you want to track generated images in your existing table.
+        # saving to dynamo
+        try:
+            dynamodb.post_image({
+                "id": image_id,
+                "url": url,
+                "prompt": prompt,
+                "width": width,
+                "height": height,
+                "cfgScale": cfg_scale,
+                "seed": seed,
+                "createdAt": datetime.utcnow().isoformat() + "Z",
+            })
+        except Exception as e:
+            logger.error(f"Failed to save image metadata to DynamoDB: {e}")
 
         return format(200, {
             "id": image_id,
