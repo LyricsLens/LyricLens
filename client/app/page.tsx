@@ -33,6 +33,7 @@ function LandingPage() {
 				const res = await fetch(`${API_URL}/images`);
 				if (!res.ok) return;
 				const data = await res.json(); 
+				console.log("Data pulled from dynamo fetch: " + data)
 				setImages(data);
 			} catch (err) {
 				console.error("Error fetching images", err);
