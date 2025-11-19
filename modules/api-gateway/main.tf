@@ -112,8 +112,8 @@ resource "aws_api_gateway_integration_response" "images_options_200" {
     "method.response.header.Vary"                             = "'Origin'"
   }
   depends_on = [
-    aws_api_gateway_integration.images_options
-  ]
+    aws_api_gateway_integration.images_options,
+    aws_api_gateway_method_response.images_options_200  ]
 }
 
 # /images/{id}
