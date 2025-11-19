@@ -496,6 +496,7 @@ resource "aws_api_gateway_integration_response" "themes_options_200" {
     "method.response.header.Vary"                             = "'Origin'"
   }
   depends_on = [
-    aws_api_gateway_integration.themes_options
+    aws_api_gateway_integration.themes_options,
+    aws_api_gateway_method_response.themes_options_200
   ]
 }
