@@ -1,11 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Search } from "lucide-react";
+import { Search, Loader2 } from "lucide-react";
 import Logo from "@/public/logos/LyricLensLogo.png";
-import Navbar from "./components/navbar";
+import Navbar from "./components/navbar"
 
 function LandingPage() {
-	let tempID = 1;
 	const [url, setUrl] = useState("");
 	type Song = { title: string; artist: string; lyrics: string };
 	const [songs, setSongs] = useState<Song[]>([]);
@@ -14,7 +13,45 @@ function LandingPage() {
 	const [x, setX] = useState(50);
 	const [y, setY] = useState(50);
 	const [error, setError] = useState<string | null>(null);
+	const [imageUrl, setImageUrl] = useState<string | null>(null);
+	const [imageLoading, setImageLoading] = useState(false);
 	const API_URL = process.env.NEXT_PUBLIC_API_URL;
+	type Themes =
+		| string
+		| string[]
+		| {
+			summary?: string;
+			description?: string;
+			overall_theme?: string;
+			keywords?: string[];
+			moods?: string[];
+			[key: string]: unknown;
+		};
+	const [themes, setThemes] = useState<Themes | null>(null);
+
+	type ImageType = {
+		id: string;
+		url: string;
+		prompt?: string;
+		createdAt?: string;
+	};
+	const [images, setImages] = useState<ImageType[]>([]);
+
+	useEffect(() => {
+		async function fetchImages() {
+			try {
+				const res = await fetch(`${API_URL}/images`);
+				if (!res.ok) return;
+				const data = await res.json();
+				console.log("Data pulled from dynamo fetch: ", data)
+				setImages(data);
+			} catch (err) {
+				console.error("Error fetching images", err);
+			}
+		}
+		fetchImages();
+	}, [API_URL]);
+
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -31,6 +68,79 @@ function LandingPage() {
 		return r.test(value.trim());
 	}
 
+
+	async function buildPromptFromThemes(playlistId: string): Promise<string> {
+		try {
+			const res = await fetch(`${API_URL}/themes?playlist_id=${playlistId}`);
+			if (!res.ok) {
+				console.error("failed to fetch themes:", res.status);
+				return "abstract, moody album cover art inspired by this playlist";
+				// generic prompt ^
+			}
+
+			const data = await res.json();
+			console.log("Themes response:", data);
+			setThemes(data);
+
+			// summary
+			let summary = "";
+			let keywords: string[] = [];
+
+			if (typeof data === "string") {
+				summary = data;
+			} else if (Array.isArray(data)) {
+				keywords = data.slice(0, 5).map(String); // only 5 keywords
+			} else if (typeof data === "object" && data !== null) {
+				const ps = (data.playlist_summary ?? {}) as {
+					overall_vibe?: string;
+					sentiment?: { primary?: string };
+				};
+
+				const overallVibe = ps.overall_vibe || "";
+				const sentiment = ps.sentiment?.primary || "";
+
+				const vibeLine = overallVibe
+					? `melancholic, introspective vibe: ${overallVibe}`
+					: "";
+				const sentimentLine = sentiment
+					? `overall mood: ${sentiment.toLowerCase()}`
+					: "";
+
+				summary = [vibeLine, sentimentLine]
+					.filter(Boolean)
+					.join(". ");
+
+				if (Array.isArray(data.top_themes)) {
+					keywords = data.top_themes.slice(0, 5).map(String);
+				}
+			}
+
+			const keywordsText = keywords.length ? keywords.join(", ") : "";
+			const themeText = [summary, keywordsText].filter(Boolean).join(". ");
+
+			let prompt = `
+			cinematic album cover illustration capturing the overall mood of this collection;
+			${themeText || "emotional, atmospheric, playlist-inspired artwork"};
+			moody lighting, rich colors, expressive environment, subtle symbolism, 16:9 aspect ratio
+		`
+				.replace(/\s+/g, " ")
+				.trim();
+
+			// hard safety cap for prompt length.
+			const MAX_LEN = 500;
+			if (prompt.length > MAX_LEN) {
+				prompt = prompt.slice(0, MAX_LEN);
+				// prompt may suck at the end... but oh well. this will break the app if it's not here :/
+			}
+
+			return prompt;
+		} catch (err) {
+			console.error("error fetching themes:", err);
+			return "abstract, moody album cover art inspired by this playlist";
+			// again, a generic prompt ^
+		}
+	}
+
 	async function handleAnalyze() {
 		setSongs([]);
 		setError(null);
@@ -40,27 +150,33 @@ function LandingPage() {
 			return;
 		}
 		const match = sanitized_url.match(/playlist\/([a-zA-Z0-9]+)/);
-		if(!match) {
+		if (!match) {
 			return;
 		}
-		console.log('match', match) 
+		console.log('match', match)
 		const playlist_id = match[1]
 
 		setLoading(true);
+		setImageLoading(true);
 		// --- bing bong the logic goes here ---
 
 		const res = await fetch(`${API_URL}/songs?playlist_id=${playlist_id}`);
 		if (!res.ok) {
 			setError("Failed to fetch songs. Please check the playlist URL and try again.");
 			setLoading(false);
+			setImageLoading(false);
 			return;
 		}
-		
+
 		const data = await res.json();
 		console.log('data', data);
 		setSongs(data);
 
-		// postImage();
+		const prompt = await buildPromptFromThemes(playlist_id);
+		console.log("Generated prompt from themes:", prompt);
+
+		await generateImage(prompt);
+		setImageLoading(false);
 
 		//TODO this will need to be longer and we will probably need a better signal since playlist time is not constant
 		setTimeout(() => {
@@ -68,21 +184,72 @@ function LandingPage() {
 		}, 600);
 	}
 
-	async function postImage() {
-		console.log("Posting image..")
+	async function generateImage(prompt: string) {
+		console.log(" Generatingimage..");
+
 		try {
-			const res = await fetch(`/api/images`, {
+			const res = await fetch(`${API_URL}/generate_images`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ id: tempID, url: "sample URL" }),
-			})
+				body: JSON.stringify({
+					prompt,
+					width: 512,
+					height: 512,
+					cfgScale: 8,
+				}),
+			});
+
 			const data = await res.json();
-			console.log(data);
+			console.log("image generation data:", data);
+
+			if (!res.ok) {
+				const msg = data.error ?? data.message ?? "";
+				if (msg.toLowerCase().includes("content filters")) {
+					console.warn("Prompt blocked — retrying without lyrics...");
+					const safePrompt = prompt.slice(0, prompt.length - 250);
+					return generateImage(safePrompt);
+				}
+				console.error(
+					"image generation failed:",
+					data.error ?? data.message ?? "Unknown error from image generator."
+				);
+				return;
+			}
+
+			if (data.url && data.id) {
+				setImageUrl(data.url);
+
+				const image: ImageType = {
+					id: data.id,
+					url: data.url,
+					prompt,
+					createdAt: data.createdAt ?? new Date().toISOString(),
+				};
+
+				await postImage(image);
+				setImages((prev) => [image, ...prev]); // update gallery before
+			} else if (data.imageBase64) {
+				console.log(" Using base64..");
+				const dataUrl = `data:image/png;base64,${data.imageBase64}`;
+				setImageUrl(dataUrl);
+			}
 		} catch (err) {
-			console.error(err);
-		} finally {
-			setLoading(false);
-			tempID += 1;
+			console.error("image generation error:" + err);
+		}
+	}
+
+	async function postImage(image: ImageType) {
+		console.log("Posting image..");
+		try {
+			const res = await fetch(`${API_URL}/images`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(image),
+			});
+			const data = await res.json();
+			console.log("POST /images response:", data);
+		} catch (err) {
+			console.error("Error posting image:", err);
 		}
 	}
 
@@ -204,52 +371,92 @@ function LandingPage() {
 					</div>
 
 					{/* Results */}
-					<div className="mx-auto mt-10 max-w-3xl">
-						{songs.length > 0 && (
-							<div className="rounded-lg overflow-hidden border border-white/10 bg-white/[.04] backdrop-blur-sm">
-								<table className="w-full border-collapse">
-									<thead className="bg-white/[.06] border-b border-white/10">
-										<tr>
-											<th className="px-6 py-3 text-left text-[11px] font-medium tracking-wide text-gray-400">
-												#
-											</th>
-											<th className="px-6 py-3 text-left text-[11px] font-medium tracking-wide text-gray-400">
-												SONG
-											</th>
-											<th className="px-6 py-3 text-left text-[11px] font-medium tracking-wide text-gray-400">
-												ARTIST
-											</th>
-										</tr>
-									</thead>
-									<tbody>
-										{songs.map((song, i) => (
-											<tr
-												key={i}
-												className="border-b border-white/5 hover:bg-white/[.03] transition"
-											>
-												<td className="px-6 py-4 text-sm text-gray-400">
-													{i + 1}
-												</td>
-												<td className="px-6 py-4 text-sm text-gray-100">
-													{song.title}
-												</td>
-												<td className="px-6 py-4 text-sm text-gray-300">
-													{song.artist}
-												</td>
+					<div className="mx-auto mt-10 max-w-5xl lg:grid lg:grid-cols-[minmax(0,2fr)_minmax(0,1.1fr)] lg:gap-8 items-start">
+						<div>
+							{songs.length > 0 && (
+								<div className="rounded-lg overflow-hidden border border-white/10 bg-white/[.04] backdrop-blur-sm">
+									<table className="w-full border-collapse">
+										<thead className="bg-white/[.06] border-b border-white/10">
+											<tr>
+												<th className="px-6 py-3 text-left text-[11px] font-medium tracking-wide text-gray-400">
+													#
+												</th>
+												<th className="px-6 py-3 text-left text-[11px] font-medium tracking-wide text-gray-400">
+													SONG
+												</th>
+												<th className="px-6 py-3 text-left text-[11px] font-medium tracking-wide text-gray-400">
+													ARTIST
+												</th>
 											</tr>
-										))}
-									</tbody>
-								</table>
-							</div>
-						)}
+										</thead>
+										<tbody>
+											{songs.map((song, i) => (
+												<tr
+													key={i}
+													className="border-b border-white/5 hover:bg-white/[.03] transition"
+												>
+													<td className="px-6 py-4 text-sm text-gray-400">{i + 1}</td>
+													<td className="px-6 py-4 text-sm text-gray-100">
+														{song.title}
+													</td>
+													<td className="px-6 py-4 text-sm text-gray-300">
+														{song.artist}
+													</td>
+												</tr>
+											))}
+										</tbody>
+									</table>
+								</div>
+							)}
 
-						{songs.length === 0 && !loading && (
-							<div className="mt-16 text-center">
-								<p className="mt-4 text-gray-400">
-									Paste a Spotify link to get started.
+							{songs.length === 0 && !loading && (
+								<div className="mt-16 text-center">
+									<p className="mt-4 text-gray-400">
+										Paste a Spotify link to get started.
+									</p>
+								</div>
+							)}
+						</div>
+
+						<aside className="mt-10 lg:mt-0 lg:pl-4 lg:sticky lg:top-28">
+							<div className="rounded-2xl border border-white/10 bg-white/[.03] backdrop-blur-sm p-4 shadow-[0_8px_30px_rgba(0,0,0,.45)]">
+								<h3 className="text-sm font-semibold text-white mb-2">Artwork preview</h3>
+								<p className="text-xs text-gray-400 mb-4">
+									We generate a cinematic cover based on your playlist&apos;s themes and mood.
 								</p>
+
+								{imageLoading && (
+									<div className="relative h-64 w-full overflow-hidden rounded-xl border border-white/10 bg-gradient-to-br from-lime-300/10 via-emerald-500/10 to-sky-500/15 animate-pulse">
+										<div className="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_0%_0%,rgba(190,242,100,0.9),transparent_55%),radial-gradient(circle_at_100%_0%,rgba(45,212,191,0.9),transparent_55%),radial-gradient(circle_at_50%_100%,rgba(56,189,248,0.9),transparent_55%)]" />
+										<div className="relative z-10 h-full w-full flex flex-col items-center justify-center gap-3 text-xs text-gray-100">
+											<Loader2 className="h-6 w-6 animate-spin" />
+											<span className="uppercase tracking-[0.2em] text-[10px] text-gray-200">
+												Generating artwork
+											</span>
+											<span className="text-[11px] text-gray-300/80 text-center max-w-[70%]">
+												Reading your playlist&apos;s lyrics, themes, and moods…
+											</span>
+										</div>
+									</div>
+								)}
+
+								{!imageLoading && !imageUrl && (
+									<div className="h-64 w-full rounded-xl border border-dashed border-white/15 grid place-items-center text-xs text-gray-500">
+										Image will appear here after analysis.
+									</div>
+								)}
+
+								{!imageLoading && imageUrl && (
+									<div className="mt-1">
+										<img
+											src={imageUrl}
+											alt="Generated playlist artwork"
+											className="w-full rounded-xl border border-white/10 shadow-lg"
+										/>
+									</div>
+								)}
 							</div>
-						)}
+						</aside>
 					</div>
 				</main>
 

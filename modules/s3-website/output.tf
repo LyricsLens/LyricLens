@@ -8,6 +8,10 @@ output "bucket_name" {
     description = "Bucket name"
 }
 
+output "bucket_arn" { 
+    value = aws_s3_bucket.site.arn
+    description = "Bucket ARN"
+}
 output "website_endpoint" {
   value = aws_s3_bucket_website_configuration.site.website_endpoint
 }

@@ -21,6 +21,13 @@ resource "aws_iam_role_policy_attachment" "lambda_policy_attach" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
+# needs access to bedrock to generate images
+resource "aws_iam_role_policy_attachment" "lambda_bedrock" {
+  role       = aws_iam_role.lambda_role.name   # adapt name if different
+  policy_arn = "arn:aws:iam::aws:policy/AmazonBedrockFullAccess"
+}
+
+
 # 🔒 Custom inline policy to allow DynamoDB access
 resource "aws_iam_role_policy" "lambda_dynamodb_policy" {
   name = "${var.function_name}-dynamodb-policy"
@@ -40,6 +47,49 @@ resource "aws_iam_role_policy" "lambda_dynamodb_policy" {
           "dynamodb:DeleteItem"
         ]
         Resource = var.dynamodb_table_arn
+      }
+    ]
+  })
+}
+
+# policy so images can be stored in S3
+resource "aws_iam_role_policy" "lambda_s3_policy" {
+  name = "${var.function_name}-s3-policy"
+  role = aws_iam_role.lambda_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:PutObject",
+          "s3:GetObject"
+        ]
+        Resource = [
+          "${var.image_bucket_arn}/*"
+        ]
+      }
+    ]
+  })
+}
+
+# For comprehend interaction
+resource "aws_iam_role_policy" "lambda_comprehend_policy" {
+  name = "${var.function_name}-comprehend-policy"
+  role = aws_iam_role.lambda_role.id
+  
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "comprehend:DetectKeyPhrases",
+          "comprehend:DetectEntities",
+          "comprehend:DetectSentiment"
+        ]
+        Resource = "*"
       }
     ]
   })

@@ -5,10 +5,26 @@ import dynamodb
 import spotify
 import asyncio  # Import asyncio for handling async functions
 import base64
+import boto3
+import uuid
 from decimal import Decimal
+import theme_analysis
+from datetime import datetime
 
+AWS_REGION = os.environ.get("AWS_REGION", "us-east-1") # TODO make sure this is not hardcoded (i dont really know how this line works yet)
+
+BEDROCK = '/generate_images' 
 IMAGES = '/images'
 SONGS = '/songs'
+
+IMAGE_BUCKET = os.environ.get("IMAGE_BUCKET", "")      
+BEDROCK_IMAGE_MODEL_ID = os.environ.get(                
+    "BEDROCK_IMAGE_MODEL_ID",
+    "amazon.titan-image-generator-v2:0"
+)
+bedrock = boto3.client("bedrock-runtime", region_name=AWS_REGION)
+s3 = boto3.client("s3")
+THEMES = '/themes'
 
 # Add logging
 import logging
@@ -90,6 +106,8 @@ def lambda_handler(event, context):
             logger.info("Handling OPTIONS request in Lambda")
             return format(200, origin=origin)
 
+        # ================ IMAGES  ================
+
         # GET /images - return all URLs
         if http_method == "GET" and path == IMAGES:
             logger.info("Getting all images")
@@ -114,6 +132,8 @@ def lambda_handler(event, context):
                 return format(201, {"message": "Image URL added"}, origin=origin)
             return format(400, {"message": "id and url required"}, origin=origin)
         
+        # ================ SONGS ================
+
         # GET /songs - get songs with their lyrics
         elif http_method == 'GET' and path == SONGS:
             query_params = event.get('queryStringParameters') or {}
@@ -146,6 +166,26 @@ def lambda_handler(event, context):
                 logger.error(traceback.format_exc())
                 return format(500, {"message": f"Error retrieving playlist: {str(e)}"}, origin=origin)
 
+                if lyrics:
+                    themes = theme_analysis.analyze_playlist_themes(lyrics)
+                    return format(200, themes, origin=origin)
+                else:
+                    return format(
+                        400,
+                        {"message": "Issue getting songs from playlist. Make sure the playlist is public and there are songs."},
+                        origin=origin,
+                    )
+            except Exception as e:
+                logger.error(f"Error analyzing themes: {str(e)}")
+                logger.error(traceback.format_exc())
+                return format(500, {"message": f"Error analyzing themes: {str(e)}"}, origin=origin)
+
+        # ================ BEDROCK IMAGE GENERATION ================
+
+        elif http_method == "POST" and path == BEDROCK:
+            logger.info("Handling Bedrock image generation.")
+            return handle_bedrock_image(event, origin)
+
         else:
             logger.warning(f"Unsupported operation: {http_method} {path}")
             return format(400, {"message": f"Unsupported operation: {http_method} {path}"}, origin=origin)
@@ -158,6 +198,122 @@ def lambda_handler(event, context):
             "headers": _cors_headers(origin if 'origin' in locals() else None),
             "body": json.dumps({"message": "Internal server error", "error": str(e)}),
         }
+
+def handle_bedrock_image(event, origin):
+    # handles request to generate images using bedrock. current way to generate images is to just plop in a string, but in the future we can use keywords maybe
+    """
+    Example request:
+      POST /generate_images
+      body: {
+        "prompt": "angsty frog in a neon city",
+        "width": 512,       # optional
+        "height": 512,      # optional
+        "cfgScale": 8,      # optional
+        "seed": 1234        # optional
+      }
+
+    Example response:
+      {
+        "id": "...",
+        "url": "https://bucket.s3.region.amazonaws.com/path.png"
+      }
+      OR if no IMAGE_BUCKET is set:
+      {
+        "imageBase64": "...",
+        "prompt": "..."
+      }
+    """
+    body = event.get("body")
+    if not body:
+        return format(400, {"message": "Missing body"}, origin=origin)
+
+    if event.get("isBase64Encoded"):
+        body = base64.b64decode(body).decode("utf-8")
+
+    try:
+        payload = json.loads(body)
+    except json.JSONDecodeError:
+        return format(400, {"message": "Invalid JSON body"}, origin=origin)
+
+    prompt = payload.get("prompt")
+    if not prompt:
+        return format(400, {"message": "Field 'prompt' is required"}, origin=origin)
+
+    width = int(payload.get("width", 512))
+    height = int(payload.get("height", 512))
+    cfg_scale = float(payload.get("cfgScale", 8.0))
+    seed = int(payload.get("seed", 1234))
+
+    logger.info(
+        f"[Bedrock] Generating image... prompt='{prompt[:60]}...', "
+        f"w={width}, h={height}, cfgScale={cfg_scale}, seed={seed}"
+    )
+
+    request_body = {
+        "taskType": "TEXT_IMAGE",
+        "textToImageParams": {
+            "text": prompt
+        },
+        "imageGenerationConfig": {
+            "numberOfImages": 1,
+            "height": height,
+            "width": width,
+            "cfgScale": cfg_scale,
+            "quality": "standard",
+            "seed": seed,
+        }
+    }
+
+    try:
+        response = bedrock.invoke_model(
+            modelId=BEDROCK_IMAGE_MODEL_ID,
+            body=json.dumps(request_body),
+            contentType="application/json",
+            accept="application/json",
+        )
+
+        response_body = json.loads(response["body"].read())
+        images = response_body.get("images") or []
+
+        if not images:
+            logger.error(f"[Bedrock] No images returned: {response_body}")
+            return format(500, {"message": "No image returned from Bedrock"}, origin=origin)
+
+        image_b64 = images[0]
+        image_bytes = base64.b64decode(image_b64)
+
+        # If no bucket configured, just return base64
+        if not IMAGE_BUCKET:
+            return format(200, {
+                "imageBase64": image_b64,
+                "prompt": prompt,
+            }, origin=origin)
+
+        # Otherwise, store in S3 and return URL
+        image_id = str(uuid.uuid4())
+        key = f"generated/{image_id}.png"
+
+        s3.put_object(
+            Bucket=IMAGE_BUCKET,
+            Key=key,
+            Body=image_bytes,
+            ContentType="image/png",
+        )
+
+        url = f"https://{IMAGE_BUCKET}.s3.{AWS_REGION}.amazonaws.com/{key}"
+
+        return format(200, {
+            "id": image_id,
+            "url": url,
+            "bucket": IMAGE_BUCKET,
+            "key": key,
+        }, origin=origin)
+
+    except Exception as e:
+        logger.error(f"[Bedrock] Exception during image generation: {str(e)}")
+        logger.error(traceback.format_exc())
+        return format(500, {"message": "Error generating image", "error": str(e)}, origin=origin)
+
 
 def main():
     # For local testing

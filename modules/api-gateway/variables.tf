@@ -5,6 +5,12 @@ variable "api_name" {
   default     = "lyric-lens-rest-api"
 }
 
+variable "image_generation_path" {
+  type        = string
+  description = "Path for the images resource"
+  default     = "generate_images"
+}
+
 variable "images_path" {
   type        = string
   description = "Path for the images resource"
