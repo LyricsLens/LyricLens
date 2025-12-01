@@ -52,6 +52,27 @@ resource "aws_iam_role_policy" "lambda_dynamodb_policy" {
   })
 }
 
+# For comprehend interaction
+resource "aws_iam_role_policy" "lambda_comprehend_policy" {
+  name = "${var.function_name}-comprehend-policy"
+  role = aws_iam_role.lambda_role.id
+  
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "comprehend:DetectKeyPhrases",
+          "comprehend:DetectEntities",
+          "comprehend:DetectSentiment"
+        ]
+        Resource = "*"
+      }
+    ]
+  })
+}
+
 # policy so images can be stored in S3
 resource "aws_iam_role_policy" "lambda_s3_policy" {
   name = "${var.function_name}-s3-policy"
@@ -69,27 +90,6 @@ resource "aws_iam_role_policy" "lambda_s3_policy" {
         Resource = [
           "${var.image_bucket_arn}/*"
         ]
-      }
-    ]
-  })
-}
-
-# For comprehend interaction
-resource "aws_iam_role_policy" "lambda_comprehend_policy" {
-  name = "${var.function_name}-comprehend-policy"
-  role = aws_iam_role.lambda_role.id
-  
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "comprehend:DetectKeyPhrases",
-          "comprehend:DetectEntities",
-          "comprehend:DetectSentiment"
-        ]
-        Resource = "*"
       }
     ]
   })
