@@ -1,7 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import Navbar from "../components/navbar";
 import LoadingSpinner from "../components/loading-spinner";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function PortfolioPage() {
@@ -12,6 +14,7 @@ export default function PortfolioPage() {
 
     useEffect(() => {
         async function loadData() {
+            //console.log("api url", API_URL);
             try {
                 const res = await fetch(`${API_URL}/images`);
                 const data = await res.json();

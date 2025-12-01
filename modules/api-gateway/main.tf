@@ -413,11 +413,6 @@ triggers = {
     aws_api_gateway_integration_response.images_options_200,
     aws_api_gateway_integration_response.image_id_options_200,
     aws_api_gateway_integration_response.songs_options_200,
-    aws_api_gateway_method.get_themes,
-    aws_api_gateway_method.themes_options,
-    aws_api_gateway_integration.get_themes_integration,
-    aws_api_gateway_integration.themes_options,
-    aws_api_gateway_integration_response.themes_options_200,
   ]
 }
 
