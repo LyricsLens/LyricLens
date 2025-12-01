@@ -95,27 +95,6 @@ resource "aws_iam_role_policy" "lambda_s3_policy" {
   })
 }
 
-# For comprehend interaction
-resource "aws_iam_role_policy" "lambda_comprehend_policy" {
-  name = "${var.function_name}-comprehend-policy"
-  role = aws_iam_role.lambda_role.id
-  
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "comprehend:DetectKeyPhrases",
-          "comprehend:DetectEntities",
-          "comprehend:DetectSentiment"
-        ]
-        Resource = "*"
-      }
-    ]
-  })
-}
-
 # Lambda function
 resource "aws_lambda_function" "this" {
   function_name = var.function_name
