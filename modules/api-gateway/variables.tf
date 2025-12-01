@@ -29,6 +29,12 @@ variable "songs_path" {
   default     = "songs"
 }
 
+variable "themes_path" {
+  description = "Path for themes endpoint"
+  type        = string
+  default     = "themes"
+}
+
 variable "aws_region" {
   description = "AWS region to deploy the API Gateway"
   type        = string
