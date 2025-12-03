@@ -11,9 +11,9 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
-CLIENT_ID = '622c032e55de4204901f03aae8b8cb45'
-CLIENT_SECRET = 'e2e4732c2f8342a3bc3af2883df70266'
-GENIUS_TOKEN = 'LvVgUY1EnbzspBCfeCOfH2ZudhwSpt-YYaeiSy7afQI-XUU6X4UvST4mdT1SUo_0'
+CLIENT_ID = 'INSERT_SPOTIFY_CLIENT_ID'
+CLIENT_SECRET = 'INSERT_SPOTIFY_CLIENT_SECRET'
+GENIUS_TOKEN = 'DONT NEED ANYMORE'
 MAX_SONGS = 50
 
 def extract_playlist_id(playlist_url):
