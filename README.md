@@ -1,4 +1,9 @@
-## Getting Started
+
+# Welcome to LyricLens
+
+LyricLens is a full-stack web application that creates custom Spotify playlist cover art by leveraging AWS Comprehend for sentiment analysis and AWS Bedrock for AI image generation. The project integrates multiple AWS services and supports fully automated deployment and teardown using GitHub Actions and Terraform. Please feel free to give it a try!
+
+## Getting Start
 
 ### Spinning LyricLens Up & Down
 
@@ -16,7 +21,8 @@ In the Terraform action, run the 'destroy' workflow in the main branch. Once tha
 
 1. Enter in any public spotify playlist URL into the search bar and press analyze
    - Example: https://open.spotify.com/playlist/5RVat09qxvzmcwbS9Gzd1n?si=17500c5d3a804d79 
-2. Enjoy the image
+2. Enjoy the image!
+3. View past generated images by pressing the Portfolio button on the top right part of the page.
 
 
 ### Github Actions Setup
