@@ -19,7 +19,7 @@ In the Terraform action, run the 'destroy' workflow in the main branch. Once tha
 
 ### Usage
 
-1. Enter in any public spotify playlist URL into the search bar and press analyze
+1. Enter in a public spotify playlist URL with less than 50 songs into the search bar and press analyze.
    - Example: https://open.spotify.com/playlist/5RVat09qxvzmcwbS9Gzd1n?si=17500c5d3a804d79
    - *Please do not spam this button. Spotify has a rate limit so adding 15-20 seconds of buffer time would help!*
 2. Enjoy the image!
