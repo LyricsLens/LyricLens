@@ -14,13 +14,3 @@ variable "dynamodb_table_arn" {
 variable "image_bucket_arn" {
   type        = string
 }
-
-variable "spotify_client_id" {
-  type      = string
-  sensitive = true
-}
-
-variable "spotify_client_secret" {
-  type      = string
-  sensitive = true
-}

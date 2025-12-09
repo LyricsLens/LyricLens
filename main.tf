@@ -26,8 +26,6 @@ module "lambda" {
   runtime       = "python3.11"
   image_bucket_arn = module.s3-website.bucket_arn
   environment = {
-    SPOTIFY_CLIENT_ID = var.spotify_client_id,
-    SPOTIFY_CLIENT_SECRET = var.spotify_client_secret,
     IMAGE_BUCKET           =  module.s3-website.bucket_name  # <----- WHERE IMAGES ARE STORED
 		BEDROCK_IMAGE_MODEL_ID = var.bedrock_image_model_id,
     TABLE_NAME = module.dynamodb.table_name,

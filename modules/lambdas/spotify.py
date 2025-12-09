@@ -11,8 +11,8 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
-CLIENT_ID = os.environ("SPOTIFY_CLIENT_ID")
-CLIENT_SECRET = os.environ("SPOTIFY_CLIENT_SECRET")
+CLIENT_ID = "ea498b94d78b4df294f06370bb36e48c"
+CLIENT_SECRET = "e6c752e765ec4843aa93d439c65a03ba" # to be removed after testing and final grades
 GENIUS_TOKEN = 'DONT NEED ANYMORE'
 MAX_SONGS = 50
 
