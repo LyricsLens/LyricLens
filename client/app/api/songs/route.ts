@@ -1,3 +1,4 @@
+// Copyright (c) 2026 Cumulonimbus Crew. All rights reserved.
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {

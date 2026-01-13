@@ -1,3 +1,4 @@
+// Copyright (c) 2026 Cumulonimbus Crew. All rights reserved.
 "use client";
 import { useState, useEffect } from "react";
 import { Search, Loader2 } from "lucide-react";

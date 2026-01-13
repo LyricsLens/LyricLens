@@ -1,3 +1,4 @@
+# Copyright (c) 2026 Cumulonimbus Crew. All rights reserved.
 provider "aws" {
   region = var.aws_region
 }

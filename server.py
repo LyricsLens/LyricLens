@@ -1,3 +1,6 @@
+"""
+Copyright (c) 2026 Cumulonimbus Crew. All rights reserved.
+"""
 import os, base64, requests, json
 from flask import Flask, request, jsonify
 from urllib.parse import urlparse

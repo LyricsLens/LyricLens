@@ -1,3 +1,4 @@
+// Copyright (c) 2026 Cumulonimbus Crew. All rights reserved.
 import { useRouter } from "next/navigation";
 
 export default function Navbar() {
