@@ -1,3 +1,4 @@
+// Copyright (c) 2026 Cumulonimbus Crew. All rights reserved.
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -15,7 +16,7 @@ export default function PortfolioPage() {
             try {
                 const res = await fetch(`${API_URL}/images`);
                 const data = await res.json();
-                const urls = data.map((obj: {url: string; id:string}) => obj.url);
+                const urls = data.map((obj: { url: string; id: string }) => obj.url);
                 setImageURLS(urls);
             } catch (err) {
                 console.error("Failed to load images", err);

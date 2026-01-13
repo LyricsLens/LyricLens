@@ -1,3 +1,4 @@
+// Copyright (c) 2026 Cumulonimbus Crew. All rights reserved.
 import { NextRequest, NextResponse } from "next/server";
 
 const baseApiUrl = process.env.NEXT_PUBLIC_API_URL;

@@ -1,3 +1,4 @@
+// Copyright (c) 2026 Cumulonimbus Crew. All rights reserved.
 export default function LoadingLogo() {
     return (
         <div className="flex items-center justify-center w-full h-full">
