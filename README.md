@@ -34,4 +34,18 @@ Our repository leverages Github Actions to set up our service. To get started, p
 2. Click on Secrets and variables > Actions
 3. Add your `AWS_ACCESS_KEY_ID` to Repository secrets
 4. Add your `AWS_SECRET_ACCESS_KEY` to Repository secrets
-5. All set!
+
+### Required Credentials
+
+**AWS Credentials:**
+You must set the following GitHub Action secrets for deployment to work:
+
+- `AWS_ACCESS_KEY_ID`
+- `AWS_SECRET_ACCESS_KEY`
+
+**Spotify Credentials:**
+You must add your Spotify API credentials in `modules/lambdas/spotify.py` by setting the `CLIENT_ID` and `CLIENT_SECRET` variables. Do not commit your real credentials to a public repository—use environment variables or a secure method for production.
+
+---
+
+Repository is now public. Please ensure you do not expose sensitive information in your commits or secrets.
